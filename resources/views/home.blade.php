@@ -15,6 +15,7 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    {{csrf_token()}}
                 </div>
             </div>
         </div>

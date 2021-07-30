@@ -21,10 +21,29 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/mlog', [\App\Http\Controllers\Auth\LoginController::class,
 
-Auth::routes();
+function ()
+{
+    return \Illuminate\Support\Facades\Auth::user();
+}
+]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/mobileLogin', [\App\Http\Controllers\UserController::class, 'login']);
+
+Route::get('/mobRegTry',
+    function ()
+    {
+        return view('mobReg');
+    }
+
+);
+Route::post('/mReg', [\App\Http\Controllers\UserController::class, 'register']);
+
+Route::get('/checkToken',
+function ()
+{
+    return view('mobiletry');
+}
+);

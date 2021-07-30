@@ -49,14 +49,14 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        var_dump($data);
-        return $data;
+        //var_dump($data);
+        //return $data;
         return Validator::make($data, [
             'fName' => ['required', 'string', 'max:255','regex:/^[\w-]*$/'],
             'lName' => ['required', 'string', 'max:255','regex:/^[\w-]*$/'],
             'CNIC' => ['required', 'string', 'max:255', 'unique:users'],
-            'contact' => ['required', 'tel', 'max:255', 'unique:users'],
-            'address' => ['optional', 'string', 'max:255'],
+            'contact' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'max:11', 'unique:users'],
+            'address' => [ 'string', 'max:255'],
             'date_of_birth' => ['required', 'date', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -74,10 +74,10 @@ class RegisterController extends Controller
         return User::create([
             'fName' => $data['fName'],
             'lName' => $data['lName'],
-            'CNIC' => $data['CNIC'],
-            'contact' => $data['contact'],
             'address' => $data['address'],
             'date_of_birth' => $data['date_of_birth'],
+            'contact' => $data['contact'],
+            'CNIC' => $data['CNIC'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
