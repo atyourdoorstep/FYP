@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Models\ApiToken;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
@@ -12,6 +13,15 @@ use Mail;
 use App\Mail\PasswordReset;
 class UserController extends Controller
 {
+    public function __construct()
+    {
+       // $this->middleware('auth:api');
+    }
+
+    public function getSessionToken()
+    {
+        return ['CSRF'=>csrf_token()];
+    }
     public function register(Request $request){
         $plainPassword=$request->password;
         $password=bcrypt($request->password);
@@ -33,8 +43,14 @@ class UserController extends Controller
             ], 401);
         }
         // get the user
-        $user = Auth::user();
-
+          $user = Auth::user();
+//        $apiToken=null;
+//        $apiToken->user_id=Auth::user()->id;
+//        $apiToken->token=$jwt_token;
+        //dd($apiToken);
+        $data=['user_id' => Auth::user()->id,
+            'token'=>$jwt_token,];
+        //ApiToken::create($data);
         return response()->json([
             'success' => true,
             'token' => $jwt_token,
@@ -52,6 +68,9 @@ class UserController extends Controller
 
         try {
             JWTAuth::invalidate(JWTAuth::parseToken($request->token));
+            //::firstOrFail()->where('something', $value)
+          /*  $id=ApiToken::firstOrFail()->where('token',$request->token);
+            dd($id);*/
             return response()->json([
                 'success' => true,
                 'message' => 'User logged out successfully'
@@ -59,7 +78,9 @@ class UserController extends Controller
         } catch (JWTException $exception) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, the user cannot be logged out'
+                'message' => 'Sorry, the user cannot be logged out',
+                'exp'=>$exception->getMessage()
+            //Zmj0Mlfb8qMMrTX7UuydGuRsdll2PciqvcZCyxCt
             ], 500);
         }
     }
@@ -92,7 +113,7 @@ class UserController extends Controller
                 'message' => 'User is not found'
             ]);
         }
-
+        $data=$request;
         unset($data['token']);
 
         $updatedUser = User::where('id', $user->id)->update($data);

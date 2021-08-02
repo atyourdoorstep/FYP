@@ -80,6 +80,7 @@ class RegisterController extends Controller
             'CNIC' => $data['CNIC'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'api_token' => Str::random(60),
         ]);
     }
 }

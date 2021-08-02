@@ -193,7 +193,7 @@
         }
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         $.ajax({
-            url: "/mReg",
+            url: "/mobileRegister",
             type: "post",
             data: {
                 fName:fName,
@@ -210,17 +210,7 @@
                     let obj = response;
                     console.log(obj);
                 }
-            }
-            ,
-            onFailure: function (response)
-            {
-                if (response) {
-                    let obj = response;
-                    console.log(obj);
-                }
-                else
-                {console.log('no response');}
-            }
+            },
         });
     }
 </script>

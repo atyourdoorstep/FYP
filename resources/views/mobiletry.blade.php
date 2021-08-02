@@ -5,7 +5,9 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div id ="token" class="card-header">{{ __('Login') }}</div>
+                    <div id ="" class="card-header">
+                        <input id="token" type="text" class="form-control" name="token">
+                    </div>
                     <div id ="csrf_name" class="card-header">{{ __('') }}</div>
                     <div class="card-body">
                         <form method="POST" action="/mobileLogin">
@@ -83,7 +85,7 @@ function mlog()
         $.ajax({
             url: "/mlog",
             type: "post",
-            data: {_token:token},
+            data: {token:token},
             success: function (response) {
                 if (response) {
                     let obj = response;
@@ -109,7 +111,7 @@ function func()
             if (response) {
                 let obj = response;
                 console.log(obj);
-                document.getElementById('token').innerText=response['access_token'];
+                document.getElementById('token').innerText=('meta[name="csrf-token"]').attr('content');
             }
         }
         ,
@@ -120,9 +122,9 @@ function lout()
     let token=document.getElementById('token').innerText;
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
     $.ajax({
-        url: "/logout",
+        url: "/mobileLogOut",
         type: "post",
-        data: {_token:token},
+        data: {token:token},
         success: function (response) {
             if (response) {
                 let obj = response;

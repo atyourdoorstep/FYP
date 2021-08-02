@@ -30,8 +30,6 @@ function ()
 }
 ]);
 
-Route::post('/mobileLogin', [\App\Http\Controllers\UserController::class, 'login']);
-
 Route::get('/mobRegTry',
     function ()
     {
@@ -39,7 +37,6 @@ Route::get('/mobRegTry',
     }
 
 );
-Route::post('/mReg', [\App\Http\Controllers\UserController::class, 'register']);
 
 Route::get('/checkToken',
 function ()
@@ -47,3 +44,12 @@ function ()
     return view('mobiletry');
 }
 );
+
+//api
+/*
+Route::post('/mobileRegister', [\App\Http\Controllers\UserController::class, 'register']);
+Route::post('/mobileLogin', [\App\Http\Controllers\UserController::class, 'login']);
+Route::post('/mobileLogOut', [\App\Http\Controllers\UserController::class, 'logout']);
+Route::get('/getSessionToken',[\App\Http\Controllers\UserController::class,'getSessionToken']);
+*/
+

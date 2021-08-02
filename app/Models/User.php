@@ -25,6 +25,7 @@ class User extends Authenticatable implements JWTSubject
         'date_of_birth',
         'email',
         'password',
+        'api_token',
     ];
 
     /**
@@ -61,5 +62,29 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    public function roles()
+    {
+        return $this->hasMany(Role::class);
+    }
+    public function apiToken()
+    {
+        return $this->hasOne(ApiToken::class);
+    }
+    //new
+    public static function checkToken($token){
+        if($token->token){
+            return true;
+        }
+        return false;
+    }
+    public static function getCurrentUser($request){
+        if(!User::checkToken($request)){
+            return response()->json([
+                'message' => 'Token is required'
+            ],422);
+        }
 
+        $user = JWTAuth::parseToken()->authenticate();
+        return $user;
+    }
 }
