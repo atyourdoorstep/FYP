@@ -18,7 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/mReg', [\App\Http\Controllers\UserController::class, 'register']);
+Route::post('/mobileRegister', [\App\Http\Controllers\UserController::class, 'register']);
 Route::post('/mobileLogin', [\App\Http\Controllers\UserController::class, 'login']);
+Route::post('/getCurrentUser', [\App\Http\Controllers\UserController::class, 'getCurrentUser']);
 Route::post('/mobileLogOut', [\App\Http\Controllers\UserController::class, 'logout']);
 Route::get('/getSessionToken',[\App\Http\Controllers\UserController::class,'getSessionToken']);
