@@ -11,6 +11,8 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Mail;
 use App\Mail\PasswordReset;
+use function MongoDB\BSON\toJSON;
+
 class UserController extends Controller
 {
     public function __construct()
@@ -44,10 +46,6 @@ class UserController extends Controller
         }
         // get the user
           $user = Auth::user();
-//        $apiToken=null;
-//        $apiToken->user_id=Auth::user()->id;
-//        $apiToken->token=$jwt_token;
-        //dd($apiToken);
         $data=['user_id' => Auth::user()->id,
             'token'=>$jwt_token,];
         //ApiToken::create($data);
@@ -65,12 +63,8 @@ class UserController extends Controller
                 'success' => false,
             ],422);
         }
-
         try {
             JWTAuth::invalidate(JWTAuth::parseToken($request->token));
-            //::firstOrFail()->where('something', $value)
-          /*  $id=ApiToken::firstOrFail()->where('token',$request->token);
-            dd($id);*/
             return response()->json([
                 'success' => true,
                 'message' => 'User logged out successfully'
@@ -80,19 +74,58 @@ class UserController extends Controller
                 'success' => false,
                 'message' => 'Sorry, the user cannot be logged out',
                 'exp'=>$exception->getMessage()
-            //Zmj0Mlfb8qMMrTX7UuydGuRsdll2PciqvcZCyxCt
             ], 500);
         }
     }
-
+    public function getPrivileges(Request $request)
+    {
+        if(!User::checkToken($request)){
+            return response()->json([
+                'message' => 'Token is required',
+                'success' => false,
+            ],422);
+        }
+        $resp=$this->getCurrentUser( $request);
+        //$user=json_decode($this->getCurrentUser( $request)->content(), true);
+        if($resp->getStatusCode()!=200)
+        {
+            return $resp;
+        }
+        $user=json_decode($resp->content(), true);
+        $data=User::find($user['user']['id'])->role->rolePrivileges;
+        $res=array();
+        foreach($data as $x)
+        {
+            array_push($res,$x->privilege->privilege_name);
+        }
+        //$data=User::find(1);
+        return ['privileges'=>$res];
+    }
     public function getCurrentUser(Request $request){
         if(!User::checkToken($request)){
             return response()->json([
                 'message' => 'Token is required'
             ],422);
         }
-
-        $user = JWTAuth::parseToken()->authenticate();
+        //$user = JWTAuth::parseToken()->authenticate();
+        $user =null;
+        try {
+            $user =JWTAuth::parseToken()->authenticate();
+        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+            //400
+            return response()->json(['success' => false,
+                'message' => 'Token Expired'
+            ],403 );
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return response()->json(['success' => false,
+                'message' => 'Token Invalid'
+            ],400);
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ],500  );
+        }
         // add isProfileUpdated....
         $isProfileUpdated=false;
         if($user->isPicUpdated==1 && $user->isEmailUpdated){
@@ -100,11 +133,11 @@ class UserController extends Controller
 
         }
         $user->isProfileUpdated=$isProfileUpdated;
-
-        return $user;
+        return response()->json([
+                'success'=>'true',
+            'user'=>$user,
+                ]);
     }
-
-
     public function update(Request $request){
         $user=$this->getCurrentUser($request);
         if(!$user){

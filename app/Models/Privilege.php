@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Privilege extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'privilege_name',
+    ];
     public function rolePrivileges()
     {
         return $this->hasMany(RolePrivilege::class);
