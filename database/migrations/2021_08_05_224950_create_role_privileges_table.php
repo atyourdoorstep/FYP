@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApiTokensTable extends Migration
+class CreateRolePrivilegesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateApiTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('api_tokens', function (Blueprint $table) {
+        Schema::create('role_privileges', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->unique();
-            $table->longText('token')->unique();
+            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('privilege_id');
+            $table->index('role_id');
+            $table->index('privilege_id');
             $table->timestamps();
-            $table->index('user_id');
         });
     }
 
@@ -29,6 +30,6 @@ class CreateApiTokensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('api_tokens');
+        Schema::dropIfExists('role_privileges');
     }
 }

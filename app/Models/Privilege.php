@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class privilege extends Model
+class Privilege extends Model
 {
     use HasFactory;
-    public function roles()
+    public function rolePrivileges()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->hasMany(RolePrivilege::class);
     }
 }

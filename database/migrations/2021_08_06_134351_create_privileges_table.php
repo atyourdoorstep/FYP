@@ -15,10 +15,10 @@ class CreatePrivilegesTable extends Migration
     {
         Schema::create('privileges', function (Blueprint $table) {
             $table->id();
+            $table->string('privilege_name')->nullable();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *

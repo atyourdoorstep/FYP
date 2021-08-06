@@ -64,7 +64,7 @@ class User extends Authenticatable implements JWTSubject
     }
     public function roles()
     {
-        return $this->hasMany(Role::class);
+        return $this->hasOne(Role::class);
     }
     public function apiToken()
     {
