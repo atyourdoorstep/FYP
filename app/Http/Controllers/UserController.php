@@ -128,7 +128,7 @@ class UserController extends Controller
         }
         // add isProfileUpdated....
         $isProfileUpdated=false;
-        if($user->isPicUpdated==1 && $user->isEmailUpdated){
+        if($user->isPicUpdated && $user->isEmailUpdated){
             $isProfileUpdated=true;
 
         }
