@@ -57,10 +57,10 @@ class UserController extends Controller
             ]
         );
         if($data->fails())
-            return ['success'=>false,'message'=>$data->messages()->all()];
-        //return $data->validated();
+             return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
-        return ['success'=>true,User::create(
+        return response()->json(
+            ['success'=>true,User::create(
             [
             'fName' => $data['fName'],
             'lName' => $data['lName'],
@@ -73,15 +73,18 @@ class UserController extends Controller
             'api_token' => Str::random(60),
         ]
         )
-        ];
+        ]
+        );
     }
 
     public function register(Request $request){
         $resp= $this->ucreate($request);
-        if(!$resp['success'])
+
+        if(!$resp->isSuccessful())
         {
             return $resp;
         }
+        //return $resp;
         return $this->login($request);
     }
     public function getSessionToken()
