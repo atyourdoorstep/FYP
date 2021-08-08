@@ -87,10 +87,6 @@ class UserController extends Controller
         //return $resp;
         return $this->login($request);
     }
-    public function getSessionToken()
-    {
-        return ['CSRF'=>csrf_token()];
-    }
     public function login(Request $request)
     {
         $input = $request->only('email', 'password');
