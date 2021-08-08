@@ -7,6 +7,9 @@ use App\Models\ApiToken;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Mail;
@@ -19,20 +22,71 @@ class UserController extends Controller
     {
        // $this->middleware('auth:api');
     }
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'fName' => ['required','regex:/^[a-zA-Z ]+$/', 'string', 'min:8','max:255','regex:/^[\w-]*$/'],
+            'lName' => ['required', 'string', 'min:8', 'max:255','regex:/^[\w-]*$/'],
+            'CNIC' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'max:13', 'unique:users'],
+            'contact' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'max:11', 'unique:users'],
+            'address' => [ 'string', 'max:255'],
+            'date_of_birth' => ['required', 'date', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'api_token'=>['string','max:255'],
+        ]);
+    }
 
+    /**
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function ucreate(Request $request)
+    {
+       // return $request;
+        $data = Validator::make($request->all(),
+            [
+            'fName' => ['required','regex:/^[a-zA-Z ]+$/', 'string', 'min:8','max:255','regex:/^[\w-]*$/'],
+            'lName' => ['required', 'string', 'min:8', 'max:255','regex:/^[\w-]*$/'],
+            'CNIC' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'max:13', 'min:13', 'unique:users'],
+            'contact' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'max:11', 'min:11', 'unique:users'],
+            'address' => [ 'string', 'max:255'],
+            'date_of_birth' => ['required', 'date', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'api_token'=>['string','max:255'],
+            ]
+        );
+        if($data->fails())
+            return ['success'=>false,'message'=>$data->messages()->all()];
+        //return $data->validated();
+        $data=$request->all();
+        return ['success'=>true,User::create(
+            [
+            'fName' => $data['fName'],
+            'lName' => $data['lName'],
+            'address' => $data['address']??'',
+            'date_of_birth' => $data['date_of_birth'],
+            'contact' => $data['contact'],
+            'CNIC' => $data['CNIC'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'api_token' => Str::random(60),
+        ]
+        )
+        ];
+    }
+
+    public function register(Request $request){
+        $resp= $this->ucreate($request);
+        if(!$resp['success'])
+        {
+            return $resp;
+        }
+        return $this->login($request);
+    }
     public function getSessionToken()
     {
         return ['CSRF'=>csrf_token()];
-    }
-    public function register(Request $request){
-        $plainPassword=$request->password;
-        $password=bcrypt($request->password);
-        $request->request->add(['password' => $password]);
-        $created=User::create($request->all());
-        //$created=RegisterController::class->User::create($request->all());
-        $request->request->add(['password' => $plainPassword]);
-        // login now
-        return $this->login($request);
     }
     public function login(Request $request)
     {
@@ -134,7 +188,7 @@ class UserController extends Controller
         }
         $user->isProfileUpdated=$isProfileUpdated;
         return response()->json([
-                'success'=>'true',
+                'success'=>true,
             'user'=>$user,
                 ]);
     }
@@ -158,6 +212,4 @@ class UserController extends Controller
             'user' =>$user
         ]);
     }
-
-
 }

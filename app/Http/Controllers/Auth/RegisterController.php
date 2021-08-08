@@ -49,12 +49,10 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        //var_dump($data);
-        //return $data;
         return Validator::make($data, [
-            'fName' => ['required', 'string', 'max:255','regex:/^[\w-]*$/'],
-            'lName' => ['required', 'string', 'max:255','regex:/^[\w-]*$/'],
-            'CNIC' => ['required', 'string', 'max:255', 'unique:users'],
+            'fName' => ['required','regex:/^[a-zA-Z ]+$/', 'string', 'min:8','max:255','regex:/^[\w-]*$/'],
+            'lName' => ['required', 'string', 'min:8', 'max:255','regex:/^[\w-]*$/'],
+            'CNIC' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'max:13', 'unique:users'],
             'contact' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'max:11', 'unique:users'],
             'address' => [ 'string', 'max:255'],
             'date_of_birth' => ['required', 'date', 'max:255'],

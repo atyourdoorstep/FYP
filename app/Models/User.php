@@ -87,4 +87,8 @@ class User extends Authenticatable implements JWTSubject
         $user = JWTAuth::parseToken()->authenticate();
         return $user;
     }
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
 }
