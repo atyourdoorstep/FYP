@@ -24,3 +24,6 @@ Route::post('/getCurrentUser', [\App\Http\Controllers\UserController::class, 'ge
 Route::post('/mobileLogOut', [\App\Http\Controllers\UserController::class, 'logout']);
 Route::get('/getSessionToken',[\App\Http\Controllers\UserController::class,'getSessionToken']);
 Route::post('/getPrivileges',[\App\Http\Controllers\UserController::class,'getPrivileges']);
+Route::get('/checkApi', function () {
+    return ['success'=>true,'message'=>'done'];
+});
