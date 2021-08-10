@@ -23,6 +23,7 @@ Route::post('/mobileLogin', [\App\Http\Controllers\UserController::class, 'login
 Route::post('/getCurrentUser', [\App\Http\Controllers\UserController::class, 'getCurrentUser']);
 Route::post('/mobileLogOut', [\App\Http\Controllers\UserController::class, 'logout']);
 Route::post('/getPrivileges',[\App\Http\Controllers\UserController::class,'getPrivileges']);
+//done
 Route::get('/checkApi', function () {
     return ['success'=>true,'message'=>'done'];
 });
