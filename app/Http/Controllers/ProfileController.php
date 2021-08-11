@@ -36,9 +36,10 @@ class ProfileController extends Controller
     }
     public function update(Request $request)
     {
-        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request)->getData()->user;;
+        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
         if(!$user->isSuccessful())
             return $user;
+        $user=$user->getData()->user;
         $data = Validator::make($request->all(),
             [
                 'title' => [ 'required','string', 'max:255',],
