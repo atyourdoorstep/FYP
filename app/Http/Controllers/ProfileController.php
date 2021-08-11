@@ -70,4 +70,12 @@ class ProfileController extends Controller
     {
         return User::find(1);
     }
+    public function getProfilePicture(Request $request)
+    {
+        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
+        if(!$user->isSuccessful())
+            return $user;
+        $id=$user->getData()->user->id;
+        return Profile::findOrFail($id)->profileImage();
+    }
 }
