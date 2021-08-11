@@ -45,8 +45,8 @@ class UserController extends Controller
        // return $request;
         $data = Validator::make($request->all(),
             [
-            'fName' => ['required','regex:/^[a-zA-Z ]+$/', 'string', 'min:8','max:255','regex:/^[\w-]*$/'],
-            'lName' => ['required', 'string', 'min:8', 'max:255','regex:/^[\w-]*$/'],
+            'fName' => ['required','regex:/^[a-zA-Z ]+$/', 'string', 'min:3','max:255','regex:/^[\w-]*$/'],
+            'lName' => ['required', 'string', 'min:3', 'max:255','regex:/^[\w-]*$/'],
             'CNIC' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'max:13', 'min:13', 'unique:users'],
             'contact' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'max:11', 'min:11', 'unique:users'],
             'address' => [ 'string', 'max:255'],
