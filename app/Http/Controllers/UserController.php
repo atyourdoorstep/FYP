@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\RegisterController;
 use App\Models\ApiToken;
+use App\Models\Privilege;
+use App\Models\RolePrivilege;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -59,32 +62,26 @@ class UserController extends Controller
         if($data->fails())
              return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
+        $data['api_token']=Str::random(60);
+        $data['password']=Hash::make($data['password']);
         return response()->json(
-            ['success'=>true,User::create(
             [
-            'fName' => $data['fName'],
-            'lName' => $data['lName'],
-            'address' => $data['address']??'',
-            'date_of_birth' => $data['date_of_birth'],
-            'contact' => $data['contact'],
-            'CNIC' => $data['CNIC'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'api_token' => Str::random(60),
-        ]
-        )
-        ]
+                'success'=>true,
+                'user'=>User::create($data)
+            ],200
         );
     }
 
     public function register(Request $request){
         $resp= $this->ucreate($request);
-
         if(!$resp->isSuccessful())
         {
             return $resp;
         }
-        //return $resp;
+        $user=$resp->getData()->user;
+        User::find($user->id)->profile()->create(
+            []
+        );
         return $this->login($request);
     }
     public function login(Request $request)
@@ -145,7 +142,24 @@ class UserController extends Controller
             return $resp;
         }
         $user=json_decode($resp->content(), true);
-        $data=User::find($user['user']['id'])->role->rolePrivileges;
+        return  response()->json(
+            [
+                'success'=>true,
+                'privilege'=>DB::select('SELECT privilege_name as privilege from privileges where id in (SELECT privilege_id from role_privileges WHERE role_id ='.$user['user']['role_id'].' )')
+            ]
+            ,200
+        );
+        //$data=User::find($user['user']['id'])->role->rolePrivileges;
+        //$data=User::find($user['user']['id'])->role->rolePrivileges;
+//        $data=User::find($user['user']['id'])->role;
+//        return $data;
+        //SELECT privilege_name from privileges where id in (SELECT privilege_id from role_privileges WHERE role_id =(SELECT role_id from users where id =1) )
+        $data=RolePrivilege::select('privilege_id')->where('role_id',$data->id)->get();
+        $data=Privilege::select('privilege_name')->whereIn('id',$data)->get();
+//      $data=Privilege::all()->where('id',$data->privilege_id);
+        return $data;
+        $data=$data->rolePrivileges;
+        return $data;
         $res=array();
         foreach($data as $x)
         {
@@ -192,14 +206,14 @@ class UserController extends Controller
                 ]);
     }
     public function update(Request $request){
-        $user=$this->getCurrentUser($request);
+        $user=$this->getCurrentUser($request)->getData()->user;
         if(!$user){
             return response()->json([
                 'success' => false,
                 'message' => 'User is not found'
             ]);
         }
-        $data=$request;
+        $data=$request->all();
         unset($data['token']);
 
         $updatedUser = User::where('id', $user->id)->update($data);
