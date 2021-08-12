@@ -20,8 +20,8 @@
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3",
         "spatie/laravel-backup": "^6.16",
-        "tymon/jwt-auth": "^1.0"
-
+        "tymon/jwt-auth": "^1.0",
+        "ext-gd":" *"
     },
     "autoload": {
         "psr-4": {

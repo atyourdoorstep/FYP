@@ -42,6 +42,24 @@ return [
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
+
+        'mysql' => [
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', 'bsotjo6dre2lbmq4z17m-mysql.services.clever-cloud.com'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'bsotjo6dre2lbmq4z17m'),
+            'username' => env('DB_USERNAME', 'ud8mly599wr7uflk'),
+            'password' => env('DB_PASSWORD', 'ZCX6oyPnzZxvxiDaM2tD'),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+        ],
+
+
+
         //db4free
 //        'mysql' => [
 //            'driver' => 'mysql',
@@ -71,20 +89,20 @@ return [
 //        ],
 
 //sqlCluster
-        'mysql' => [
-            'driver' => 'mysql',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', 'mysql-43979-0.cloudclusters.net'),
-            'port' => env('DB_PORT', '19982'),
-            'database' => env('DB_DATABASE', 'atyourdoorstep'),
-            'username' => env('DB_USERNAME', 'admin'),
-            'password' => env('DB_PASSWORD', 'EEQjyiQv'),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-        ],
+//        'mysql' => [
+//            'driver' => 'mysql',
+//            'url' => env('DATABASE_URL'),
+//            'host' => env('DB_HOST', 'mysql-43979-0.cloudclusters.net'),
+//            'port' => env('DB_PORT', '19982'),
+//            'database' => env('DB_DATABASE', 'atyourdoorstep'),
+//            'username' => env('DB_USERNAME', 'admin'),
+//            'password' => env('DB_PASSWORD', 'EEQjyiQv'),
+//            'unix_socket' => env('DB_SOCKET', ''),
+//            'charset' => 'utf8mb4',
+//            'collation' => 'utf8mb4_unicode_ci',
+//            'prefix' => '',
+//            'strict' => true,
+//        ],
 
 
         //default
