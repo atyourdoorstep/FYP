@@ -43,36 +43,36 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
         //db4free
-//        'mysql' => [
-//            'driver' => 'mysql',
-//            'host' => env('DB_HOST', 'db4free.net'),
-//            'port' => env('DB_PORT', '3306'),
-//            'database' => env('DB_DATABASE', 'atyourdoorstep'),
-//            'username' => env('DB_USERNAME', 'mussab'),
-//            'password' => env('DB_PASSWORD', 'dfb3ca32'),
-//            'unix_socket' => env('DB_SOCKET', ''),
-//            'charset' => 'utf8mb4',
-//            'collation' => 'utf8mb4_unicode_ci',
-//            'prefix' => '',
-//            'strict' => true,
-//            'engine' => null,
-//        ],
-
-//sqlCluster
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', 'mysql-43979-0.cloudclusters.net'),
-            'port' => env('DB_PORT', '19982'),
+            'host' => env('DB_HOST', 'db4free.net'),
+            'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'atyourdoorstep'),
-            'username' => env('DB_USERNAME', 'admin'),
-            'password' => env('DB_PASSWORD', 'EEQjyiQv'),
+            'username' => env('DB_USERNAME', 'mussab'),
+            'password' => env('DB_PASSWORD', 'dfb3ca32'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'strict' => true,
-        ],
+            'engine' => null,
+//        ],
+
+//sqlCluster
+//        'mysql' => [
+//            'driver' => 'mysql',
+//            'url' => env('DATABASE_URL'),
+//            'host' => env('DB_HOST', 'mysql-43979-0.cloudclusters.net'),
+//            'port' => env('DB_PORT', '19982'),
+//            'database' => env('DB_DATABASE', 'atyourdoorstep'),
+//            'username' => env('DB_USERNAME', 'admin'),
+//            'password' => env('DB_PASSWORD', 'EEQjyiQv'),
+//            'unix_socket' => env('DB_SOCKET', ''),
+//            'charset' => 'utf8mb4',
+//            'collation' => 'utf8mb4_unicode_ci',
+//            'prefix' => '',
+//            'strict' => true,
+//        ],
 
         //default
 //        'mysql' => [
