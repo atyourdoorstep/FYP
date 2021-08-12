@@ -56,7 +56,7 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
-//        ],
+        ],
 
 //sqlCluster
 //        'mysql' => [
