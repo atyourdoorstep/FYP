@@ -30,8 +30,6 @@ Route::get('/getProfilePicture',[\App\Http\Controllers\ProfileController::class,
 
 Route::post('/updateUser',[\App\Http\Controllers\UserController::class,'update']);
 
-
-
 Route::get('/checkSpeed',[\App\Http\Controllers\ProfileController::class,'checkSpeed']);
 //done
 Route::get('/checkApi', function () {
