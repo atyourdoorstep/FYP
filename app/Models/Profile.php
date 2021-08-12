@@ -18,10 +18,9 @@ class Profile extends Model
         ];
     public function profileImage()
     {
-        $size=40;
-        $imagePath = ($this->image) ? '/storage/' .$this->image : 'https://www.pngfind.com/pngs/m/676-6764065_default-profile-picture-transparent-hd-png-download.png';
-
-        //return $imagePath;
+        if(!$this->image )
+            return Image::make( 'https://www.pngfind.com/pngs/m/676-6764065_default-profile-picture-transparent-hd-png-download.png')->response();
+        $imagePath ='/storage/' .$this->image;
 //      uploads/profilePictures/EfSpuhJyPxLKhWlw823agqPnCKnYzETrUoW8yXFH.jpg
         return Image::make( public_path($imagePath))->response();
     }
