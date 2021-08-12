@@ -206,13 +206,14 @@ class UserController extends Controller
                 ]);
     }
     public function update(Request $request){
-        $user=$this->getCurrentUser($request)->getData()->user;
-        if(!$user){
+        $user=$this->getCurrentUser($request)->getData();
+        if(!$user->success){
             return response()->json([
                 'success' => false,
                 'message' => 'User is not found'
             ]);
         }
+        $user=$user->user;
         $data=$request->all();
         unset($data['token']);
 
