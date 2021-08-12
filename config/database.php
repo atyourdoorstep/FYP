@@ -65,7 +65,7 @@ return [
             'database' => env('DB_DATABASE', 'atyourdoorstep'),
             'username' => env('DB_USERNAME', 'admin'),
             'password' => env('DB_PASSWORD', 'EEQjyiQv'),
-            'unix_socket' => env('DB_SOCKET', ''),
+//            'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4'
         ],
 
