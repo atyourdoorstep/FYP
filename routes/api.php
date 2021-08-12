@@ -24,7 +24,7 @@ Route::post('/getCurrentUser', [\App\Http\Controllers\UserController::class, 'ge
 Route::post('/mobileLogOut', [\App\Http\Controllers\UserController::class, 'logout']);
 Route::post('/getPrivileges',[\App\Http\Controllers\UserController::class,'getPrivileges']);
 Route::post('/updateProfile',[\App\Http\Controllers\ProfileController::class,'update']);
-Route::post('/getProfilePicture',[\App\Http\Controllers\ProfileController::class,'getProfilePicture']);
+Route::get('/getProfilePicture',[\App\Http\Controllers\ProfileController::class,'getProfilePicture']);
 Route::post('/updateUser',[\App\Http\Controllers\UserController::class,'update']);
 
 
