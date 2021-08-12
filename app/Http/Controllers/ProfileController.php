@@ -76,6 +76,7 @@ class ProfileController extends Controller
         if(!$user->isSuccessful())
             return $user;
         $id=$user->getData()->user->id;
+        return $id;
         return Profile::findOrFail($id)->profileImage();
     }
 }
