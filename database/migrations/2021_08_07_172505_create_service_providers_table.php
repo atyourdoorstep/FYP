@@ -15,6 +15,7 @@ class CreateServiceProvidersTable extends Migration
     {
         Schema::create('service_providers', function (Blueprint $table) {
             $table->id();
+//            $table->per();
             $table->timestamps();
         });
     }
