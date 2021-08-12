@@ -58,6 +58,7 @@ return [
 //            'engine' => null,
 //        ],
 
+        //sqlCluster
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', 'mysql-43979-0.cloudclusters.net'),
