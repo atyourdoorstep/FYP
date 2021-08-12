@@ -27,7 +27,6 @@ Route::post('/updateProfile',[\App\Http\Controllers\ProfileController::class,'up
 
 Route::get('/getProfilePicture',[\App\Http\Controllers\ProfileController::class,'getProfilePicture']);
 
-
 Route::post('/updateUser',[\App\Http\Controllers\UserController::class,'update']);
 
 
