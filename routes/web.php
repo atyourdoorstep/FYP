@@ -49,13 +49,26 @@ function ()
 }
 );
 
-Route::post('test', function(\Google\Service\Docs\Request $req) {
+Route::post('test', function( Symfony\Component\HttpFoundation\Request $req) {
+//    $content = collect(Storage::disk('google')->listContents('/', false));
+//    foreach ($content as $key => $value) {
+//        if($value['name'] == 'profilePictures')
+//            $root = $value['path'];
+//    }
+//    dd($root);
+//    $dir = '/'.$root;
+//    dump($dir);
+//    $recursive = true; // Get subdirectories also?
+//    $contents = collect(Storage::disk('google')->listContents($dir, $recursive));
+    //dd($contents);
+    $path='1hKpXA8JfkON1MvuSDw9vWhCYQOUsoief';
+
     $data = \request()->validate(
         [
             'image' => 'required',
         ]
     );
-    $imagePath = $data['image']->store('', 'google');
+    $imagePath = $data['image']->store($path, 'google');
     $url=Storage::disk('google')->url($imagePath);
     dd($url);
 

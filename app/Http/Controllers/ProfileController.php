@@ -36,7 +36,33 @@ class ProfileController extends Controller
     }
     public function updateImage(Request $request)
     {
-
+        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
+        if(!$user->isSuccessful())
+            return $user;
+        $user=$user->getData()->user;
+        $path='1hKpXA8JfkON1MvuSDw9vWhCYQOUsoief';
+        $profile= Profile::where('user_id',$user->id)->first();
+        $data = Validator::make($request->all(),
+            [
+                'image' => 'required',
+            ]
+        );
+        if($data->fails())
+            return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
+        $data=$request->all();
+        $imagePath = $data['image']->store($path, 'google');
+        $url=\Storage::disk('google')->url($imagePath);
+         //$data['image']=$url;
+         $profile->image=$url;
+        $profile->save();
+        return response()->json(
+            [
+                'success'=>true,
+//                'profile'=>Profile::find(User::find($user->id)->profile->update(['image'=>$data['image']]))
+                'profile'=>$profile,
+            ]
+            ,200
+        );
     }
     public function update(Request $request)
     {
@@ -52,13 +78,10 @@ class ProfileController extends Controller
                 'image' => [''],
             ]
         );
-        if($data->fails())
-            return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
+//        if($data->fails())
+//            return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
-        if ($data['image'] ?? '') {
-            $imagePath = $data['image']->store('uploads/profilePictures', 'public');
-            $data['image'] = $imagePath;
-        }
+
         //User::find($user->id)->profile->update($data);
 
         //$user=User::find($user->id)->profile->update($data);
