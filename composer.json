@@ -6,10 +6,12 @@
     "license": "MIT",
     "require": {
         "php": "^7.4.0",
+        "ext-gd": " *",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
+        "google/apiclient": "^2.10",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.6",
         "laravel/framework": "^8.40",
@@ -17,11 +19,11 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "mockery/mockery": "^1.4.2",
+        "nao-pon/flysystem-google-drive": "~1.1",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3",
         "spatie/laravel-backup": "^6.16",
-        "tymon/jwt-auth": "^1.0",
-        "ext-gd":" *"
+        "tymon/jwt-auth": "^1.0"
     },
     "autoload": {
         "psr-4": {
@@ -36,6 +38,7 @@
         }
     },
     "scripts": {
+
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

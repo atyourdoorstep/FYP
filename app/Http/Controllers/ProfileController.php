@@ -34,6 +34,10 @@ class ProfileController extends Controller
             ,200
         );
     }
+    public function updateImage(Request $request)
+    {
+
+    }
     public function update(Request $request)
     {
         $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);

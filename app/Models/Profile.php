@@ -18,6 +18,7 @@ class Profile extends Model
         ];
     public function profileImage()
     {
+        return public_path();
         if(!$this->image )
             return Image::make( 'https://www.pngfind.com/pngs/m/676-6764065_default-profile-picture-transparent-hd-png-download.png')->response();
         $imagePath ='/storage/' .$this->image;

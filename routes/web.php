@@ -2,7 +2,10 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use Intervention\Image\Facades\Image;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,6 +48,27 @@ function ()
     return view('mobiletry');
 }
 );
+
+Route::post('test', function(\Google\Service\Docs\Request $req) {
+    $data = \request()->validate(
+        [
+            'image' => 'required',
+        ]
+    );
+    $imagePath = $data['image']->store('', 'google');
+    $url=Storage::disk('google')->url($imagePath);
+    dd($url);
+
+//    dd($req->file('image')->store('profilePictures','google'));
+//     return response()->json(
+//        [
+//            'suc'=>true,
+//        'img'=>request()->all()
+//        ]);
+//    Storage::disk('google')->put('test.txt', 'Hello World');
+   // $x=Storage::disk('google')->get('test.txt');
+    //dump($x);
+});
 
 //api
 /*

@@ -10,42 +10,25 @@
                     </div>
                     <div id ="csrf_name" class="card-header">{{ __('') }}</div>
                     <div class="card-body">
-                        <form method="POST" action="/mobileLogin">
+                        <form method="post" enctype="multipart/form-data" action="/test">
                             @csrf
 
-                            <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                    @error('email')
-                                    <span class="invalid-feedback" role="alert">
+                            <strong><label class="d-inline" for="image"
+                                           class="col-md-4 col-form-label text-md-right">{{ __('Add an Image') }}</label></strong>
+                            <input class="d-inline" type="file" accept="image/*"
+                                   @if($info??'')
+                                   value="/storage/{{($info->image??'')}}"
+                                   @endif
+                                   class="form-control-file" id="image" name="image">
+                            @error('image')
+                            <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary" >
-                                        {{ __('Login') }}
-                                    </button>
-                                </div>
+                            @enderror
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary justify-content-center">
+                                        {{ __('check') }}
+                                </button>
                             </div>
                         </form>
                     </div>
