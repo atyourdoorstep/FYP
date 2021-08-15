@@ -20,6 +20,7 @@ class CreateServiceProvidersTable extends Migration
             $table->unsignedBigInteger('service_id');
             $table->index('user_id');
             $table->index('service_id');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
