@@ -33,8 +33,12 @@ Route::post('/setProfilePicture',[\App\Http\Controllers\ProfileController::class
 
 Route::post('/updateUser',[\App\Http\Controllers\UserController::class,'update']);
 
+
+
+
+// for connection test
 Route::get('/checkSpeed',[\App\Http\Controllers\ProfileController::class,'checkSpeed']);
-//done
+Route::get('/bruhh',[\App\Http\Controllers\ProfileController::class,'checkSpeed']);
 Route::get('/checkApi', function () {
     return ['success'=>true,'message'=>'done'];
 });
