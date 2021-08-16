@@ -61,7 +61,11 @@ Route::post('test', function( Symfony\Component\HttpFoundation\Request $req) {
 //    $recursive = true; // Get subdirectories also?
 //    $contents = collect(Storage::disk('google')->listContents($dir, $recursive));
     //dd($contents);
+
+//        dd(Storage::disk('google')->url('TxCkuajqBnSCWXOTSwkpYoYs8h08g1pcecAMPhCi.jpg'));
+//        return 'url: '.$url;
     $path='1hKpXA8JfkON1MvuSDw9vWhCYQOUsoief';
+    $path='';
 
     $data = \request()->validate(
         [

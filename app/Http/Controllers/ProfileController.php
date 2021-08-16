@@ -34,7 +34,7 @@ class ProfileController extends Controller
             ,200
         );
     }
-    public function updateImage(Request $request)
+    public function updateImage(Request $request)//updates profilePicture also deletes old picture if exists
     {
         $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
         if(!$user->isSuccessful())
@@ -42,6 +42,12 @@ class ProfileController extends Controller
         $user=$user->getData()->user;
         $path='1hKpXA8JfkON1MvuSDw9vWhCYQOUsoief';
         $profile= Profile::where('user_id',$user->id)->first();
+
+        if($id=$profile->profileImage()) {
+            //$url_components = parse_url($id);
+            parse_str(parse_url($id)['query'], $params);
+            \Storage::disk('google')->delete($params['id']);
+        }
         $data = Validator::make($request->all(),
             [
                 'image' => 'required',
