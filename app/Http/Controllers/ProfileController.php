@@ -113,7 +113,7 @@ class ProfileController extends Controller
         return response()->json(
             [
                 'success'=>true,
-                Profile::findOrFail($id)->profileImage()
+                'url'=>Profile::findOrFail($id)->profileImage()
             ],200);
     }
 }
