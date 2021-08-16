@@ -110,6 +110,10 @@ class ProfileController extends Controller
             return $user;
         $id=$user->getData()->user->id;
         //return $id;
-        return Profile::findOrFail($id)->profileImage();
+        return response()->json(
+            [
+                'success'=>true,
+                Profile::findOrFail($id)->profileImage()
+            ],200);
     }
 }
