@@ -42,3 +42,8 @@ Route::get('/bruhh',[\App\Http\Controllers\ProfileController::class,'checkSpeed'
 Route::get('/checkApi', function () {
     return ['success'=>true,'message'=>'done'];
 });
+
+
+
+
+//test-at-your-door-step old hosting
