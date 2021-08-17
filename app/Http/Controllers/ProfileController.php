@@ -44,8 +44,8 @@ class ProfileController extends Controller
         $profile= Profile::where('user_id',$user->id)->first();
 
         if($id=$profile->profileImage()) {
-            //$url_components = parse_url($id);
-            parse_str(parse_url($id)['query'], $params);
+            $url_components = parse_url($id);
+            parse_str($url_components['query'], $params);
             \Storage::disk('google')->delete($params['id']);
         }
         $data = Validator::make($request->all(),
