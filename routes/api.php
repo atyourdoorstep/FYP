@@ -33,7 +33,11 @@ Route::post('/setProfilePicture',[\App\Http\Controllers\ProfileController::class
 
 Route::post('/updateUser',[\App\Http\Controllers\UserController::class,'update']);
 
-
+Route::post('/getParentServices',function()
+{
+    return \App\Models\Category::all()->whereNull('category_id');
+}
+);
 
 
 // for connection test

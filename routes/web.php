@@ -25,6 +25,20 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::middleware('auth')->get('/addCategory',[\App\Http\Controllers\CategoryController::class,'index'])->name('category.add');
+
+Route::middleware('auth')->get('/categoryTree',[\App\Http\Controllers\CategoryController::class,'categoryTree'])->name('category.tree');
+
+Route::middleware('auth')->post('/regCategory', [\App\Http\Controllers\CategoryController::class,'create'])->name('/regCategory');
+Route::middleware('auth')->get('/cat/{id}/edit', '\App\Http\Controllers\CategoryController@edit')->name('category.edit');//edit form
+
+
+
+
+
+
+
+
 
 Route::post('/mlog', [\App\Http\Controllers\Auth\LoginController::class,
 
