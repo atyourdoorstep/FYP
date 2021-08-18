@@ -24,14 +24,19 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/checkUser', function ()
+{
+    return Auth::user()->role->role_name;
+}
+);
 
-Route::middleware('auth')->get('/addCategory',[\App\Http\Controllers\CategoryController::class,'index'])->name('category.add');
+Route::middleware('admin')->get('/addCategory',[\App\Http\Controllers\CategoryController::class,'index'])->name('category.add');
 
-Route::middleware('auth')->get('/categoryTree',[\App\Http\Controllers\CategoryController::class,'categoryTree'])->name('category.tree');
+Route::middleware('admin')->get('/categoryTree',[\App\Http\Controllers\CategoryController::class,'categoryTree'])->name('category.tree');
 
-Route::middleware('auth')->post('/regCategory', [\App\Http\Controllers\CategoryController::class,'create'])->name('/regCategory');
-Route::middleware('auth')->get('/cat/{id}/edit', '\App\Http\Controllers\CategoryController@edit')->name('category.edit');//edit form
-
+Route::middleware('admin')->post('/regCategory', [\App\Http\Controllers\CategoryController::class,'create'])->name('/regCategory');
+Route::middleware('admin')->get('/cat/{id}/edit', '\App\Http\Controllers\CategoryController@edit')->name('category.edit');//edit form
+Route::middleware('admin')->patch('/Cat/{id}', [\App\Http\Controllers\CategoryController::class,'update'])->name('/Cat.update');//update from controller
 
 
 

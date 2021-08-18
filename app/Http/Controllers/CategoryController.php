@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-
-
     public function index()
     {
         return view
@@ -55,23 +53,18 @@ class CategoryController extends Controller
                 'data' => (Category::all()->whereNull('category_id'))
             ]
         );
-        return $this->generateCategories(Category::all()->whereNull('category_id'));
     }
-
-    public function generateCategories($categories)
+    public function update($id)
     {
-//        dd($categories);
-        $view = '';
-        foreach ($categories as $category) {
-            $view = $view . '<li>' . $category->name . '</li>';
-            if (count($category->children) > 0) {
-                $view = $view . '<ul>';
-//                $view=$view. '<li>';
-                $view = $view . $this->generateCategories($category->children);
-//                $view=$view. '</li>';
-                $view = $view . '</ul>';
-            }
-        }
-        return $view;
+        $data = \request()->validate(
+            [
+                'name' => 'required',
+                'description' => 'nullable',
+                'category_id' => 'nullable',
+            ]
+        );
+        Category::where('id', $id)->update($data);
+        return redirect(route('category.list'));
+
     }
 }
