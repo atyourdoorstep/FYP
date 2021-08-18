@@ -40,6 +40,7 @@ Route::post('/getParentServices',function()
 );
 
 
+
 // for connection test
 Route::get('/checkSpeed',[\App\Http\Controllers\ProfileController::class,'checkSpeed']);
 Route::get('/bruhh',[\App\Http\Controllers\ProfileController::class,'checkSpeed']);
