@@ -85,8 +85,8 @@ class ProfileController extends Controller
                 'image' => [''],
             ]
         );
-//        if($data->fails())
-//            return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
+        if($data->fails())
+            return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
 
         //User::find($user->id)->profile->update($data);

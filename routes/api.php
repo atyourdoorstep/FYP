@@ -37,13 +37,15 @@ Route::post('/getParentServices',function()
 {
     return \App\Models\Category::all()->whereNull('category_id');
 }
-);
+);//get all the parent services
+
+
+Route::post('/registerSeller',[\App\Http\Controllers\SellerController::class,'registerSeller']);//register service provider
 
 
 
 // for connection test
 Route::get('/checkSpeed',[\App\Http\Controllers\ProfileController::class,'checkSpeed']);
-Route::get('/bruhh',[\App\Http\Controllers\ProfileController::class,'checkSpeed']);
 Route::get('/checkApi', function () {
     return ['success'=>true,'message'=>'done'];
 });
