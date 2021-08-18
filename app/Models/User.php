@@ -66,10 +66,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Role::class);
     }
-    public function apiToken()
-    {
-        return $this->hasOne(ApiToken::class);
-    }
+
     //new
     public static function checkToken($token){
         if($token->token){

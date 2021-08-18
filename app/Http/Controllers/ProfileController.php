@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
+    protected string $profilePicPath='1hKpXA8JfkON1MvuSDw9vWhCYQOUsoief';
     protected function create(Request $request)
     {
         // return $request;
@@ -40,7 +41,7 @@ class ProfileController extends Controller
         if(!$user->isSuccessful())
             return $user;
         $user=$user->getData()->user;
-        $path='1hKpXA8JfkON1MvuSDw9vWhCYQOUsoief';
+//        $path=$this->profilePicPath;
         $profile= Profile::where('user_id',$user->id)->first();
 
         if($profile->image) {
@@ -56,7 +57,7 @@ class ProfileController extends Controller
         if($data->fails())
             return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
-        $imagePath = $data['image']->store($path, 'google');
+        $imagePath = $data['image']->store($this->profilePicPath, 'google');
         $url=\Storage::disk('google')->url($imagePath);
          //$data['image']=$url;
          $profile->image=$url;
