@@ -125,6 +125,21 @@ class UserController extends Controller
             ], 500);
         }
     }
+    public function getRole(Request $request)
+    {
+        $user=$this->getCurrentUser($request);
+        if(!$user->isSuccessful())
+            return $user;
+        $user=$user->getData()->user;
+        return response()->json(
+            [
+                'success'=>true,
+                'roleName'=>User::find($user->id)->role->role_name,
+//                    $user->role->role_name,
+            ]
+            ,200
+        );
+    }
     public function getPrivileges(Request $request)
     {
         if(!User::checkToken($request)){

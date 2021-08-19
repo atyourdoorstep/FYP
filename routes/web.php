@@ -24,19 +24,16 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/checkUser', function ()
-{
-    return Auth::user()->role->role_name;
-}
-);
+
 
 Route::middleware('admin')->get('/addCategory',[\App\Http\Controllers\CategoryController::class,'index'])->name('category.add');
 
 Route::middleware('admin')->get('/categoryTree',[\App\Http\Controllers\CategoryController::class,'categoryTree'])->name('category.tree');
 
 Route::middleware('admin')->post('/regCategory', [\App\Http\Controllers\CategoryController::class,'create'])->name('/regCategory');
-Route::middleware('admin')->get('/cat/{id}/edit', '\App\Http\Controllers\CategoryController@edit')->name('category.edit');//edit form
+Route::middleware('admin')->post('/cat/{id}/edit', '\App\Http\Controllers\CategoryController@edit')->name('category.edit');//edit form
 Route::middleware('admin')->patch('/Cat/{id}', [\App\Http\Controllers\CategoryController::class,'update'])->name('/Cat.update');//update from controller
+Route::middleware('admin')->get('/catList', [\App\Http\Controllers\AdminController::class,'catIndex'])->name('category.list');;
 
 
 
@@ -45,13 +42,12 @@ Route::middleware('admin')->patch('/Cat/{id}', [\App\Http\Controllers\CategoryCo
 
 
 
-Route::post('/mlog', [\App\Http\Controllers\Auth\LoginController::class,
 
-function ()
+Route::get('/checkUser', function ()
 {
-    return \Illuminate\Support\Facades\Auth::user();
+    return Auth::user()->role->role_name;
 }
-]);
+);
 
 Route::get('/mobRegTry',
     function ()

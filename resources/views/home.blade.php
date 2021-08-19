@@ -32,8 +32,8 @@
                             <a class="dropdown-item text-primary" href="/addCategory">
                                 Add
                             </a>
-                            <a class="dropdown-item text-primary" href="#">
-                                List
+                            <a class="dropdown-item text-primary" href="/catList">
+                                Service List
                             </a>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
                          style="background-color: #1b1e21;text-decoration-color: white">
                         <div class="text-primary">
-                            <a class="dropdown-item text-primary" href="/addCategory">
+                            <a class="dropdown-item text-primary" href="#">
                                 Add
                             </a>
                             <a class="dropdown-item text-primary" href="#">
@@ -67,7 +67,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
                          style="background-color: #1b1e21;text-decoration-color: white">
                         <div class="text-primary">
-                            <a class="dropdown-item text-primary" href="/addCategory">
+                            <a class="dropdown-item text-primary" href="#">
                                 Add
                             </a>
                             <a class="dropdown-item text-primary" href="#">
@@ -86,7 +86,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
                          style="background-color: #1b1e21;text-decoration-color: white">
                         <div class="text-primary">
-                            <a class="dropdown-item text-primary" href="/addCategory">
+                            <a class="dropdown-item text-primary" href="#">
                                 Add
                             </a>
                             <a class="dropdown-item text-primary" href="#">

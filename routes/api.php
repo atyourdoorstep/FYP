@@ -23,6 +23,7 @@ Route::post('/mobileLogin', [\App\Http\Controllers\UserController::class, 'login
 Route::post('/getCurrentUser', [\App\Http\Controllers\UserController::class, 'getCurrentUser']);
 Route::post('/mobileLogOut', [\App\Http\Controllers\UserController::class, 'logout']);
 Route::post('/getPrivileges',[\App\Http\Controllers\UserController::class,'getPrivileges']);
+Route::post('/getRole',[\App\Http\Controllers\UserController::class,'getRole']);
 
 Route::get('/updateProfile',[\App\Http\Controllers\ProfileController::class,'update']);
 

@@ -22,7 +22,6 @@ class CategoryController extends Controller
 
     public function create()//regCategory
     {
-        return \request()->all();
         $data = \request()->validate(
             [
                 'name' => 'required',
@@ -31,6 +30,7 @@ class CategoryController extends Controller
             ]
         );
         Category::create($data);
+        return redirect(route('category.list'));
     }
 
     public function edit($id)
@@ -56,6 +56,7 @@ class CategoryController extends Controller
     }
     public function update($id)
     {
+
         $data = \request()->validate(
             [
                 'name' => 'required',
@@ -63,6 +64,7 @@ class CategoryController extends Controller
                 'category_id' => 'nullable',
             ]
         );
+        //dd($data);
         Category::where('id', $id)->update($data);
         return redirect(route('category.list'));
 
