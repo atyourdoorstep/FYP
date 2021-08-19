@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,7 +32,6 @@ Route::post('/getProfilePicture',[\App\Http\Controllers\ProfileController::class
 
 Route::post('/setProfilePicture',[\App\Http\Controllers\ProfileController::class,'updateImage']);
 
-
 Route::post('/updateUser',[\App\Http\Controllers\UserController::class,'update']);
 
 Route::post('/getParentServices',function()
@@ -39,7 +39,13 @@ Route::post('/getParentServices',function()
     return \App\Models\Category::all()->whereNull('category_id');
 }
 );//get all the parent services
-
+Route::post('/getAllServicesWithChildren'
+    ,
+    function ()
+    {
+        return ['data' => Category::with('children')->whereNull('category_id')->get()];
+    }
+);
 
 Route::post('/registerSeller',[\App\Http\Controllers\SellerController::class,'registerSeller']);//register service provider
 
