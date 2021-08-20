@@ -9,11 +9,17 @@ class AdminController extends Controller
 {
 
 
-
-
-    public function catIndex()
+    public function catIndex($parent =null)
     {
-//        return ValidateUserSession(view('admin.index', ['data' => Organization::paginate(10)]), 'canView');
+        if ($parent ?? '') {
+            return (view('admin.catIndex',
+                [
+                    'parent'=> Category::find($parent),
+                    'data' => Category::with('children')->where('category_id',$parent)->paginate(10),
+                ]
+            ));
+
+        }
         return (view('admin.catIndex', ['data' => Category::with('children')->whereNull('category_id')->paginate(10)]));
     }
 }

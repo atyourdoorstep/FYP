@@ -7,6 +7,15 @@
             {{ session('status') }}
         </div>
     @endif
+    @if ($parent??'')
+        <h1>
+            <div class="card-header text-center">
+                {{$parent->name}}
+            </div>
+        </h1>
+
+    @endif
+
     <table class="table table-hover text-center">
         <div class="row focuses">
             <div class="table-responsive">
@@ -22,12 +31,15 @@
                         <h6 class="green-text">Description</h6>
                     </th>
                     <th scope="col">
+                        <h6 class="green-text">Details</h6>
+                    </th>
+                    <th scope="col">
                         <h6 class="green-text">Update</h6>
                     </th>
                 </strong>
                 </thead>
 
-                <tbody class="font-weight-bold">
+                <tbody class="font-weight-bold ">
                 <div class="justify-content-start">
                     @foreach($data as $category)
 
@@ -39,9 +51,18 @@
 
 
                             <td>{{$category->description}} </td>
-
                             <td>
-                                <form method="post" action="cat/{{$category->id}}/edit">
+                                @if(count($category->children))
+                                    <form method="get" action="/catList/{{$category->id}}">
+                                        @csrf
+                                        <button class="btn-toggle-nav">
+                                            view sub services
+                                        </button>
+                                    </form>
+                                @endif
+                            </td>
+                            <td>
+                                <form method="post" action="/cat/{{$category->id}}/edit">
                                     @csrf
                                     <button type="submit"
                                             class="btn green-button"
@@ -50,60 +71,8 @@
                                     </button>
                                 </form>
                             </td>
-                        {{--                    subCat--}}
-
-                        @foreach($category->children as $subCat)
-
-                            <tr>
-                                <td>---{{$subCat->id}} </td>
-                                <div class="" style="">
-                                    <td>{{$subCat->name}} </td>
-                                </div>
-
-
-                                <td>{{$subCat->description}} </td>
-
-                                <td>
-                                    <form method="post" action="cat/{{$subCat->id}}/edit">
-                                        @csrf
-                                        <button type="submit"
-                                                class="btn green-button"
-                                                style="padding-right: 35px;padding-left: 35px;border-radius: 5%;border-style: none;background-color: #17a2b8">
-                                            {{ __('Edit') }}
-                                        </button>
-                                    </form>
-                                </td>
-
-                            @foreach($subCat->children as $end)
-
-                                <tr>
-                                    <td>------{{$end->id}} </td>
-                                    <div class="" style="">
-                                        <td>{{$end->name}} </td>
-                                    </div>
-
-
-                                    <td>{{$end->description}} </td>
-
-                                    <td>
-                                        <form method="post" action="cat/{{$end->id}}/edit">
-                                            @csrf
-                                            <button type="submit"
-                                                    class="btn green-button"
-                                                    style="padding-right: 35px;padding-left: 35px;border-radius: 5%;border-style: none;background-color: #17a2b8">
-                                                {{ __('Edit') }}
-                                            </button>
-                                        </form>
-                                    </td>
-
-
-                                </tr>
-                                @endforeach
-                            </tr>
-                            @endforeach
-
-                            </tr>
-                        @endforeach
+                        </tr>
+                    @endforeach
                 </div>
 
                 </tbody>
@@ -149,3 +118,55 @@
         });
     }
 </script>
+
+
+{{--                    subCat--}}
+
+{{--                        @foreach($category->children as $subCat)--}}
+
+{{--                            <tr>--}}
+{{--                                <td>---{{$subCat->id}} </td>--}}
+{{--                                <div class="" style="">--}}
+{{--                                    <td>{{$subCat->name}} </td>--}}
+{{--                                </div>--}}
+
+
+{{--                                <td>{{$subCat->description}} </td>--}}
+
+{{--                                <td>--}}
+{{--                                    <form method="post" action="cat/{{$subCat->id}}/edit">--}}
+{{--                                        @csrf--}}
+{{--                                        <button type="submit"--}}
+{{--                                                class="btn green-button"--}}
+{{--                                                style="padding-right: 35px;padding-left: 35px;border-radius: 5%;border-style: none;background-color: #17a2b8">--}}
+{{--                                            {{ __('Edit') }}--}}
+{{--                                        </button>--}}
+{{--                                    </form>--}}
+{{--                                </td>--}}
+
+{{--                            @foreach($subCat->children as $end)--}}
+
+{{--                                <tr>--}}
+{{--                                    <td>------{{$end->id}} </td>--}}
+{{--                                    <div class="" style="">--}}
+{{--                                        <td>{{$end->name}} </td>--}}
+{{--                                    </div>--}}
+
+
+{{--                                    <td>{{$end->description}} </td>--}}
+
+{{--                                    <td>--}}
+{{--                                        <form method="post" action="cat/{{$end->id}}/edit">--}}
+{{--                                            @csrf--}}
+{{--                                            <button type="submit"--}}
+{{--                                                    class="btn green-button"--}}
+{{--                                                    style="padding-right: 35px;padding-left: 35px;border-radius: 5%;border-style: none;background-color: #17a2b8">--}}
+{{--                                                {{ __('Edit') }}--}}
+{{--                                            </button>--}}
+{{--                                        </form>--}}
+{{--                                    </td>--}}
+{{--                                </tr>--}}
+{{--                                @endforeach--}}
+{{--                                </tr>--}}
+
+{{--                                @endforeach--}}

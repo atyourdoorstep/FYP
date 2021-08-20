@@ -66,7 +66,7 @@ class CategoryController extends Controller
         );
         //dd($data);
         Category::where('id', $id)->update($data);
-        return redirect(route('category.list'));
+        return redirect('/catList/'.$data['category_id']);
 
     }
 }
