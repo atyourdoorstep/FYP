@@ -17,13 +17,13 @@ class CreateItemsTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('item_code')->unique();
-            $table->string('image')->nullable();
+//            $table->string('item_code')->unique();
+            $table->string('image');
             $table->unsignedBigInteger('price');
             $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('seller_id');
             $table->index('category_id');
-            $table->index('user_id');
+            $table->index('seller_id');
             $table->timestamps();
         });
     }

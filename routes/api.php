@@ -34,11 +34,11 @@ Route::post('/setProfilePicture',[\App\Http\Controllers\ProfileController::class
 
 Route::post('/updateUser',[\App\Http\Controllers\UserController::class,'update']);
 
-Route::post('/getParentServices',function()
-{
-    return \App\Models\Category::all()->whereNull('category_id');
-}
-);//get all the parent services
+//Route::post('/getParentServices',function()
+//{
+//    return \App\Models\Category::all()->whereNull('category_id');
+//}
+//);//get all the parent services not needed
 Route::post('/getAllServicesWithChildren'
     ,
     function ()
@@ -46,8 +46,35 @@ Route::post('/getAllServicesWithChildren'
         return ['data' => Category::with('children')->whereNull('category_id')->get()];
     }
 );
+Route::post('/sells/{id}',function ($id)
+{
+    //withAll
+    $a= \App\Models\Seller::find($id)->with('items.category.children')->get();
+//    $a= \App\Models\Seller::find($id)->with('category.children.items')->get();
+    return $a;
+    return $a[0]['category']->with('children')->get();
+}
+);
 
-Route::post('/registerSeller',[\App\Http\Controllers\SellerController::class,'registerSeller']);//register service provider
+Route::post('/registerSeller',[\App\Http\Controllers\SellerController::class,'registerSeller']);//register service provider only user not registered can register also create a folder for user in drive
+Route::post('/createPost',[\App\Http\Controllers\ItemController::class,'create'])->name('item.create');//create a post only registered seller can create a post
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -63,24 +63,32 @@ function ()
     return view('mobiletry');
 }
 );
+Route::get('/dirCheck/{name}/{parent?}',
+    function ($name,$parent='')
+    {
+        return app('App\Http\Controllers\SellerFolderController')->create($name,69);
+        return app('App\Http\Controllers\SellerFolderController')->createDir($name,$parent);
+
+//        $dir=Storage::disk('google')->makeDirectory($name, 0775, true);
+        $dir=Storage::disk('google')->directories();
+        dump($dir);
+        $meta=Storage::disk('google')->getMetaData($dir[0]);
+        $path='';
+        foreach ($dir as $d)
+        {
+            $meta=Storage::disk('google')->getMetaData($d);
+            if($meta['name']===$name)
+            {
+                $path=$d;
+            }
+        }
+        return $path;
+    }
+);
 
 Route::post('test', function( Symfony\Component\HttpFoundation\Request $req) {
-//    $content = collect(Storage::disk('google')->listContents('/', false));
-//    foreach ($content as $key => $value) {
-//        if($value['name'] == 'profilePictures')
-//            $root = $value['path'];
-//    }
-//    dd($root);
-//    $dir = '/'.$root;
-//    dump($dir);
-//    $recursive = true; // Get subdirectories also?
-//    $contents = collect(Storage::disk('google')->listContents($dir, $recursive));
-    //dd($contents);
-
-//        dd(Storage::disk('google')->url('TxCkuajqBnSCWXOTSwkpYoYs8h08g1pcecAMPhCi.jpg'));
-//        return 'url: '.$url;
-    $path='1hKpXA8JfkON1MvuSDw9vWhCYQOUsoief';
-    $path='';
+    $path='1EQ8AdcDPSCheUqGYUarxy6umeE5u18tT/1NRiqthaqWsnzSxrQ9lf8XHoaOZQTtGI_';
+//    $path='';
 
     $data = \request()->validate(
         [
@@ -90,16 +98,6 @@ Route::post('test', function( Symfony\Component\HttpFoundation\Request $req) {
     $imagePath = $data['image']->store($path, 'google');
     $url=Storage::disk('google')->url($imagePath);
     dd($url);
-
-//    dd($req->file('image')->store('profilePictures','google'));
-//     return response()->json(
-//        [
-//            'suc'=>true,
-//        'img'=>request()->all()
-//        ]);
-//    Storage::disk('google')->put('test.txt', 'Hello World');
-   // $x=Storage::disk('google')->get('test.txt');
-    //dump($x);
 });
 
 //api
