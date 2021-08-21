@@ -25,9 +25,9 @@ class Category extends Model
 //    {
 //        return $this->hasMany(Category::class);
 //    }
-    public function parent()
+    public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(self::class)->with('category');
     }
     public function items()
     {

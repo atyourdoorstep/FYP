@@ -92,17 +92,22 @@ class ItemController extends Controller
         }
         $data =  Validator::make($request->all(),
             [
-                'name' => 'required',
+                'name' => ['required'],
                 'description' => 'nullable',
                 'category_id' => 'required',
                 'image' => 'required',
                 'price' => 'required',
             ]
         );
+        //The name has already been taken.
         if($data->fails())
             return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
         $seller=Seller::where('user_id',$user->id)->get();
+        if(Item::where('name',$data['name'])->where('seller_id',$seller[0]->id)->get()->count())
+        {
+            return response()->json(['success'=>false,'message'=>'The name has already been taken.'],400);
+        }
         $data['seller_id']=$seller[0]->id;
         $imagePath = $data['image']->store($seller[0]->sellerFolder['item'], 'google');
         $url=\Storage::disk('google')->url($imagePath);

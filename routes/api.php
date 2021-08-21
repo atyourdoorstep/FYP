@@ -49,7 +49,7 @@ Route::post('/getAllServicesWithChildren'
 Route::post('/sells/{id}',function ($id)
 {
     //withAll
-    $a= \App\Models\Seller::find($id)->with('items.category.children')->get();
+    $a= \App\Models\Seller::find($id)->with('items.category.category')->get();
 //    $a= \App\Models\Seller::find($id)->with('category.children.items')->get();
     return $a;
     return $a[0]['category']->with('children')->get();
