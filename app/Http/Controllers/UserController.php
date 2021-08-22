@@ -184,6 +184,7 @@ class UserController extends Controller
     public function getCurrentUser(Request $request){
         if(!User::checkToken($request)){
             return response()->json([
+//                'success' => false,
                 'message' => 'Token is required'
             ],422);
         }
@@ -241,9 +242,12 @@ class UserController extends Controller
     }
     public function findOrFailUser(Request $request)//return user model
     {
-        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
+        $user=$this->getCurrentUser($request);
         if(!$user->isSuccessful())
-            return $user;
+            return [
+                'success'=>false,
+                'message'=>$user->getData()->message,
+            ];
 //        $user=$user->getData()->user;
 //        $user->getData()->user=User::find($user->getData()->user->id);
         return [

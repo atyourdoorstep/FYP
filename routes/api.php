@@ -41,21 +41,12 @@ Route::post('/getAllServicesWithChildren'
     }
 );
 Route::post('/getSellerInfo',
-function(Request $request)
-{
-    $user=app('App\Http\Controllers\UserController')->findOrFailUser($request);
-    if(!$user['success'])
-        return $user;
-    return $user['user']->seller;
-}
+[\App\Http\Controllers\SellerController::class,'getSellerInfo']
 );
 Route::post('/sells/{id}',function ($id)
 {
 //    \DB::enableQueryLog();
     $a=\App\Models\Item::with('category.category')->where('seller_id',$id)->get();
-
-
-//    $a=\App\Models\Seller::find($id)->with('items.category.category')->where('id',$id)->get();
     return [
 //        'query'=>\DB::getQueryLog(),
         'success'=>true,

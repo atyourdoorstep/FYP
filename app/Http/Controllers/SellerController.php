@@ -39,4 +39,25 @@ class SellerController extends Controller
             ,200
         );
     }
+    public function getSellerInfo(Request $request)
+    {
+        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
+        if(!$user->isSuccessful())
+            return $user;
+        $user=$user->getData()->user;
+        return [
+            'success'=>true,
+            'user'=>\App\Models\User::find($user->id)
+        ];
+
+
+        $user=app('App\Http\Controllers\UserController')->findOrFailUser($request);
+        if(!$user['success'])
+            return $user;
+        return [
+            'success'=>true,
+            'seller'=>$user['user']->seller
+        ];
+        return $user['user']->seller;
+    }
 }
