@@ -239,4 +239,16 @@ class UserController extends Controller
             'user' =>$user
         ]);
     }
+    public function findOrFailUser(Request $request)//return user model
+    {
+        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
+        if(!$user->isSuccessful())
+            return $user;
+//        $user=$user->getData()->user;
+//        $user->getData()->user=User::find($user->getData()->user->id);
+        return [
+            'success'=>true,
+            'user'=>User::find($user->getData()->user->id)
+        ];
+    }
 }

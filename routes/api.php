@@ -14,10 +14,12 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
 
 Route::post('/mobileRegister', [\App\Http\Controllers\UserController::class, 'register']);
 Route::post('/mobileLogin', [\App\Http\Controllers\UserController::class, 'login']);
@@ -26,19 +28,11 @@ Route::post('/mobileLogOut', [\App\Http\Controllers\UserController::class, 'logo
 Route::post('/getPrivileges',[\App\Http\Controllers\UserController::class,'getPrivileges']);
 Route::post('/getRole',[\App\Http\Controllers\UserController::class,'getRole']);
 
-Route::get('/updateProfile',[\App\Http\Controllers\ProfileController::class,'update']);
-
+Route::post('/updateProfile',[\App\Http\Controllers\ProfileController::class,'update']);
 Route::post('/getProfilePicture',[\App\Http\Controllers\ProfileController::class,'getProfilePicture']);
-
 Route::post('/setProfilePicture',[\App\Http\Controllers\ProfileController::class,'updateImage']);
 
 Route::post('/updateUser',[\App\Http\Controllers\UserController::class,'update']);
-
-//Route::post('/getParentServices',function()
-//{
-//    return \App\Models\Category::all()->whereNull('category_id');
-//}
-//);//get all the parent services not needed
 Route::post('/getAllServicesWithChildren'
     ,
     function ()
@@ -46,13 +40,27 @@ Route::post('/getAllServicesWithChildren'
         return ['data' => Category::with('children')->whereNull('category_id')->get()];
     }
 );
+Route::post('/getSellerInfo',
+function(Request $request)
+{
+    $user=app('App\Http\Controllers\UserController')->findOrFailUser($request);
+    if(!$user['success'])
+        return $user;
+    return $user['user']->seller;
+}
+);
 Route::post('/sells/{id}',function ($id)
 {
-    //withAll
-    $a= \App\Models\Seller::find($id)->with('items.category.category')->get();
-//    $a= \App\Models\Seller::find($id)->with('category.children.items')->get();
-    return $a;
-    return $a[0]['category']->with('children')->get();
+//    \DB::enableQueryLog();
+    $a=\App\Models\Item::with('category.category')->where('seller_id',$id)->get();
+
+
+//    $a=\App\Models\Seller::find($id)->with('items.category.category')->where('id',$id)->get();
+    return [
+//        'query'=>\DB::getQueryLog(),
+        'success'=>true,
+        'response'=> $a,
+        ];
 }
 );
 
