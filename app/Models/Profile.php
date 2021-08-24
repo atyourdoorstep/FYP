@@ -18,7 +18,7 @@ class Profile extends Model
         ];
     public function profileImage()
     {
-        return $this->image??'https://www.pngfind.com/pngs/m/676-6764065_default-profile-picture-transparent-hd-png-download.png';
+        return $this->image??'';
         if(!$this->image )
             return $this->image;
         $imagePath ='/storage/' .$this->image;
