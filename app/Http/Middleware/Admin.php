@@ -22,6 +22,6 @@ class Admin
             return $next($request);
         }
         Auth::logout();
-        return redirect(route('login'))->withErrors(['error', 'Only Users with admin role are allowed to login']);;
+        return redirect(route('login'))->withErrors(['error', 'Only Users with admin role are allowed to login']);
     }
 }
