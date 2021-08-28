@@ -92,4 +92,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Seller::class);
     }
+    public function appAdmin()
+    {
+        return $this->hasMany(AppAdmin::class);
+    }
 }

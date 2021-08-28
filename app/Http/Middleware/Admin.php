@@ -18,7 +18,9 @@ class Admin
     public function handle(Request $request, Closure $next)
     {
         Auth::user();
-        if (Auth::user()&&Auth::user()->role->role_name == 'admin') {
+//        if (Auth::user()&&Auth::user()->role->role_name == 'admin')
+        if (count(Auth::user()->appAdmin))
+        {
             return $next($request);
         }
         Auth::logout();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Seller;
 use App\Models\SellerFolder;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,10 +26,16 @@ class SellerController extends Controller
             return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
         $data['user_id']=$id;
-        if(Seller::where('user_id',$id)->count())
+//        if(Seller::where('user_id',$id)->count())
+//        return $user->getData()->user->role_id;
+        if($user->getData()->user->role_id==2)
         {
             return response()->json(['success'=>false,'message'=>'This user is already registered as a service provider'],400);
         }
+        $usr=User::findOrFail($id);
+        $usr->role_id=2;
+        $usr->update();
+
         $seller=Seller::create($data);
         $folder=app('App\Http\Controllers\SellerFolderController')->create($seller->user_name,$seller->id);
         return response()->json(
