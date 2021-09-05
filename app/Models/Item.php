@@ -15,6 +15,7 @@ class Item extends Model
         'price',
         'category_id',
         'seller_id',
+        'inStock',
         ];
     public function category()
     {
