@@ -21,7 +21,8 @@ Route::post('/jwtmiddelwarecheck'
     ,
     function (Request $request)
     {
-       return $request->all();
+        $user=$request->all()['user'];
+       return $user->email;
     }
 )->middleware('JwtAuthUser');
 
@@ -33,10 +34,10 @@ Route::post('/getCurrentUser', [\App\Http\Controllers\UserController::class, 'ge
 Route::post('/mobileLogOut', [\App\Http\Controllers\UserController::class, 'logout']);
 Route::post('/getPrivileges',[\App\Http\Controllers\UserController::class,'getPrivileges']);
 Route::post('/getRole',[\App\Http\Controllers\UserController::class,'getRole']);
-
-Route::post('/updateProfile',[\App\Http\Controllers\ProfileController::class,'update']);
-Route::post('/getProfilePicture',[\App\Http\Controllers\ProfileController::class,'getProfilePicture']);
-Route::post('/setProfilePicture',[\App\Http\Controllers\ProfileController::class,'updateImage']);
+//profile
+Route::post('/updateProfile',[\App\Http\Controllers\ProfileController::class,'update'])->middleware('JwtAuthUser');
+Route::post('/getProfilePicture',[\App\Http\Controllers\ProfileController::class,'getProfilePicture'])->middleware('JwtAuthUser');
+Route::post('/setProfilePicture',[\App\Http\Controllers\ProfileController::class,'updateImage'])->middleware('JwtAuthUser');
 
 Route::post('/updateUser',[\App\Http\Controllers\UserController::class,'update']);
 Route::post('/getAllServicesWithChildren'

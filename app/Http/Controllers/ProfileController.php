@@ -37,11 +37,12 @@ class ProfileController extends Controller
     }
     public function updateImage(Request $request)//updates profilePicture also deletes old picture if exists
     {
-        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
-        if(!$user->isSuccessful())
-            return $user;
-        $user=$user->getData()->user;
+//        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
+//        if(!$user->isSuccessful())
+//            return $user;
+//        $user=$user->getData()->user;
 //        $path=$this->profilePicPath;
+        $user=$request->all()['user'];
         $profile= Profile::where('user_id',$user->id)->first();
 
         if($profile->image) {
@@ -73,10 +74,11 @@ class ProfileController extends Controller
     }
     public function update(Request $request)
     {
-        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
-        if(!$user->isSuccessful())
-            return $user;
-        $user=$user->getData()->user;
+//        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
+//        if(!$user->isSuccessful())
+//            return $user;
+//        $user=$user->getData()->user;
+        $user=$request->all()['user'];
         $data = Validator::make($request->all(),
             [
                 'title' => [ 'required','string', 'max:255',],
@@ -92,10 +94,12 @@ class ProfileController extends Controller
         //User::find($user->id)->profile->update($data);
 
         //$user=User::find($user->id)->profile->update($data);
+        $authUser=User::find($user->id);
+        $authUser->profile->update($data);
         return response()->json(
             [
                 'success'=>true,
-                'profile'=>Profile::find(User::find($user->id)->profile->update($data))
+                'profile'=> $authUser->profile
                 ]
             ,200
         );
@@ -106,14 +110,15 @@ class ProfileController extends Controller
     }
     public function getProfilePicture(Request $request)
     {
-        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
-        if(!$user->isSuccessful())
-            return $user;
-        $id=$user->getData()->user->id;
+//        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
+//        if(!$user->isSuccessful())
+//            return $user;
+//        $id=$user->getData()->user->id;
+        $user=$request->all()['user'];
         return response()->json(
             [
                 'success'=>true,
-                'url'=>Profile::findOrFail($id)->profileImage()
+                'url'=>Profile::findOrFail($user->id)->profileImage()
             ],200);
     }
 }
