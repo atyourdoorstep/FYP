@@ -127,10 +127,11 @@ class UserController extends Controller
     }
     public function getRole(Request $request)
     {
-        $user=$this->getCurrentUser($request);
-        if(!$user->isSuccessful())
-            return $user;
-        $user=$user->getData()->user;
+//        $user=$this->getCurrentUser($request);
+//        if(!$user->isSuccessful())
+//            return $user;
+//        $user=$user->getData()->user;
+        $user=$request->all()['user'];
         return response()->json(
             [
                 'success'=>true,
@@ -220,16 +221,18 @@ class UserController extends Controller
                 ]);
     }
     public function update(Request $request){
-        $user=$this->getCurrentUser($request)->getData();
-        if(!$user->success){
-            return response()->json([
-                'success' => false,
-                'message' => 'User is not found'
-            ]);
-        }
-        $user=$user->user;
+//        $user=$this->getCurrentUser($request)->getData();
+        $user=$request->all()['user'];
+//        if(!$user->success){
+//            return response()->json([
+//                'success' => false,
+//                'message' => 'User is not found'
+//            ]);
+//        }
+//        $user=$user->user;
         $data=$request->all();
         unset($data['token']);
+        unset($data['user']);
 
         $updatedUser = User::where('id', $user->id)->update($data);
         $user =  User::find($user->id);
