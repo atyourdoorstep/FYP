@@ -2,6 +2,8 @@
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,7 +68,23 @@ Route::post('/registerSeller',[\App\Http\Controllers\SellerController::class,'re
 Route::post('/createPost',[\App\Http\Controllers\ItemController::class,'create'])->name('item.create');//create a post only registered seller can create a post
 
 
-
+Route::post('/categoryItems',function (Request $request)
+{
+//    $id=$request->all()['id'];
+//    $cat = DB::table('categories')
+//        ->select('id')
+//        ->where('category_id', $id)
+//        ->get();
+//    return Arr::pluck(DB::table('categories')
+//        ->select('id')
+//        ->where('category_id', $id)
+//        ->get(), 'id');
+    return \App\Models\Item::with('category')->wherein('category_id',Arr::pluck(DB::table('categories')
+        ->select('id')
+        ->where('category_id', $request->all()['id'])
+        ->get(), 'id'))->get();
+}
+);
 
 
 
