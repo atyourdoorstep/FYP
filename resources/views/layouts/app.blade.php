@@ -36,7 +36,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/home') }}">
 {{--                    {{ config('app.name', 'Laravel') }}--}}
                     <img src='https://lh3.googleusercontent.com/d/1DAHPJg4xb7IdT0YFB-q6w6SGD4Xg7dr9' width="40" height="50">
                 </a>

@@ -42,17 +42,14 @@
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false" v-pre>
-                    Services
+                    Sellers
                 </a>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
                          style="background-color: #1b1e21;text-decoration-color: white">
                         <div class="text-primary">
                             <a class="dropdown-item text-primary" href="#">
-                                Add
-                            </a>
-                            <a class="dropdown-item text-primary" href="#">
-                                List
+                                List Sellers
                             </a>
                         </div>
                     </div>
@@ -61,41 +58,27 @@
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false" v-pre>
-                    Services
+                    Requests
                 </a>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
                          style="background-color: #1b1e21;text-decoration-color: white">
-                        <div class="text-primary">
-                            <a class="dropdown-item text-primary" href="#">
-                                Add
-                            </a>
-                            <a class="dropdown-item text-primary" href="#">
-                                List
-                            </a>
-                        </div>
                     </div>
                 </ul>
             </li>
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false" v-pre>
-                    Services
+                    Feedbacks
                 </a>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
                          style="background-color: #1b1e21;text-decoration-color: white">
-                        <div class="text-primary">
-                            <a class="dropdown-item text-primary" href="#">
-                                Add
-                            </a>
-                            <a class="dropdown-item text-primary" href="#">
-                                List
-                            </a>
-                        </div>
+
                     </div>
                 </ul>
             </li>
+
         </ul>
         <hr>
 
