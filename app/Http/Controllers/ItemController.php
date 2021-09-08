@@ -75,10 +75,11 @@ class ItemController extends Controller
 
     public function create(Request $request)//regItem
     {
-        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
-        if(!$user->isSuccessful())
-            return $user;
-        $user=$user->getData()->user;
+//        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
+//        if(!$user->isSuccessful())
+//            return $user;
+//        $user=$user->getData()->user;
+        $user=$request->all()['user'];
         if(!Seller::where('user_id',$user->id)->count())
         {
             return response()->json(
