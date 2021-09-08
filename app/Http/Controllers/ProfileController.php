@@ -68,7 +68,7 @@ class ProfileController extends Controller
                 'success'=>true,
 //                'profile'=>Profile::find(User::find($user->id)->profile->update(['image'=>$data['image']]))
                 'profile'=>$profile,
-                'request'=>$request
+                'request'=>$request->all()
             ]
             ,200
         );
