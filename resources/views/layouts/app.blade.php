@@ -38,7 +38,7 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
 {{--                    {{ config('app.name', 'Laravel') }}--}}
-                    <img src="https://drive.google.com/uc?export=view&id=1rUosdOUeOwoIpWOqDBWhwCcCtUWUZ72q" width="50" height="50" alt="LOGO">
+                    <img src='https://lh3.googleusercontent.com/d/1DAHPJg4xb7IdT0YFB-q6w6SGD4Xg7dr9' width="40" height="50">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
