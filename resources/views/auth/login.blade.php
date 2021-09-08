@@ -5,7 +5,7 @@
 
         <div class="row justify-content-center">
             {{--            <img src='https://drive.google.com/uc?export=view&id=1DAHPJg4xb7IdT0YFB-q6w6SGD4Xg7dr9' width="200" height="300">--}}
-            <div class="col-md-8 pl-5">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header align-content-start">
                         <img src="https://lh3.googleusercontent.com/d/1rUosdOUeOwoIpWOqDBWhwCcCtUWUZ72q" width="30" height="40" alt="LOGO">
