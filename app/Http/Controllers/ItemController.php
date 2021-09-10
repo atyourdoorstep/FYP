@@ -60,6 +60,7 @@ class ItemController extends Controller
                 'item_code' => 'required',
                 //'image'=>'required',
                 'price' => 'required|Numeric',
+//                'isBargainAble'=>'required'
             ]
         );
         // dd($data);
@@ -98,6 +99,7 @@ class ItemController extends Controller
                 'category_id' => 'required',
                 'image' => 'required',
                 'price' => 'required',
+                'isBargainAble'=>'required'
             ]
         );
         //The name has already been taken.

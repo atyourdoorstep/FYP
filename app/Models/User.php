@@ -96,4 +96,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(AppAdmin::class);
     }
+    public function serviceRequests()
+    {
+        return $this->hasMany(ServiceRequest::class);
+    }
 }

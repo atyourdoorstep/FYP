@@ -22,6 +22,7 @@ class CreateItemsTable extends Migration
             $table->unsignedBigInteger('price');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('seller_id');
+            $table->boolean('isBargainAble')->default(false);
             $table->boolean('inStock')->default(true);
             $table->index('category_id');
             $table->index('seller_id');

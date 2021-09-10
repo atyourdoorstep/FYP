@@ -16,6 +16,7 @@ class Item extends Model
         'category_id',
         'seller_id',
         'inStock',
+        'isBargainAble',
         ];
     public function category()
     {
