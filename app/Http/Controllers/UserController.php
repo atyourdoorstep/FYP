@@ -23,7 +23,6 @@ class UserController extends Controller
 {
     public function __construct()
     {
-       // $this->middleware('auth:api');
     }
     protected function validator(array $data)
     {
@@ -60,7 +59,6 @@ class UserController extends Controller
         if($data->fails())
              return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
-        $data['api_token']=Str::random(60);
         $data['password']=Hash::make($data['password']);
         return response()->json(
             [
@@ -96,7 +94,6 @@ class UserController extends Controller
           $user = Auth::user();
         $data=['user_id' => Auth::user()->id,
             'token'=>$jwt_token,];
-        //ApiToken::create($data);
         return response()->json([
             'success' => true,
             'token' => $jwt_token,
