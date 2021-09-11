@@ -78,6 +78,12 @@ Route::post('/categoryItems', function (Request $request) {
 Route::post('/requestService',
     [\App\Http\Controllers\ServiceRequestController::class,'create']
 )->middleware('JwtAuthUser');
+Route::post('/getRequest',
+    [\App\Http\Controllers\ServiceRequestController::class,'getRequest']
+);
+Route::post('/getUserRequests',
+    [\App\Http\Controllers\ServiceRequestController::class,'getRe']
+);
 Route::get('/readText/', function () {
     $cont = Storage::disk('google')->get('1uBRvJVYTEzvezHRucXfJm5Ux9llvGQA2/1n90Ddvi_ao3O1DS1Qc5tPiLqfPuiw4Y6/1LuNXjY18A0dTzRG4JKs6updh67aA3i8J');
     dump(Storage::disk('google')->getMetaData('1uBRvJVYTEzvezHRucXfJm5Ux9llvGQA2/1n90Ddvi_ao3O1DS1Qc5tPiLqfPuiw4Y6/1LuNXjY18A0dTzRG4JKs6updh67aA3i8J'));
