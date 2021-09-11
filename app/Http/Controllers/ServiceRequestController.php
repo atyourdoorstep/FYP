@@ -74,6 +74,7 @@ class ServiceRequestController extends Controller
                 'success' => false,
                 'message'=>'This user has no requests for new services'
             ]
+            ,200
         );
     }
 }

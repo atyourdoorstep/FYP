@@ -51,16 +51,20 @@ Route::post('/getSellerInfo',
 )->middleware('JwtAuthUser');
 
 
-Route::post('/sells/{id}', function ($id) {
+Route::post('/sells', function (Request $request) {
+    $user=\App\Models\User::find($request->all()['user']->id);
 //    \DB::enableQueryLog();
-    $a = \App\Models\Item::with('category.category')->where('seller_id', $id)->get();
-    return [
+    $a = \App\Models\Item::with('category.category')->where('seller_id', $user->seller->id)->get();
+    return response()->json(
+        [
 //        'query'=>\DB::getQueryLog(),
         'success' => true,
-        'response' => $a,
-    ];
+        'profile'=>$user->profile,
+        'items' => $a,
+    ],200
+    );
 }
-);
+)->middleware('JwtAuthUser');
 
 Route::post('/registerSeller', [\App\Http\Controllers\SellerController::class, 'registerSeller'])->middleware('JwtAuthUser');//register service provider only user not registered can register also create a folder for user in drive
 Route::post('/createPost', [\App\Http\Controllers\ItemController::class, 'create'])->name('item.create')->middleware('JwtAuthUser');//create a post only registered seller can create a post
