@@ -19,7 +19,7 @@ class Admin
     {
         Auth::user();
 //        if (Auth::user()&&Auth::user()->role->role_name == 'admin')
-        if (count(Auth::user()->appAdmin))
+        if (Auth::user()&&count(Auth::user()->appAdmin))
         {
             return $next($request);
         }

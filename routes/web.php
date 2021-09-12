@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(\route('home'));
 });
 
 Auth::routes();
