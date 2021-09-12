@@ -100,7 +100,8 @@ class ProfileController extends Controller
         return response()->json(
             [
                 'success'=>true,
-                'profile'=> $authUser->profile
+                'profile'=> $authUser->profile,
+                'message'=>"Seller's Profile updated",
                 ]
             ,200
         );
