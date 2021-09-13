@@ -17,4 +17,9 @@ class ServiceRequest extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function requestDescription()
+    {
+        $cont = \Storage::disk('google')->get($this->path);
+        return $cont;
+    }
 }

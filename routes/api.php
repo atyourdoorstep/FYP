@@ -26,6 +26,12 @@ Route::post('/jwtmiddelwarecheck'
         return $user->email;
     }
 )->middleware('JwtAuthUser');
+Route::get('/chekDesc/{id}'
+    ,
+    function ($id) {
+        return \App\Models\ServiceRequest::find($id)->requestDescription();
+    }
+);
 //search start
 Route::get('/searchSeller', [\App\Http\Controllers\SearchController::class, 'searchSeller']);//search seller with name like
 Route::get('/searchCat', [\App\Http\Controllers\SearchController::class, 'searchCat']);//search cat with name like

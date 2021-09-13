@@ -19,13 +19,6 @@ class Profile extends Model
     public function profileImage()
     {
         return $this->image??'';
-        if(!$this->image )
-            return $this->image;
-        $imagePath ='/storage/' .$this->image;
-
-
-//      uploads/profilePictures/EfSpuhJyPxLKhWlw823agqPnCKnYzETrUoW8yXFH.jpg
-        return Image::make( public_path($imagePath))->response();
     }
     public function user()
     {
