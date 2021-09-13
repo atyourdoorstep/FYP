@@ -6,61 +6,56 @@
             <div class="col-md-8">
                 <div class="card">
                     <div id ="" class="card-header">
-                        <input id="token" type="text" class="form-control" name="token">
+                        <input id="search" type="text" class="form-control" name="search" onkeyup="search(this)" onchange="search(this)">
                     </div>
                     <div id ="csrf_name" class="card-header">{{ __('') }}</div>
                     <div class="card-body">
-                        <form method="post" enctype="multipart/form-data" action="/test">
-                            @csrf
+{{--                        <form method="post" enctype="multipart/form-data" action="/test">--}}
+{{--                            @csrf--}}
 
-                            <strong><label class="d-inline" for="image"
-                                           class="col-md-4 col-form-label text-md-right">{{ __('Add an Image') }}</label></strong>
-                            <input class="d-inline" type="file" accept="image/*"
-                                   @if($info??'')
-                                   value="/storage/{{($info->image??'')}}"
-                                   @endif
-                                   class="form-control-file" id="image" name="image">
-                            @error('image')
-                            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                            @enderror
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary justify-content-center">
-                                        {{ __('check') }}
-                                </button>
-                            </div>
-                        </form>
+{{--                            <strong><label class="d-inline" for="image"--}}
+{{--                                           class="col-md-4 col-form-label text-md-right">{{ __('Add an Image') }}</label></strong>--}}
+{{--                            <input class="d-inline" type="file" accept="image/*"--}}
+{{--                                   @if($info??'')--}}
+{{--                                   value="/storage/{{($info->image??'')}}"--}}
+{{--                                   @endif--}}
+{{--                                   class="form-control-file" id="image" name="image">--}}
+{{--                            @error('image')--}}
+{{--                            <span class="invalid-feedback" role="alert">--}}
+{{--                                        <strong>{{ $message }}</strong>--}}
+{{--                                    </span>--}}
+{{--                            @enderror--}}
+
+{{--                        </form>--}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="form-group row mb-0">
-        <div class="col-md-8 offset-md-4">
-            <button type="" class="btn btn-primary" onclick="func()">
-                {{ __('Check') }}
-            </button>
-        </div>
-    </div>
-    <div class="form-group row mb-0">
-        <div class="col-md-8 offset-md-4">
-            <button type="" class="btn btn-primary" onclick="lout()">
-                {{ __('log out') }}
-            </button>
-        </div>
-    </div>
-    <div class="form-group row mb-0">
-        <div class="col-md-8 offset-md-4">
-            <button type="" class="btn btn-primary" onclick="mlog()">
-                {{ __('get Name') }}
-            </button>
-        </div>
-    </div>
+
 {{--new--}}
 
 @endsection
 <script>
+    function search(tag)
+    {
+        console.log( tag.value);
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+        $.ajax({
+            url: "/api/searchSeller",
+            type: "get",
+            data: {
+                'search':tag.value,
+                },
+            success: function (response) {
+                if (response) {
+                    let obj = response;
+                    console.log(obj);
+                }
+            }
+            ,
+        });
+    }
 function mlog()
     {
         let token=document.getElementById('token').innerText;

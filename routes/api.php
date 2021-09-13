@@ -26,7 +26,11 @@ Route::post('/jwtmiddelwarecheck'
         return $user->email;
     }
 )->middleware('JwtAuthUser');
-
+//search start
+Route::get('/searchSeller', [\App\Http\Controllers\SearchController::class, 'searchSeller']);//search seller with name like
+Route::get('/searchCat', [\App\Http\Controllers\SearchController::class, 'searchCat']);//search cat with name like
+Route::get('/searchItem', [\App\Http\Controllers\SearchController::class, 'searchItem']);//search item with name like
+//search end
 
 Route::post('/mobileRegister', [\App\Http\Controllers\UserController::class, 'register']);
 Route::post('/mobileLogin', [\App\Http\Controllers\UserController::class, 'login']);
