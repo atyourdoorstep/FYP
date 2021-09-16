@@ -39,7 +39,7 @@ Route::get('/getAddressFromLatLong',
         return \App\Models\SellerAddress::where('lat', $request->all()['lat'])->where('long', $request->all()['long'])->get();
     }
 );
-//seller address crud start
+//seller address crud end
 Route::get('/chekDesc/{id}'//forTesting
     ,
     function ($id) {
