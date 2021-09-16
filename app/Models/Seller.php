@@ -33,4 +33,9 @@ class Seller extends Model
     {
         return $this->hasMany(Item::class);
     }
+
+    public function sellerAddress()
+    {
+        return $this->hasOne(SellerAddress::class);
+    }
 }

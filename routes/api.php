@@ -26,6 +26,7 @@ Route::post('/jwtmiddelwarecheck'
         return $user->email;
     }
 )->middleware('JwtAuthUser');
+Route::get('/addrCheck', [\App\Http\Controllers\SellerAddressController::class, 'create'])->middleware('JwtAuthUser');
 Route::get('/chekDesc/{id}'
     ,
     function ($id) {
