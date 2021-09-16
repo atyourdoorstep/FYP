@@ -27,7 +27,8 @@ Route::post('/jwtmiddelwarecheck'
     }
 )->middleware('JwtAuthUser');
 //seller address crud start
-Route::get('/addSellerAddress', [\App\Http\Controllers\SellerAddressController::class, 'create'])->middleware('JwtAuthUser');
+Route::post('/addSellerAddress', [\App\Http\Controllers\SellerAddressController::class, 'create'])->middleware('JwtAuthUser');
+Route::post('/updateSellerAddress', [\App\Http\Controllers\SellerAddressController::class, 'update'])->middleware('JwtAuthUser');
 Route::post('/getSellersAddress',
     function (Request $request) {
 //        $user = $request->all()['user'];

@@ -160,24 +160,6 @@ class UserController extends Controller
             ]
             ,200
         );
-        //$data=User::find($user['user']['id'])->role->rolePrivileges;
-        //$data=User::find($user['user']['id'])->role->rolePrivileges;
-//        $data=User::find($user['user']['id'])->role;
-//        return $data;
-        //SELECT privilege_name from privileges where id in (SELECT privilege_id from role_privileges WHERE role_id =(SELECT role_id from users where id =1) )
-        $data=RolePrivilege::select('privilege_id')->where('role_id',$data->id)->get();
-        $data=Privilege::select('privilege_name')->whereIn('id',$data)->get();
-//      $data=Privilege::all()->where('id',$data->privilege_id);
-        return $data;
-        $data=$data->rolePrivileges;
-        return $data;
-        $res=array();
-        foreach($data as $x)
-        {
-            array_push($res,$x->privilege->privilege_name);
-        }
-        //$data=User::find(1);
-        return ['privileges'=>$res];
     }
     public function getCurrentUser(Request $request){
         if(!User::checkToken($request)){
