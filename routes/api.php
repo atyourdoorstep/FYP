@@ -26,7 +26,13 @@ Route::post('/jwtmiddelwarecheck'
         return $user->email;
     }
 )->middleware('JwtAuthUser');
-Route::get('/addrCheck', [\App\Http\Controllers\SellerAddressController::class, 'create'])->middleware('JwtAuthUser');
+Route::get('/addSellerAddress', [\App\Http\Controllers\SellerAddressController::class, 'create'])->middleware('JwtAuthUser');
+Route::get('/getAddressFromLatLong',
+    function (Request $request)
+    {
+        return \App\Models\SellerAddress::where('lat', $request->all()['lat'])->where('long', $request->all()['long'])->get();
+    }
+);
 Route::get('/chekDesc/{id}'
     ,
     function ($id) {
