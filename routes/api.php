@@ -26,14 +26,21 @@ Route::post('/jwtmiddelwarecheck'
         return $user->email;
     }
 )->middleware('JwtAuthUser');
+//seller address crud start
 Route::get('/addSellerAddress', [\App\Http\Controllers\SellerAddressController::class, 'create'])->middleware('JwtAuthUser');
+Route::post('/getSellersAddress',
+    function (Request $request) {
+//        $user = $request->all()['user'];
+        return \App\Models\Seller::where('user_id', $request->all()['user']->id)->first()->sellerAddress;
+    }
+)->middleware('JwtAuthUser');
 Route::get('/getAddressFromLatLong',
-    function (Request $request)
-    {
+    function (Request $request) {
         return \App\Models\SellerAddress::where('lat', $request->all()['lat'])->where('long', $request->all()['long'])->get();
     }
 );
-Route::get('/chekDesc/{id}'
+//seller address crud start
+Route::get('/chekDesc/{id}'//forTesting
     ,
     function ($id) {
         return \App\Models\ServiceRequest::find($id)->requestDescription();
@@ -69,16 +76,16 @@ Route::post('/getSellerInfo',
 
 
 Route::post('/sells', function (Request $request) {
-    $user=\App\Models\User::find($request->all()['user']->id);
+    $user = \App\Models\User::find($request->all()['user']->id);
 //    \DB::enableQueryLog();
     $a = \App\Models\Item::with('category.category')->where('seller_id', $user->seller->id)->get();
     return response()->json(
         [
 //        'query'=>\DB::getQueryLog(),
-        'success' => true,
-        'profile'=>$user->profile,
-        'items' => $a,
-    ],200
+            'success' => true,
+            'profile' => $user->profile,
+            'items' => $a,
+        ], 200
     );
 }
 )->middleware('JwtAuthUser');
@@ -97,10 +104,10 @@ Route::post('/categoryItems', function (Request $request) {
 
 
 Route::post('/requestService',
-    [\App\Http\Controllers\ServiceRequestController::class,'create']
+    [\App\Http\Controllers\ServiceRequestController::class, 'create']
 )->middleware('JwtAuthUser');//register a new request and return it
-Route::post('/getRequest', [\App\Http\Controllers\ServiceRequestController::class,'getRequest']);//return request against an id
-Route::post('/getUserRequests', [\App\Http\Controllers\ServiceRequestController::class,'userRequests']);
+Route::post('/getRequest', [\App\Http\Controllers\ServiceRequestController::class, 'getRequest']);//return request against an id
+Route::post('/getUserRequests', [\App\Http\Controllers\ServiceRequestController::class, 'userRequests']);
 
 Route::get('/readText/', function () {
     $cont = Storage::disk('google')->get('1uBRvJVYTEzvezHRucXfJm5Ux9llvGQA2/1n90Ddvi_ao3O1DS1Qc5tPiLqfPuiw4Y6/1LuNXjY18A0dTzRG4JKs6updh67aA3i8J');
