@@ -37,11 +37,6 @@ class ProfileController extends Controller
     }
     public function updateImage(Request $request)//updates profilePicture also deletes old picture if exists
     {
-//        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
-//        if(!$user->isSuccessful())
-//            return $user;
-//        $user=$user->getData()->user;
-//        $path=$this->profilePicPath;
         $user=$request->all()['user'];
         $profile= Profile::where('user_id',$user->id)->first();
 
@@ -75,10 +70,6 @@ class ProfileController extends Controller
     }
     public function update(Request $request)
     {
-//        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
-//        if(!$user->isSuccessful())
-//            return $user;
-//        $user=$user->getData()->user;
         $user=$request->all()['user'];
         $data = Validator::make($request->all(),
             [
@@ -112,10 +103,6 @@ class ProfileController extends Controller
     }
     public function getProfilePicture(Request $request)
     {
-//        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
-//        if(!$user->isSuccessful())
-//            return $user;
-//        $id=$user->getData()->user->id;
         $user=$request->all()['user'];
         return response()->json(
             [

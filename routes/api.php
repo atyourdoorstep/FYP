@@ -92,7 +92,9 @@ Route::post('/sells', function (Request $request) {
 )->middleware('JwtAuthUser');
 
 Route::post('/registerSeller', [\App\Http\Controllers\SellerController::class, 'registerSeller'])->middleware('JwtAuthUser');//register service provider only user not registered can register also create a folder for user in drive
+//seller's items
 Route::post('/createPost', [\App\Http\Controllers\ItemController::class, 'create'])->name('item.create')->middleware('JwtAuthUser');//create a post only registered seller can create a post
+Route::post('/updatePost', [\App\Http\Controllers\ItemController::class, 'update'])->name('item.update')->middleware('JwtAuthUser');//create a post only registered seller can create a post
 
 
 Route::post('/categoryItems', function (Request $request) {
@@ -110,12 +112,25 @@ Route::post('/requestService',
 Route::post('/getRequest', [\App\Http\Controllers\ServiceRequestController::class, 'getRequest']);//return request against an id
 Route::post('/getUserRequests', [\App\Http\Controllers\ServiceRequestController::class, 'userRequests']);
 
+
+
+
+
+
+
+
+
 Route::get('/readText/', function () {
     $cont = Storage::disk('google')->get('1uBRvJVYTEzvezHRucXfJm5Ux9llvGQA2/1n90Ddvi_ao3O1DS1Qc5tPiLqfPuiw4Y6/1LuNXjY18A0dTzRG4JKs6updh67aA3i8J');
     dump(Storage::disk('google')->getMetaData('1uBRvJVYTEzvezHRucXfJm5Ux9llvGQA2/1n90Ddvi_ao3O1DS1Qc5tPiLqfPuiw4Y6/1LuNXjY18A0dTzRG4JKs6updh67aA3i8J'));
     dd($cont);
 }
 );//api for testing only
+
+
+
+
+
 
 // for connection test
 Route::get('/checkSpeed', [\App\Http\Controllers\ProfileController::class, 'checkSpeed']);
