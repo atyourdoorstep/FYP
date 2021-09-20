@@ -12,10 +12,6 @@ class SellerController extends Controller
 {
     public function registerSeller(Request $request)
     {
-//        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
-//        if(!$user->isSuccessful())
-//            return $user;
-//        $id=$user->getData()->user->id;
         $user=$request->all()['user'];
         $id=$user->id;
         $data = Validator::make($request->all(),
@@ -28,8 +24,6 @@ class SellerController extends Controller
             return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
         $data['user_id']=$id;
-//        if(Seller::where('user_id',$id)->count())
-//        return $user->getData()->user->role_id;
         if($user->role_id==2)
         {
             return response()->json(['success'=>false,'message'=>'This user is already registered as a service provider'],400);
@@ -50,27 +44,12 @@ class SellerController extends Controller
     }
     public function getSellerInfo(Request $request)
     {
-//        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
-//        if(!$user->isSuccessful())
-//            return $user;
-//        $user=$user->getData()->user;
         $user=$request->all()['user'];
         $seller=User::find($user->id)->seller;
         return [
             'success'=>true,
-//            'user'=>\App\Models\User::find($user->id),
             'user'=>$user,
             'sellerProfile'=>$seller,
         ];
-
-
-        $user=app('App\Http\Controllers\UserController')->findOrFailUser($request);
-        if(!$user['success'])
-            return $user;
-        return [
-            'success'=>true,
-            'seller'=>$user['user']->seller
-        ];
-        return $user['user']->seller;
     }
 }

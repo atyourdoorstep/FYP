@@ -38,7 +38,9 @@ class ProfileController extends Controller
     public function updateImage(Request $request)//updates profilePicture also deletes old picture if exists
     {
         $user=$request->all()['user'];
-        $profile= Profile::where('user_id',$user->id)->first();
+        $user=User::find($user->id);
+//        $profile= Profile::where('user_id',$user->id)->first();
+        $profile= $user->profile;
 
         if($profile->image) {
             //$url_components = parse_url($id);
@@ -63,7 +65,6 @@ class ProfileController extends Controller
                 'success'=>true,
 //                'profile'=>Profile::find(User::find($user->id)->profile->update(['image'=>$data['image']]))
                 'profile'=>$profile,
-                'request'=>$request->all()
             ]
             ,200
         );

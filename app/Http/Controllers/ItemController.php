@@ -82,6 +82,7 @@ class ItemController extends Controller
 //            return $user;
 //        $user=$user->getData()->user;
         $user=$request->all()['user'];
+        $user=User::find($user->id);
         if(!Seller::where('user_id',$user->id)->count())
         {
             return response()->json(
@@ -107,21 +108,18 @@ class ItemController extends Controller
         if($data->fails())
             return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
-        $seller=Seller::where('user_id',$user->id)->get();
-        if(Item::where('name',$data['name'])->where('seller_id',$seller[0]->id)->get()->count())
+        $seller=$user->seller;
+        if(Item::where('name',$data['name'])->where('seller_id',$seller->id)->get()->count())
         {
             return response()->json(['success'=>false,'message'=>'The name has already been taken.'],400);
         }
-        $data['seller_id']=$seller[0]->id;
-        $imagePath = $data['image']->store($seller[0]->sellerFolder['item'], 'google');
+        $data['seller_id']=$seller->id;
+        $imagePath = $data['image']->store($seller->sellerFolder['item'], 'google');
         $url=\Storage::disk('google')->url($imagePath);
         $data['image']=$url;
-        //dd($data);
-//        Item::create($data);
         return response()->json(
             [
                 'success'=>true,
-//                'profile'=>Profile::find(User::find($user->id)->profile->update(['image'=>$data['image']]))
                 'item'=>Item::create($data),
             ]
             ,200
