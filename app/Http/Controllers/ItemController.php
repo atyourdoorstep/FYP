@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Item;
 use App\Models\Seller;
 use App\Models\SellerFolder;
@@ -77,10 +78,6 @@ class ItemController extends Controller
 //new
     public function create(Request $request)//regItem
     {
-//        $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
-//        if(!$user->isSuccessful())
-//            return $user;
-//        $user=$user->getData()->user;
         $user=$request->all()['user'];
         $user=User::find($user->id);
         if(!Seller::where('user_id',$user->id)->count())
@@ -109,9 +106,10 @@ class ItemController extends Controller
             return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
         $seller=$user->seller;
-        if(Item::where('name',$data['name'])->where('seller_id',$seller->id)->get()->count())
+//        if(Item::where('name',$data['name'])->where('seller_id',$seller->id)->get()->count())
+        if($seller->items->where('name',$data['name'])->where('category_id',$data['category_id'])->count())
         {
-            return response()->json(['success'=>false,'message'=>'The name has already been taken.'],400);
+            return response()->json(['success'=>false,'message'=>'You have already added item with same name('.$data['name'].') in '.Category::find($data['category_id'])->name.' category'],400);
         }
         $data['seller_id']=$seller->id;
         $imagePath = $data['image']->store($seller->sellerFolder['item'], 'google');
