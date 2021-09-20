@@ -75,6 +75,7 @@ class UserController extends Controller
             return $resp;
         }
         $user=$resp->getData()->user;
+        User::find($user->id)->cart()->create([]);
         User::find($user->id)->profile()->create(
             []
         );

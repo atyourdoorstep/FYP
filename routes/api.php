@@ -105,12 +105,28 @@ Route::post('/categoryItems', function (Request $request) {
 }
 );
 
-
+//request
 Route::post('/requestService',
     [\App\Http\Controllers\ServiceRequestController::class, 'create']
 )->middleware('JwtAuthUser');//register a new request and return it
 Route::post('/getRequest', [\App\Http\Controllers\ServiceRequestController::class, 'getRequest']);//return request against an id
 Route::post('/getUserRequests', [\App\Http\Controllers\ServiceRequestController::class, 'userRequests']);
+//cart
+Route::post('/createCart', [\App\Http\Controllers\CartController::class, 'create'])->middleware('JwtAuthUser');
+
+
+Route::get('/breh',function ()
+{
+   for($i=1;$i<10;$i++)
+   {
+       \App\Models\Cart::create(
+           [
+               'user_id'=>$i,
+           ]
+       );
+   }
+   return 'breh';
+});
 
 
 
