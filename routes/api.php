@@ -115,20 +115,20 @@ Route::post('/getUserRequests', [\App\Http\Controllers\ServiceRequestController:
 Route::post('/addToCart', [\App\Http\Controllers\CartController::class, 'addToCart'])->middleware('JwtAuthUser');
 Route::post('/getCart', [\App\Http\Controllers\CartController::class, 'getCart'])->middleware('JwtAuthUser');
 Route::post('/removeFromCart', [\App\Http\Controllers\CartController::class, 'removeFromCart'])->middleware('JwtAuthUser');
+//end cart
 
-
-Route::get('/breh',function ()
-{
-   for($i=1;$i<10;$i++)
-   {
-       \App\Models\Cart::create(
-           [
-               'user_id'=>$i,
-           ]
-       );
-   }
-   return 'breh';
-});
+//Route::get('/breh',function ()
+//{
+//   foreach(\App\Models\SellerFolder::all() as $x)
+//   {
+//       $x->main='1OxvyK1qdd25dHiNO7GLcwj2Ljxa0_e86/'. $x->main;
+//       $x->item='1OxvyK1qdd25dHiNO7GLcwj2Ljxa0_e86/'. $x->item;
+//       $x->invoice='1OxvyK1qdd25dHiNO7GLcwj2Ljxa0_e86/'. $x->invoice;
+//       $x->return_invoice='1OxvyK1qdd25dHiNO7GLcwj2Ljxa0_e86/'. $x->return_invoice;
+//       $x->save();
+//   }
+//   return 'breh';
+//});
 
 
 

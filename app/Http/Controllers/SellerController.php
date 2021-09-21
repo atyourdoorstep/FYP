@@ -14,6 +14,10 @@ class SellerController extends Controller
     {
         $user=$request->all()['user'];
         $id=$user->id;
+        if($user->role_id==2)
+        {
+            return response()->json(['success'=>false,'message'=>'This user is already registered as a service provider'],400);
+        }
         $data = Validator::make($request->all(),
             [
                 'user_name'=>['required','string','max:20','unique:sellers'],
@@ -24,10 +28,7 @@ class SellerController extends Controller
             return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
         $data['user_id']=$id;
-        if($user->role_id==2)
-        {
-            return response()->json(['success'=>false,'message'=>'This user is already registered as a service provider'],400);
-        }
+
         $usr=User::findOrFail($id);
         $usr->role_id=2;
         $usr->update();

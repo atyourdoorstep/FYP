@@ -43,7 +43,7 @@ class SellerFolderController extends Controller
 
         }
         $data=array();
-        $data['main']=$this->createDir($folder,'');
+        $data['main']=$this->createDir($folder,'1OxvyK1qdd25dHiNO7GLcwj2Ljxa0_e86');
         $data['invoice']=$this->createDir('invoice',$data['main']);
         $data['item']=$this->createDir('item',$data['main']);
         $data['return_invoice']=$this->createDir('return_invoice',$data['main']);
