@@ -112,7 +112,9 @@ Route::post('/requestService',
 Route::post('/getRequest', [\App\Http\Controllers\ServiceRequestController::class, 'getRequest']);//return request against an id
 Route::post('/getUserRequests', [\App\Http\Controllers\ServiceRequestController::class, 'userRequests']);
 //cart
-Route::post('/createCart', [\App\Http\Controllers\CartController::class, 'create'])->middleware('JwtAuthUser');
+Route::post('/addToCart', [\App\Http\Controllers\CartController::class, 'addToCart'])->middleware('JwtAuthUser');
+Route::post('/getCart', [\App\Http\Controllers\CartController::class, 'getCart'])->middleware('JwtAuthUser');
+Route::post('/removeFromCart', [\App\Http\Controllers\CartController::class, 'removeFromCart'])->middleware('JwtAuthUser');
 
 
 Route::get('/breh',function ()
