@@ -142,9 +142,10 @@ class ItemController extends Controller
                 'description' => 'nullable',
                 'category_id' => '',
                 'image' => '',
-                'id' => 'required',
-                'price' => '',
-                'isBargainAble'=>''
+                'id' =>['numeric','min:1'],
+                'price' => 'numeric',
+                'inStock'=>['numeric','min:0','max:1'],
+                'isBargainAble'=>['numeric','min:1']
             ]
         );
         //The name has already been taken.
