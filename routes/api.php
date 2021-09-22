@@ -104,7 +104,21 @@ Route::post('/categoryItems', function (Request $request) {
         ->get(), 'id'))->get();
 }
 );
-
+Route::post('/getLastLvlCat', function (Request $request) {
+    $arr=array();
+    $cat=Category::find($request->all()['id']);
+    foreach($cat->children as $x)
+    {
+        if($x->children->first()!=[]) {
+            array_push($arr, $x->children->first());
+        }
+    }
+    return [
+        'parent'=>Category::find($request->all()['id']),
+        'children'=>$arr
+    ];
+}
+);
 //request
 Route::post('/requestService',
     [\App\Http\Controllers\ServiceRequestController::class, 'create']
