@@ -170,7 +170,7 @@ class ItemController extends Controller
         return response()->json(
             [
                 'success'=>true,
-                'item'=>$item,
+                'item'=>Item::find($item->id),
             ]
             ,200
         );
