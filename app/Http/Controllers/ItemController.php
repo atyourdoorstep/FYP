@@ -145,7 +145,7 @@ class ItemController extends Controller
                 'id' =>['numeric','min:1'],
                 'price' => 'numeric',
                 'inStock'=>['numeric','min:0','max:1'],
-                'isBargainAble'=>['numeric','min:0','min:1']
+                'isBargainAble'=>['numeric','min:0','max:1']
             ]
         );
         //The name has already been taken.
