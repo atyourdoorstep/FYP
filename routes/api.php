@@ -19,13 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/jwtmiddelwarecheck'
-    ,
-    function (Request $request) {
-        $user = $request->all()['user'];
-        return $user->email;
-    }
-)->middleware('JwtAuthUser');
+
 //seller address crud start
 Route::post('/addSellerAddress', [\App\Http\Controllers\SellerAddressController::class, 'create'])->middleware('JwtAuthUser');
 Route::post('/updateSellerAddress', [\App\Http\Controllers\SellerAddressController::class, 'update'])->middleware('JwtAuthUser');
@@ -52,7 +46,7 @@ Route::get('/searchSeller', [\App\Http\Controllers\SearchController::class, 'sea
 Route::get('/searchCat', [\App\Http\Controllers\SearchController::class, 'searchCat']);//search cat with name like
 Route::get('/searchItem', [\App\Http\Controllers\SearchController::class, 'searchItem']);//search item with name like
 //search end
-
+//user register, login, logout, role and session
 Route::post('/mobileRegister', [\App\Http\Controllers\UserController::class, 'register']);
 Route::post('/mobileLogin', [\App\Http\Controllers\UserController::class, 'login']);
 Route::post('/getCurrentUser', [\App\Http\Controllers\UserController::class, 'getCurrentUser']);
@@ -92,7 +86,7 @@ Route::post('/sells', function (Request $request) {
 )->middleware('JwtAuthUser');
 
 Route::post('/registerSeller', [\App\Http\Controllers\SellerController::class, 'registerSeller'])->middleware('JwtAuthUser');//register service provider only user not registered can register also create a folder for user in drive
-//seller's items
+//seller's items create update
 Route::post('/createPost', [\App\Http\Controllers\ItemController::class, 'create'])->name('item.create')->middleware('JwtAuthUser');//create a post only registered seller can create a post
 Route::post('/updatePost', [\App\Http\Controllers\ItemController::class, 'update'])->name('item.update')->middleware('JwtAuthUser');//create a post only registered seller can create a post
 
@@ -105,18 +99,14 @@ Route::post('/categoryItems', function (Request $request) {
 }
 );
 Route::post('/getLastLvlCat', function (Request $request) {
-    $arr=array();
-    $cat=Category::find($request->all()['id']);
-    foreach($cat->children as $x)
-    {
-        if($x->children->first()!=[]) {
-            array_push($arr, $x->children->first());
-        }
-    }
-    return [
+    return[
+        'success'=>true,
         'parent'=>Category::find($request->all()['id']),
-        'children'=>$arr
-    ];
+        'children'=>\App\Models\Category::wherein('category_id', Arr::pluck(DB::table('categories')
+        ->select('id')
+        ->where('category_id', $request->all()['id'])
+        ->get(), 'id'))->get()
+        ];
 }
 );
 //request
@@ -131,35 +121,16 @@ Route::post('/getCart', [\App\Http\Controllers\CartController::class, 'getCart']
 Route::post('/removeFromCart', [\App\Http\Controllers\CartController::class, 'removeFromCart'])->middleware('JwtAuthUser');
 //end cart
 
-//Route::get('/breh',function ()
-//{
-//   foreach(\App\Models\SellerFolder::all() as $x)
-//   {
-//       $x->main='1OxvyK1qdd25dHiNO7GLcwj2Ljxa0_e86/'. $x->main;
-//       $x->item='1OxvyK1qdd25dHiNO7GLcwj2Ljxa0_e86/'. $x->item;
-//       $x->invoice='1OxvyK1qdd25dHiNO7GLcwj2Ljxa0_e86/'. $x->invoice;
-//       $x->return_invoice='1OxvyK1qdd25dHiNO7GLcwj2Ljxa0_e86/'. $x->return_invoice;
-//       $x->save();
-//   }
-//   return 'breh';
-//});
+//
 
-
-
-
-
-
-
-
+//api for testing only
 
 Route::get('/readText/', function () {
     $cont = Storage::disk('google')->get('1uBRvJVYTEzvezHRucXfJm5Ux9llvGQA2/1n90Ddvi_ao3O1DS1Qc5tPiLqfPuiw4Y6/1LuNXjY18A0dTzRG4JKs6updh67aA3i8J');
     dump(Storage::disk('google')->getMetaData('1uBRvJVYTEzvezHRucXfJm5Ux9llvGQA2/1n90Ddvi_ao3O1DS1Qc5tPiLqfPuiw4Y6/1LuNXjY18A0dTzRG4JKs6updh67aA3i8J'));
     dd($cont);
 }
-);//api for testing only
-
-
+);
 
 
 
@@ -169,8 +140,11 @@ Route::get('/checkSpeed', [\App\Http\Controllers\ProfileController::class, 'chec
 Route::get('/checkApi', function () {
     return ['success' => true, 'message' => 'done'];
 });
-
-
-
-
+Route::post('/jwtmiddelwarecheck'
+    ,
+    function (Request $request) {
+        $user = $request->all()['user'];
+        return $user->email;
+    }
+)->middleware('JwtAuthUser');
 //test-at-your-door-step old hosting
