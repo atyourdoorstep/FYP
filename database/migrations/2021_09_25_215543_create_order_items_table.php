@@ -18,6 +18,8 @@ class CreateOrderItemsTable extends Migration
             $table->unsignedBigInteger('item_id');
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('quantity');
+            $table->unsignedBigInteger('seller_id');
+            $table->index('seller_id');
             $table->index('item_id');
             $table->index('order_id');
             $table->timestamps();

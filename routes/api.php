@@ -120,6 +120,9 @@ Route::post('/addToCart', [\App\Http\Controllers\CartController::class, 'addToCa
 Route::post('/getCart', [\App\Http\Controllers\CartController::class, 'getCart'])->middleware('JwtAuthUser');
 Route::post('/removeFromCart', [\App\Http\Controllers\CartController::class, 'removeFromCart'])->middleware('JwtAuthUser');
 //end cart
+//order start
+Route::post('/orderCreate', [\App\Http\Controllers\OrderController::class, 'create'])->middleware('JwtAuthUser');
+//order end
 
 //
 
