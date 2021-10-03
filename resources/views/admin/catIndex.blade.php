@@ -46,7 +46,7 @@
                         <tr>
                             <td>{{$category->id}} </td>
                             <div class="" style="">
-                                <td>{{$category->name}} </td>
+                                <td>{{ucfirst($category->name)}} </td>
                             </div>
 
 
@@ -118,55 +118,3 @@
         });
     }
 </script>
-
-
-{{--                    subCat--}}
-
-{{--                        @foreach($category->children as $subCat)--}}
-
-{{--                            <tr>--}}
-{{--                                <td>---{{$subCat->id}} </td>--}}
-{{--                                <div class="" style="">--}}
-{{--                                    <td>{{$subCat->name}} </td>--}}
-{{--                                </div>--}}
-
-
-{{--                                <td>{{$subCat->description}} </td>--}}
-
-{{--                                <td>--}}
-{{--                                    <form method="post" action="cat/{{$subCat->id}}/edit">--}}
-{{--                                        @csrf--}}
-{{--                                        <button type="submit"--}}
-{{--                                                class="btn green-button"--}}
-{{--                                                style="padding-right: 35px;padding-left: 35px;border-radius: 5%;border-style: none;background-color: #17a2b8">--}}
-{{--                                            {{ __('Edit') }}--}}
-{{--                                        </button>--}}
-{{--                                    </form>--}}
-{{--                                </td>--}}
-
-{{--                            @foreach($subCat->children as $end)--}}
-
-{{--                                <tr>--}}
-{{--                                    <td>------{{$end->id}} </td>--}}
-{{--                                    <div class="" style="">--}}
-{{--                                        <td>{{$end->name}} </td>--}}
-{{--                                    </div>--}}
-
-
-{{--                                    <td>{{$end->description}} </td>--}}
-
-{{--                                    <td>--}}
-{{--                                        <form method="post" action="cat/{{$end->id}}/edit">--}}
-{{--                                            @csrf--}}
-{{--                                            <button type="submit"--}}
-{{--                                                    class="btn green-button"--}}
-{{--                                                    style="padding-right: 35px;padding-left: 35px;border-radius: 5%;border-style: none;background-color: #17a2b8">--}}
-{{--                                                {{ __('Edit') }}--}}
-{{--                                            </button>--}}
-{{--                                        </form>--}}
-{{--                                    </td>--}}
-{{--                                </tr>--}}
-{{--                                @endforeach--}}
-{{--                                </tr>--}}
-
-{{--                                @endforeach--}}
