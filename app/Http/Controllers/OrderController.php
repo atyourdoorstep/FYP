@@ -8,6 +8,8 @@ use App\Models\OrderItem;
 use App\Models\Seller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -44,13 +46,16 @@ class OrderController extends Controller
         {
             return OrderItem::where('seller_id','=',$user->seller->id)->get();
         }
-        $orders=Order::with('orderItems')->where('user_id',$user->id)->get();
+        $orders=Order::with('orderItems')->where('user_id',$user->id)->orderBy('created_at')->get();
+//        return $orders;
+//        $can=OrderItem::whereIn('order_id',Arr::pluck(DB::table('orders')
+//            ->select('id')
+//            ->where('user_id', $user->id)
+//            ->get(), 'id'))->get();
         return response()->json(
             [
-                'processing'=>$orders->where('status','=','processing'),
-                'delivered'=>$orders->where('status','=','delivered'),
-                'canceled'=>$orders->where('status','=','canceled'),
-                'completed'=>$orders->where('status','=','completed'),
+                'orders'=>$orders,
+//                'canceled'=>$can->where('status','=','canceled'),
             ]
         );
     }
