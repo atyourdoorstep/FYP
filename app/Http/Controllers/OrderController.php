@@ -36,5 +36,22 @@ class OrderController extends Controller
         }
         return Order::with('orderItems')->where('id',$order->id)->get();
     }
-
+    public function getOrders(Request $request)
+    {
+        $user=User::find($request->all()['user']->id);
+        $check=$request->all()['check']??false;
+        if($check)
+        {
+            return OrderItem::where('seller_id','=',$user->seller->id)->get();
+        }
+        $orders=Order::with('orderItems')->where('user_id',$user->id)->get();
+        return response()->json(
+            [
+                'processing'=>$orders->where('status','=','processing'),
+                'delivered'=>$orders->where('status','=','delivered'),
+                'canceled'=>$orders->where('status','=','canceled'),
+                'completed'=>$orders->where('status','=','completed'),
+            ]
+        );
+    }
 }
