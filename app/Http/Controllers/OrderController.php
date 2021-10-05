@@ -25,6 +25,13 @@ class OrderController extends Controller
                 'status'=>'processing',
             ]
         );
+        $msg=array();
+        foreach ($items as $item) {
+            $it=$user->seller->items->where('id', '=', $item['item_id']);
+            if ($it->count()) {
+                return response()->json(['success' => false, 'message' => 'You cannot Order you own item: '.$it->first()->name], 400);
+            }
+        }
         foreach ($items as $item)
         {
             OrderItem::create(
