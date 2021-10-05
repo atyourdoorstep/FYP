@@ -13,6 +13,7 @@ class CartController extends Controller
     public function addToCart(Request $request)
     {
         $user=$request->all()['user'];
+
         $data =  Validator::make($request->all(),
             [
                 'item_id'=>['required','numeric'],
@@ -23,7 +24,10 @@ class CartController extends Controller
             return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
         $user=User::find($user->id);
-
+        if($user->seller->items->where('id','=',$data['item_id'])->count())
+        {
+            return response()->json(['success'=>false,'message'=>'You cannot add your own item to your cart'],400);
+        }
         if($user->cart->cartItems->where('item_id',$data['item_id'])->count())
         {
             $ci=$user->cart->cartItems->where('item_id',$data['item_id'])->first();
