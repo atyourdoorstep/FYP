@@ -25,7 +25,6 @@ class OrderController extends Controller
                 'status'=>'processing',
             ]
         );
-        $msg=array();
         foreach ($items as $item) {
             $it=$user->seller->items->where('id', '=', $item['item_id']);
             if ($it->count()) {
@@ -51,9 +50,9 @@ class OrderController extends Controller
         $check=$request->all()['check']??false;
         if($check)
         {
-            return OrderItem::where('seller_id','=',$user->seller->id)->get();
+            return OrderItem::with('item')->where('seller_id','=',$user->seller->id)->get();
         }
-        $orders=Order::with('orderItems')->where('user_id',$user->id)->orderBy('created_at')->get();
+        $orders=Order::with('orderItems.item')->where('user_id',$user->id)->orderBy('created_at')->get();
 //        return $orders;
 //        $can=OrderItem::whereIn('order_id',Arr::pluck(DB::table('orders')
 //            ->select('id')
