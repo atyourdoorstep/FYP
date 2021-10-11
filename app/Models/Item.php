@@ -13,6 +13,7 @@ class Item extends Model
         'description',
         'image',
         'price',
+        'type',
         'category_id',
         'seller_id',
         'inStock',
