@@ -28,6 +28,7 @@ class CreateItemsTable extends Migration
             $table->index('category_id');
             $table->index('seller_id');
             $table->timestamps();
+
         });
     }
 
