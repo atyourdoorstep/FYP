@@ -140,6 +140,7 @@ class ItemController extends Controller
             [
                 'name' => [''],
                 'description' => 'nullable',
+                'type' => 'string',
                 'category_id' => '',
                 'image' => '',
                 'id' =>['numeric','min:1'],
