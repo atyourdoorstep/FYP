@@ -95,6 +95,7 @@ class ItemController extends Controller
             [
                 'name' => ['required'],
                 'description' => 'nullable',
+                'type' => 'string',
                 'category_id' => 'required',
                 'image' => 'required',
                 'price' => ['required','numeric','min:1'],
