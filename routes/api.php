@@ -126,7 +126,7 @@ Route::post('/getOrders', [\App\Http\Controllers\OrderController::class, 'getOrd
 
 //order end
 //invoice
-Route::post('/get', [\App\Http\Controllers\OrderController::class, 'getOrders'])->middleware('JwtAuthUser');
+Route::post('/createInvoice', [\App\Http\Controllers\OrderController::class, 'createInvoice'])->middleware('JwtAuthUser');
 
 //end invoice
 //

@@ -2,37 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
+use App\Models\InvoiceItem;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class InvoiceController extends Controller
 {
     public function createInvoice(Request $request)
     {
         $user=$request->all()['user'];
-        $items=$request->all()['items'];
-        $order=Order::create(
+        $orderItems=$request->all()['order_items'];
+        $data =  Validator::make($request->all(),
             [
-                'user_id'=>$user->id,
-                'status'=>'processing',
+                'seller_id' => ['required','numeric'],
+                'user_id' => ['required','numeric'],
+                'discount' => ['required','numeric','min:0'],
+                'remarks' => ['string','nullable'],
             ]
         );
-        foreach ($items as $item) {
-            $it=$user->seller->items->where('id', '=', $item['item_id']);
-            if ($it->count()) {
-                return response()->json(['success' => false, 'message' => 'You cannot Order you own item: '.$it->first()->name], 400);
-            }
-        }
-        foreach ($items as $item)
+        if($data->fails())
+            return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
+        $data=$request->all();
+        $invoice=Invoice::create(
+            [
+                'seller_id'=>$user->seller->id,
+                'user_id'=>$data['user_id'],
+                'remarks'=>$data['remarks'],
+                'discount'=>$data['discount'],
+            ]
+        );
+        foreach ($orderItems as $item)
         {
-            OrderItem::create(
+            $oi=OrderItem::find($item);
+
+            InvoiceItem::create(
                 [
-                    'item_id'=>$item['item_id'],
-                    'order_id'=>$order->id,
+                    'item_id'=>$oi->item_id,
+                    'invoice_id'=>$invoice->id,
                     'quantity'=>$item['quantity'],
-                    'seller_id'=>Item::find($item['item_id'])->seller->id,
                 ]
             );
         }
-        return Order::with('orderItems')->where('id',$order->id)->get();
+        return Invoice::with('orderItems.item')->where('id',$invoice->id)->get();
     }
 }
