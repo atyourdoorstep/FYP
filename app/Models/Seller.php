@@ -33,7 +33,10 @@ class Seller extends Model
     {
         return $this->hasMany(Item::class);
     }
-
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
     public function sellerAddress()
     {
         return $this->hasOne(SellerAddress::class);

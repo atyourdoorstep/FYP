@@ -55,6 +55,27 @@ class OrderController extends Controller
 //            $orders= Order::with(['orderItems'=>fn($query)=>
 //                $query->with('item')->where('order_items.seller_id', $user->seller->id)
 //                , 'user'])->get();
+//            return $user->seller->orderItems;
+//               select * from users where id
+//              in(select user_id from orders where id
+//              in(select order_id from order_items where seller_id =1));
+            return User::with(
+                [
+                'orders.orderItems'=>fn($query)=> $query->with('item')->where('order_items.seller_id', $user->seller->id)
+                ]
+        )->whereIn('id',
+                Arr::pluck(DB::table('orders')
+                    ->select('user_id')
+                    ->whereIn('id',
+                        Arr::pluck(DB::table('order_items')
+                            ->select('order_id')
+                            ->where('seller_id', $user->seller->id)
+                            ->get(), 'order_id')
+                    )
+                    ->get(), 'user_id')
+            )->get();
+            $x=User::with('orders.orderItems')->whereIn('id');
+            return $x->get();
             $orders=Order::with(['orderItems.item','user'])->whereIn('id',
                 Arr::pluck(DB::table('order_items')
                     ->select('order_id')
@@ -63,6 +84,7 @@ class OrderController extends Controller
             )->get();
             return response()->json(
                 [
+                    'success'=>true,
                     'orders'=>$orders,
                 ]
                 ,200
