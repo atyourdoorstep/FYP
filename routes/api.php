@@ -125,7 +125,10 @@ Route::post('/orderCreate', [\App\Http\Controllers\OrderController::class, 'crea
 Route::post('/getOrders', [\App\Http\Controllers\OrderController::class, 'getOrders'])->middleware('JwtAuthUser');
 
 //order end
+//invoice
+Route::post('/get', [\App\Http\Controllers\OrderController::class, 'getOrders'])->middleware('JwtAuthUser');
 
+//end invoice
 //
 
 //api for testing only

@@ -50,7 +50,24 @@ class OrderController extends Controller
         $check=$request->all()['check']??false;
         if($check)
         {
-            return OrderItem::with('item')->where('seller_id','=',$user->seller->id)->get();
+//            return OrderItem::with('item')->where('seller_id','=',$user->seller->id)->get();
+//            return OrderItem::with(['item', 'order.user'])->where('seller_id','=',$user->seller->id)->get();
+//            $orders= Order::with(['orderItems'=>fn($query)=>
+//                $query->with('item')->where('order_items.seller_id', $user->seller->id)
+//                , 'user'])->get();
+            $orders=Order::with(['orderItems.item','user'])->whereIn('id',
+                Arr::pluck(DB::table('order_items')
+                    ->select('order_id')
+                    ->where('seller_id', $user->seller->id)
+                    ->get(), 'order_id')
+            )->get();
+            return response()->json(
+                [
+                    'orders'=>$orders,
+                ]
+                ,200
+            );
+//                ->all()['']->whereNotNull('order_items');
         }
         $orders=Order::with('orderItems.item')->where('user_id',$user->id)->orderBy('created_at')->get();
 //        return $orders;

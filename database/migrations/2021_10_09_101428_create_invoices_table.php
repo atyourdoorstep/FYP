@@ -17,10 +17,8 @@ class CreateInvoicesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('seller_id');
             $table->unsignedBigInteger('user_id');
-
             $table->string('remarks')->nullable();
             $table->unsignedBigInteger('discount')->default(0);
-
             $table->index('user_id');
             $table->index('seller_id');
             $table->timestamps();

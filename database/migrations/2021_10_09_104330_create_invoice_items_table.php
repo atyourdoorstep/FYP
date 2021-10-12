@@ -17,8 +17,9 @@ class CreateInvoiceItemsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('invoice_id');
             $table->unsignedBigInteger('item_id');
-            $table->unsignedBigInteger('quantity');
-
+            $table->unsignedBigInteger('quantity')->default(1);
+            $table->index('invoice_id');
+            $table->index('item_id');
             $table->timestamps();
         });
     }
