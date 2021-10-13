@@ -27,6 +27,14 @@ Route::post('/getSellersAddress',
     function (Request $request) {
 //        $user = $request->all()['user'];
 //        return \App\Models\Seller::where('user_id', $request->all()['user']->id)->first()->sellerAddress;
+        $address=\App\Models\User::find($request->all()['user']->id)->seller->sellerAddress;
+        return response()->json(
+            [
+                'success'=>$address? true: false,
+                'address'=>$address??'',
+            ]
+            ,$address?200:404
+        );
         return \App\Models\User::find($request->all()['user']->id)->seller->sellerAddress??[];
     }
 )->middleware('JwtAuthUser');
