@@ -28,7 +28,7 @@ Route::post('/getSellersAddress',
         $address=\App\Models\User::find($request->all()['user']->id)->seller->sellerAddress;
         return response()->json(
             [
-                'success'=>$address? true: false,
+                'success'=> (bool)$address,
                 'address'=>$address??'',
             ]
             ,$address?200:404
