@@ -81,7 +81,7 @@ class ItemController extends Controller
                 'type' => 'string',
                 'category_id' => '',
                 'image' => '',
-                'id' =>['numeric','min:1'],
+                'id' =>['required','numeric','min:1'],
                 'price' => 'numeric',
                 'inStock'=>['numeric','min:0','max:1'],
                 'isBargainAble'=>['numeric','min:0','max:1']
