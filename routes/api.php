@@ -26,7 +26,8 @@ Route::post('/updateSellerAddress', [\App\Http\Controllers\SellerAddressControll
 Route::post('/getSellersAddress',
     function (Request $request) {
 //        $user = $request->all()['user'];
-        return \App\Models\Seller::where('user_id', $request->all()['user']->id)->first()->sellerAddress;
+//        return \App\Models\Seller::where('user_id', $request->all()['user']->id)->first()->sellerAddress;
+        return \App\Models\User::find($request->all()['user']->id)->seller->sellerAddress??[];
     }
 )->middleware('JwtAuthUser');
 Route::get('/getAddressFromLatLong',
