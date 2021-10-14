@@ -14,19 +14,19 @@ class SearchController extends Controller
     {
         return [
             'search'=> $request->search,
-            'result'=>Seller::where('user_name', 'LIKE', $request->search . "%")->get(),
+            'result'=>Seller::where('user_name', 'LIKE',"%". $request->search . "%")->get(),
         ];
     }
     public function searchCat(Request $request)
     {
         return [
-            'result'=>Category::where('name', 'LIKE', $request->search . "%")->get(),
+            'result'=>Category::where('name', 'LIKE',"%". $request->search . "%")->get(),
         ];
     }
     public function searchItem(Request $request)
     {
         return [
-            'result'=>Item::where('name', 'LIKE', $request->search . "%")->get(),
+            'result'=>Item::where('name', 'LIKE',  "%".$request->search . "%")->get(),
         ];
     }
 }
