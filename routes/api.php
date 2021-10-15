@@ -129,6 +129,7 @@ Route::post('/removeFromCart', [\App\Http\Controllers\CartController::class, 're
 //order start
 Route::post('/orderCreate', [\App\Http\Controllers\OrderController::class, 'create'])->middleware('JwtAuthUser');
 Route::post('/getOrders', [\App\Http\Controllers\OrderController::class, 'getOrders'])->middleware('JwtAuthUser');
+Route::post('/changeStatus', [\App\Http\Controllers\OrderController::class, 'changeStatus'])->middleware('JwtAuthUser');
 
 //order end
 //invoice
