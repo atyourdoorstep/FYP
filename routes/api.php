@@ -134,6 +134,13 @@ Route::post('/changeStatus', [\App\Http\Controllers\OrderController::class, 'cha
 //order end
 //invoice
 Route::post('/createInvoice', [\App\Http\Controllers\InvoiceController::class, 'createInvoice'])->middleware('JwtAuthUser');
+Route::post('/getInvoices',
+function (Request $request)
+{
+    $user=\App\Models\User::find($request->all()['user']->id);
+    return \App\Models\Invoice::with('invoiceItems.item')->where('seller_id',$user->seller->id)->get();
+}
+)->middleware('JwtAuthUser');
 
 //end invoice
 //

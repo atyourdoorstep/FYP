@@ -41,4 +41,8 @@ class Seller extends Model
     {
         return $this->hasOne(SellerAddress::class);
     }
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }
