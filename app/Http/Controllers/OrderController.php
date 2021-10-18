@@ -100,15 +100,16 @@ class OrderController extends Controller
     {
         $user=User::find($request->all()['user']->id);
         $check=$request->all()['check']??false;
-        DB::enableQueryLog();
         if($check)
         {
+            DB::enableQueryLog();
 //            $orderItemIdList=Arr::pluck(DB::table('order_items')
 //                ->select('id')
 //                ->where('seller_id', $user->seller->id)
 //                ->get(), 'id');
             $orderItemIdList=Arr::pluck($user->seller->orderItems, 'id');
             $orderIdList= Arr::pluck($user->seller->orderItems , 'order_id');
+//            return $orderIdList;
             $orderUserIdList=Arr::pluck(DB::table('orders')
                 ->select('user_id')
                 ->whereIn('id',$orderIdList)
@@ -116,12 +117,9 @@ class OrderController extends Controller
             return response()->json(
                 [
                     User::with(
-                [
-                'orders.orderItems'=>fn($query)=> $query->with('item')->whereIn('order_items.id', $orderItemIdList)->get()
-                ]
-        )->whereIn('id',$orderUserIdList)->get(),
-                'query'=>DB::getQueryLog(),
-                'seller'=>$user->seller,
+                ['orders'=>fn($query)=> $query->with(['orderItems'=>fn($query)=> $query->with('item')->whereIn('order_items.id', $orderItemIdList)->whereIn('order_id',$orderIdList)->where('seller_id',$user->seller->id)->get()])->whereIn('id',$orderIdList)
+//                    'orders.orderItems'=>fn($query)=> $query->with('item')->whereIn('order_items.id', $orderItemIdList)->whereIn('order_id',$orderIdList)->get()
+                ])->whereIn('id',$orderUserIdList)->get(),
                 ]
             );
         }
