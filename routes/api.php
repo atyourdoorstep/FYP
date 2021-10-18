@@ -154,7 +154,15 @@ Route::get('/readText/', function () {
 }
 );
 
-
+Route::get('/lel', function () {
+    return
+        response()->json(
+        [
+            'orders'=>\App\Models\Order::with('orderItems')->get(),
+        ]
+        );
+}
+);
 
 
 // for connection test
