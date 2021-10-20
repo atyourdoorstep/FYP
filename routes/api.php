@@ -143,6 +143,53 @@ function (Request $request)
 )->middleware('JwtAuthUser');
 
 //end invoice
+
+//payment start
+Route::get('/payCheck',
+    function (Request $request)
+    {
+        $stripe = \Cartalyst\Stripe\Stripe::make(env('STRIPE_SECRET'));
+        $token = $stripe->tokens()->create([
+            'card' => [
+                'number'    => '4242424242424242',
+                'exp_month' => 10,
+                'cvc'       => 314,
+                'exp_year'  => 2022,
+            ],
+        ]);
+//        return response()->json(
+//            [
+//                'stripe'=>$stripe,
+//                'token'=>$token,
+//            ]
+//        );
+        try{
+            $stripe = $stripe->charges()->create([
+                'amount'=>100,
+                'currency'=>'PKR',
+                'source' => $token['id'],
+                'receipt_email' =>'a@a.com',
+                'description' => "Test payment"
+            ]);
+            return response()->json($stripe);
+        }catch (Exception $exception)
+        {
+            return response()->json(
+                [
+                    'success'=>false,
+                    'message'=>$exception->getMessage(),
+                ]
+            );
+        }
+        return response()->json(
+            [
+                'stripe'=>$stripe,
+                'token'=>$token,
+                ]
+        );
+    }
+);
+//payment end
 //
 
 //api for testing only

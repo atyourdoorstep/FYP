@@ -102,7 +102,7 @@ class OrderController extends Controller
         $check=$request->all()['check']??false;
         if($check)
         {
-            DB::enableQueryLog();
+
 //            $orderItemIdList=Arr::pluck(DB::table('order_items')
 //                ->select('id')
 //                ->where('seller_id', $user->seller->id)
@@ -114,12 +114,15 @@ class OrderController extends Controller
                 ->select('user_id')
                 ->whereIn('id',$orderIdList)
                 ->get(), 'user_id');
+            DB::enableQueryLog();
             return response()->json(
                 [
                     User::with(
                 ['orders'=>fn($query)=> $query->with(['orderItems'=>fn($query)=> $query->with('item')->whereIn('order_items.id', $orderItemIdList)->whereIn('order_id',$orderIdList)->where('seller_id',$user->seller->id)->get()])->whereIn('id',$orderIdList)
 //                    'orders.orderItems'=>fn($query)=> $query->with('item')->whereIn('order_items.id', $orderItemIdList)->whereIn('order_id',$orderIdList)->get()
                 ])->whereIn('id',$orderUserIdList)->get(),
+//                'query'=>DB::getQueryLog(),
+//                    'oId'=>$orderIdList,
                 ]
             );
         }

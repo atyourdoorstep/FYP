@@ -163,6 +163,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         App\Providers\GoogleDriveServiceProvider::class,
+        //for payment integrating strip
+        Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -176,6 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         //Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+
 
 
     ],
@@ -236,6 +239,7 @@ return [
             'provider' => 'users',
             'hash' => true,
         ],
+        'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
 
     ],
 
