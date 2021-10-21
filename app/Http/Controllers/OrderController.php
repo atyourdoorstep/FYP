@@ -20,18 +20,22 @@ class OrderController extends Controller
 //        $seller=Seller::find($request->all()['seller_id']);
 //        return $request->all();
         $items=$request->all()['items'];
+        if($user->seller) {
+            if($user->seller->items) {
+                foreach ($items as $item) {
+                    $it = $user->seller->items->where('id', '=', $item['item_id']);
+                    if ($it->count()) {
+                        return response()->json(['success' => false, 'message' => 'You cannot Order you own item: ' . $it->first()->name], 400);
+                    }
+                }
+            }
+        }
         $order=Order::create(
             [
                 'user_id'=>$user->id,
                 'status'=>'processing',
             ]
         );
-        foreach ($items as $item) {
-            $it=$user->seller->items->where('id', '=', $item['item_id']);
-            if ($it->count()) {
-                return response()->json(['success' => false, 'message' => 'You cannot Order you own item: '.$it->first()->name], 400);
-            }
-        }
         foreach ($items as $item)
         {
             OrderItem::create(

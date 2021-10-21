@@ -148,7 +148,9 @@ function (Request $request)
 Route::get('/payCheck',
     function (Request $request)
     {
+
         $stripe = \Cartalyst\Stripe\Stripe::make(env('STRIPE_SECRET'));
+        return  $stripe->charges()->find('ch_3Jn1vMJ9mJOOefqN0so85JGa');
         $token = $stripe->tokens()->create([
             'card' => [
                 'number'    => '4242424242424242',
