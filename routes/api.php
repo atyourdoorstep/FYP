@@ -77,12 +77,17 @@ Route::post('/getSellerInfo',
 
 
 Route::post('/sells', function (Request $request) {
+    if($request->all()['user']->role_id!=2)
+        return response()->json(
+            [
+                'success' => false,
+                'message'=>'This user is not registered as a service provider',
+            ], 400
+        );
     $user = \App\Models\User::find($request->all()['user']->id);
-//    \DB::enableQueryLog();
     $a = \App\Models\Item::with('category.category')->where('seller_id', $user->seller->id)->get();
     return response()->json(
         [
-//        'query'=>\DB::getQueryLog(),
             'success' => true,
             'profile' => $user->profile,
             'items' => $a,
