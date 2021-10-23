@@ -36,6 +36,7 @@ class SellerController extends Controller
         $usr->update();
 
         $seller=Seller::create($data);
+        $seller->wallet()->create();
         $folder=app('App\Http\Controllers\SellerFolderController')->create($seller->user_name,$seller->id);
         return response()->json(
             [

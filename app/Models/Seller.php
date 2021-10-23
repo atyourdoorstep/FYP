@@ -45,4 +45,8 @@ class Seller extends Model
     {
         return $this->hasMany(Invoice::class);
     }
+    public function wallet()
+    {
+        return $this->hasOne(SellerWallet::class);
+    }
 }
