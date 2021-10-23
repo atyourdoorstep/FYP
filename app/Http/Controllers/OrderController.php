@@ -38,73 +38,63 @@ class OrderController extends Controller
             ]
         );
         $paymentsDesc=array();
+        $price=0;
         foreach ($items as $item)
         {
             $oi=OrderItem::create(
                 [
                     'item_id'=>$item['item_id'],
+                    'discount'=>$item['discount']??0,
                     'order_id'=>$order->id,
                     'quantity'=>$item['quantity'],
                     'seller_id'=>Item::find($item['item_id'])->seller->id,
                 ]
             );
-            $price=$oi->item->price*$item['quantity'];
-            if($request->all()['discount_list']??'')
-            {
-                foreach ($request->all()['discount_list'] as $dl)
-                {
-                    if($dl['item_id']==$oi->item_id&&$dl['quantity']==$oi->quantity)
-                    {
-                        $price-=$dl['discount'];
-                        break;
-                    }
-                }
-            }
-            $pd='';
-            if( $request->all()['stripe_token']??'') {
-                try {
-                    $stripe = $stripe->charges()->create([
-                        'amount' => $price,
-                        'currency' => $request->all()['cur'],
-                        'source' => $request->all()['stripe_token'],
-                        'receipt_email' => $user->email,
-                        'description' => "payment for AYD.com"
-                    ]);
-                    $pd=PaymentOrderItem::create(
-                        [
-                            'stripe_payment_id'=>$stripe['id'],
-                            'type'=>'card',
-                            'status'=>'pending',
-                            'order_item_id'=>$oi->id,
-                        ]
-                    );
-
-                } catch (Exception $exception) {
-                    $order->orderItems()->delete();
-                    $order->delete();
-                    return response()->json(
-                        [
-                            'success' => false,
-                            'message' => 'Order not created please try again: ' . $exception->getMessage(),
-                        ]
-                    );
-                }
-            }
-            else
-            {
+            $price+=$oi->item->price*$item['quantity']-($item['discount']??0);
+        }
+        $pd='';
+        if( $request->all()['stripe_token']??'') {
+            try {
+                $stripe = $stripe->charges()->create([
+                    'amount' => $price,
+                    'currency' => $request->all()['cur'],
+                    'source' => $request->all()['stripe_token'],
+                    'receipt_email' => $user->email,
+                    'description' => "payment for AYD.com"
+                ]);
                 $pd=PaymentOrderItem::create(
-                    ['type'=>'COD',
-                        'status'=>'pending',
-                        'order_item_id'=>$oi->id,
-                        ]
+                    [
+                        'stripe_payment_id'=>$stripe['id'],
+                        'type'=>'card',
+                        'status'=>'done',
+                        'order_id'=>$order->id,
+                    ]
+                );
+
+            } catch (Exception $exception) {
+                $order->orderItems()->delete();
+                $order->delete();
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'Order not created please try again: ' . $exception->getMessage(),
+                    ]
                 );
             }
-            $paymentsDesc=array_push($paymentsDesc,$pd);
+        }
+        else
+        {
+            $pd=PaymentOrderItem::create(
+                ['type'=>'COD',
+                    'status'=>'pending',
+                    'order_item_id'=>$order->id,
+                ]
+            );
         }
         return response()->json( [
             'success'=>true,
             'stripe'=>$stripe,
-            'payment_description'=>$paymentsDesc,
+            'payment_description'=>$pd,
             'order'=>Order::with('orderItems')->where('id',$order->id)->get()
         ]);
     }

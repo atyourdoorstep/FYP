@@ -12,6 +12,7 @@ class OrderItem extends Model
         'item_id',
         'order_id',
         'seller_id',
+        'discount',
         'quantity',
     ];
     public function order()
@@ -26,8 +27,5 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Seller::class);
     }
-    public function payment()
-    {
-        return $this->hasOne(PaymentOrderItem::class);
-    }
+
 }

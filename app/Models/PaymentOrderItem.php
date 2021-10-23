@@ -12,10 +12,10 @@ class PaymentOrderItem extends Model
         'stripe_payment_id',
         'type',
         'status',
-        'order_item_id',
+        'order_id',
     ];
-    public function orderItem()
+    public function order()
     {
-        return $this->belongsTo(OrderItem::class);
+        return $this->belongsTo(Order::class);
     }
 }

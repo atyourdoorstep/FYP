@@ -18,9 +18,9 @@ class CreatePaymentOrderItemsTable extends Migration
             $table->string('stripe_payment_id')->nullable();
             $table->string('type')->default('cash on delivery');
             $table->string('status')->default('pending');
-            $table->unsignedBigInteger('order_item_id');
+            $table->unsignedBigInteger('order_id');
 
-            $table->index('order_item_id');
+            $table->index('order_id');
             $table->timestamps();
         });
     }
