@@ -20,6 +20,7 @@ class CreateOrderItemsTable extends Migration
             $table->unsignedBigInteger('quantity');
             $table->string('status')->default('processing');
             $table->unsignedBigInteger('seller_id');
+            $table->unsignedBigInteger('discount')->default(0);
             $table->index('seller_id');
             $table->index('item_id');
             $table->index('order_id');

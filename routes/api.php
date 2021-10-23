@@ -156,7 +156,7 @@ Route::get('/payCheck',
     {
 
         $stripe = \Cartalyst\Stripe\Stripe::make(env('STRIPE_SECRET'));
-        return  $stripe->charges()->find('ch_3Jn1vMJ9mJOOefqN0so85JGa');
+//        return  $stripe->charges()->find('ch_3Jn1vMJ9mJOOefqN0so85JGa');
         $token = $stripe->tokens()->create([
             'card' => [
                 'number'    => '4242424242424242',
@@ -179,7 +179,7 @@ Route::get('/payCheck',
                 'receipt_email' =>'a@a.com',
                 'description' => "Test payment"
             ]);
-            return response()->json($stripe);
+            return response()->json($stripe['id']);
         }catch (Exception $exception)
         {
             return response()->json(
@@ -197,6 +197,7 @@ Route::get('/payCheck',
         );
     }
 );
+Route::Post('/getStripToken', [\App\Http\Controllers\PaymentOrderItemsController::class, 'getStripToken'])->middleware('JwtAuthUser');
 //payment end
 //
 

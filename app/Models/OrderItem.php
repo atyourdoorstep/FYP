@@ -26,4 +26,8 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Seller::class);
     }
+    public function payment()
+    {
+        return $this->hasOne(PaymentOrderItem::class);
+    }
 }

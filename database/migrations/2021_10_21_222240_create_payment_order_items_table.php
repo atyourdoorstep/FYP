@@ -19,6 +19,7 @@ class CreatePaymentOrderItemsTable extends Migration
             $table->string('type')->default('cash on delivery');
             $table->string('status')->default('pending');
             $table->unsignedBigInteger('order_item_id');
+
             $table->index('order_item_id');
             $table->timestamps();
         });

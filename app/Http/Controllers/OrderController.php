@@ -5,20 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\PaymentOrderItem;
 use App\Models\Seller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class OrderController extends Controller
 {
     public function create(Request $request)
     {
         $user=User::find($request->all()['user']->id);
-//        $seller=Seller::find($request->all()['seller_id']);
-//        return $request->all();
         $items=$request->all()['items'];
         if($user->seller) {
             if($user->seller->items) {
@@ -30,15 +30,17 @@ class OrderController extends Controller
                 }
             }
         }
+        $stripe = \Cartalyst\Stripe\Stripe::make(env('STRIPE_SECRET'));
         $order=Order::create(
             [
                 'user_id'=>$user->id,
                 'status'=>'processing',
             ]
         );
+        $paymentsDesc=array();
         foreach ($items as $item)
         {
-            OrderItem::create(
+            $oi=OrderItem::create(
                 [
                     'item_id'=>$item['item_id'],
                     'order_id'=>$order->id,
@@ -46,8 +48,65 @@ class OrderController extends Controller
                     'seller_id'=>Item::find($item['item_id'])->seller->id,
                 ]
             );
+            $price=$oi->item->price*$item['quantity'];
+            if($request->all()['discount_list']??'')
+            {
+                foreach ($request->all()['discount_list'] as $dl)
+                {
+                    if($dl['item_id']==$oi->item_id&&$dl['quantity']==$oi->quantity)
+                    {
+                        $price-=$dl['discount'];
+                        break;
+                    }
+                }
+            }
+            $pd='';
+            if( $request->all()['stripe_token']??'') {
+                try {
+                    $stripe = $stripe->charges()->create([
+                        'amount' => $price,
+                        'currency' => $request->all()['cur'],
+                        'source' => $request->all()['stripe_token'],
+                        'receipt_email' => $user->email,
+                        'description' => "payment for AYD.com"
+                    ]);
+                    $pd=PaymentOrderItem::create(
+                        [
+                            'stripe_payment_id'=>$stripe['id'],
+                            'type'=>'card',
+                            'status'=>'pending',
+                            'order_item_id'=>$oi->id,
+                        ]
+                    );
+
+                } catch (Exception $exception) {
+                    $order->orderItems()->delete();
+                    $order->delete();
+                    return response()->json(
+                        [
+                            'success' => false,
+                            'message' => 'Order not created please try again: ' . $exception->getMessage(),
+                        ]
+                    );
+                }
+            }
+            else
+            {
+                $pd=PaymentOrderItem::create(
+                    ['type'=>'COD',
+                        'status'=>'pending',
+                        'order_item_id'=>$oi->id,
+                        ]
+                );
+            }
+            $paymentsDesc=array_push($paymentsDesc,$pd);
         }
-        return Order::with('orderItems')->where('id',$order->id)->get();
+        return response()->json( [
+            'success'=>true,
+            'stripe'=>$stripe,
+            'payment_description'=>$paymentsDesc,
+            'order'=>Order::with('orderItems')->where('id',$order->id)->get()
+        ]);
     }
     public function changeStatus(Request $request)
     {
@@ -106,14 +165,8 @@ class OrderController extends Controller
         $check=$request->all()['check']??false;
         if($check)
         {
-
-//            $orderItemIdList=Arr::pluck(DB::table('order_items')
-//                ->select('id')
-//                ->where('seller_id', $user->seller->id)
-//                ->get(), 'id');
             $orderItemIdList=Arr::pluck($user->seller->orderItems, 'id');
             $orderIdList= Arr::pluck($user->seller->orderItems , 'order_id');
-//            return $orderIdList;
             $orderUserIdList=Arr::pluck(DB::table('orders')
                 ->select('user_id')
                 ->whereIn('id',$orderIdList)
