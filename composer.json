@@ -63,5 +63,8 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "require-dev": {
+        "beyondcode/laravel-er-diagram-generator": "^1.5"
+    }
 }
