@@ -75,6 +75,34 @@ Route::post('/getSellerInfo',
     [\App\Http\Controllers\SellerController::class, 'getSellerInfo']
 )->middleware('JwtAuthUser');
 
+Route::post('/sellerShowProfile', function (Request $request) {
+//    return response()->json(
+//        [
+//            User::with(
+//                ['orders'=>fn($query)=> $query->with(['orderItems'=>fn($query)=> $query->with('item')->whereIn('order_items.id', $orderItemIdList)->whereIn('order_id',$orderIdList)->where('seller_id',$user->seller->id)->get()])->whereIn('id',$orderIdList)
+//                ])->whereIn('id',$orderUserIdList)->get(),
+//        ]
+//    );
+    $seller = \App\Models\Seller::find($request->all()['id']);
+    $sellerItems=$seller->items;
+    $thCat=Arr::pluck(DB::table('categories')
+        ->select('id')
+        ->whereIn('id', Arr::pluck($sellerItems, 'category_id'))
+        ->get(), 'id');
+
+//    $a = \App\Models\Item::with('category.category')->where('seller_id', $user->seller->id)->get();
+    $catItem = \App\Models\Category::with([
+        'items'=>fn($query)=>$query->whereIn('id',Arr::pluck($sellerItems, 'id'))
+    ])->whereIn('id',$thCat)->get();
+    return response()->json(
+        [
+            'success' => true,
+            'profile' => $seller->user->profile,
+            'catItems'=>$catItem,
+        ], 200
+    );
+}
+);
 
 Route::post('/sells', function (Request $request) {
     if($request->all()['user']->role_id!=2)
