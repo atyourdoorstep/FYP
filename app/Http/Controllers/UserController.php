@@ -7,6 +7,7 @@ use App\Models\ApiToken;
 use App\Models\Privilege;
 use App\Models\RolePrivilege;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\DB;
@@ -85,6 +86,8 @@ class UserController extends Controller
     {
         $input = $request->only('email', 'password');
         $jwt_token = null;
+//        if (!$jwt_token = JWTAuth::attempt($input, ['exp' => Carbon::now()->addDays(7)->timestamp])) {
+        JWTAuth::factory()->setTTL(60*24*7);
         if (!$jwt_token = JWTAuth::attempt($input)) {
             return response()->json([
                 'success' => false,

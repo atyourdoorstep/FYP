@@ -24,7 +24,8 @@ class SellerDiscountCodeController extends Controller
             return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
         $user=User::all()->where('email','=',$data['email'])->first();
-        $x=Str::random(60);
+        $x=Str::random(10);
+        $code=$x;
         $code=substr($x,0,10);
         if(!$user)
             return response()->json(['success'=>false,'message'=>'No user found with this mail'],400);
