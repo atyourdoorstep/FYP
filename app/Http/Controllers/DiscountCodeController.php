@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DiscountCode;
+use App\Models\DiscountCodeItem;
 use App\Models\Seller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,11 +15,14 @@ class DiscountCodeController extends Controller
     public function create(Request $request)
     {
         $seller=User::find($request->all()['user']->id)->seller;
+        $items=$request->all()['items'];
         $data =  Validator::make($request->all(),
             [
                'email'=>['required','email'],
-                'item_id'=>['required','numeric','min:1'],
-                'quantity'=>['required','numeric','min:1'],
+                'items_list'=>['required'],
+                'items_list.item_id'=>['required','numeric','min:1'],
+                'items_list.quantity'=>['required','numeric','min:1'],
+                'items_list.discount'=>['required','numeric','min:1'],
             ]
         );
         if($data->fails())
@@ -33,15 +38,30 @@ class DiscountCodeController extends Controller
         {
             return response()->json(['success'=>false,'message'=>'Cannot create a discount for your self'],400);
         }
-        else
+//        else
+//        {
+//            return[
+//                'user'=>$user,
+//                'code'=>$code,
+//            ];
+//        }
+        $dc=DiscountCode::create(
+            [
+                'seller_id'=>$seller->id,
+                'user_id'=>$user->id,
+            ]
+        );
+        foreach ($items as $item)
         {
-            return[
-                'user'=>$user,
-                'code'=>$code,
-            ];
+            $dci=DiscountCodeItem::create(
+              [
+                  'item_id'=>$item['item_id'],
+                  'discount'=>$item['discount']??0,
+                  'quantity'=>$item['quantity'],
+                  'discount_code_id'=>$item['item_id'],$dc->id,
+              ]
+            );
         }
-
-
 //        return [
 //            'code'=>$x,
 //            'sub'=>substr($x,0,10),
