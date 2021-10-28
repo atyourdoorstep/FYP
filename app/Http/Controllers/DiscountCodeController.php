@@ -91,7 +91,7 @@ class DiscountCodeController extends Controller
         if($dc->user_id!=$user->id)
             return response()->json(['success'=>false,'message'=>'this discount code is not for you'],400);
         try {
-            $dc->discountCodeItems->delete();
+            $dc->discountCodeItems()->delete();
             $dc->delete();
         }
         catch (Exception $exception)
