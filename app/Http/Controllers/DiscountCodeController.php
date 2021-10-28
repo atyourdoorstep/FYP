@@ -65,9 +65,18 @@ class DiscountCodeController extends Controller
           ]  ,
             200
         );
-//        return [
-//            'code'=>$x,
-//            'sub'=>substr($x,0,10),
-//        ];
+    }
+    public function getDiscount(Request $request)
+    {
+        $user=$request->all()['user'];
+        $code=$request->all()['code'];
+        $dc=DiscountCode::all()->where('code',$code);
+        if(!$dc->count())
+            return response()->json(['success'=>false,'message'=>'no such discount code found']);
+        $dc=$dc->first();
+        if($dc->user_id!=$user->id)
+            return response()->json(['success'=>false,'message'=>'this discount code is not for you']);
+        $dc->discountCodeItems;
+        return $dc;
     }
 }
