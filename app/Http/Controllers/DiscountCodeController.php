@@ -6,6 +6,7 @@ use App\Models\DiscountCode;
 use App\Models\DiscountCodeItem;
 use App\Models\Seller;
 use App\Models\User;
+use Google\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -72,11 +73,31 @@ class DiscountCodeController extends Controller
         $code=$request->all()['code'];
         $dc=DiscountCode::all()->where('code',$code);
         if(!$dc->count())
-            return response()->json(['success'=>false,'message'=>'no such discount code found']);
+            return response()->json(['success'=>false,'message'=>'no such discount code found'],400);
         $dc=$dc->first();
         if($dc->user_id!=$user->id)
-            return response()->json(['success'=>false,'message'=>'this discount code is not for you']);
+            return response()->json(['success'=>false,'message'=>'this discount code is not for you'],400);
         $dc->discountCodeItems;
         return $dc;
+    }
+    public function destroy(Request $request)
+    {
+        $user=$request->all()['user'];
+        $code=$request->all()['code'];
+        $dc=DiscountCode::all()->where('code',$code);
+        if(!$dc->count())
+            return response()->json(['success'=>false,'message'=>'no such discount code found'],400);
+        $dc=$dc->first();
+        if($dc->user_id!=$user->id)
+            return response()->json(['success'=>false,'message'=>'this discount code is not for you'],400);
+        try {
+            $dc->discountCodeItems->delete();
+            $dc->delete();
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['success'=>false,'message'=>'Error: '.$exception->getMessage()],400);
+        }
+        return response()->json(['success'=>true,'message'=>'code destroyed'],200);
     }
 }
