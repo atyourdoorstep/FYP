@@ -15,10 +15,13 @@ class CreateReviewsTable extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('item_id');
             $table->string('review');
             $table->unsignedBigInteger('review_id')->nullable();
-            $table->unsignedTinyInteger('rating')->nullable();
+            $table->unsignedTinyInteger('rating');
+            $table->index('user_id');
+            $table->index('item_id');
             $table->timestamps();
         });
     }
