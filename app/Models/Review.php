@@ -5,19 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Review extends Model
 {
     use HasFactory;
+
+
     public function item()
     {
         return $this->belongsTo(Item::class);
     }
-    public function comment()
+    public function review()
     {
-        return $this->belongsTo(Comment::class);
+        return $this->belongsTo(Review::class);
     }
     public function reply()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Review::class);
     }
 }
