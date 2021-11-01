@@ -160,7 +160,11 @@ Route::post('/getDiscount', [\App\Http\Controllers\DiscountCodeController::class
 Route::post('/destroyCode', [\App\Http\Controllers\DiscountCodeController::class, 'destroy'])->middleware('JwtAuthUser');
 
 //discount code end
+//review start
+Route::post('/canRateItem', [\App\Http\Controllers\ReviewController::class, 'canRate'])->middleware('JwtAuthUser');
+Route::post('/RateItem', [\App\Http\Controllers\ReviewController::class, 'create'])->middleware('JwtAuthUser');
 
+//review end
 //api for testing only
 
 Route::get('/readText/', function () {
