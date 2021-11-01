@@ -163,7 +163,17 @@ Route::post('/destroyCode', [\App\Http\Controllers\DiscountCodeController::class
 //review start
 Route::post('/canRateItem', [\App\Http\Controllers\ReviewController::class, 'canRate'])->middleware('JwtAuthUser');
 Route::post('/RateItem', [\App\Http\Controllers\ReviewController::class, 'create'])->middleware('JwtAuthUser');
-
+Route::get('/getRating'
+    ,
+    function (Request $request) {
+        return response()->json(
+            [
+                'success'=>true,
+                'rating'=>\App\Models\Item::find($request->all()['item_id'])->rating(),
+            ],200
+        );
+    }
+);
 //review end
 //api for testing only
 
@@ -190,11 +200,11 @@ Route::get('/checkSpeed', [\App\Http\Controllers\ProfileController::class, 'chec
 Route::get('/checkApi', function () {
     return ['success' => true, 'message' => 'done'];
 });
-Route::post('/jwtmiddelwarecheck'
+Route::get('/rc'
     ,
     function (Request $request) {
-        $user = $request->all()['user'];
-        return $user->email;
+      $r=\App\Models\Item::with('rating')->where('name', 'LIKE',  "%".$request->search . "%")->get();
+        return $r;
     }
-)->middleware('JwtAuthUser');
+);
 //test-at-your-door-step old hosting

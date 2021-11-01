@@ -12,15 +12,11 @@ class ReviewController extends Controller
 {
     public function create(Request $request)
     {
-        if(!$this->canRate($request))
+        $cr=$this->canRate($request);
+//        return $cr;
+        if(!$cr->getData()->success)
         {
-            return response()->json(
-                [
-                    'success'=>false,
-                    'message'=>'You cannot rate this item',
-                ],
-                200
-            );
+            return $cr;
         }
         $user=$request->all()['user'];
         $data =  Validator::make($request->all(),
@@ -61,7 +57,15 @@ class ReviewController extends Controller
         if($data->fails())
             return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
+        $re=Review::where('user_id',$user->id)->where('item_id',$data['item_id'])->get();
         $item=Item::find($data['item_id']);
+        if($re->count())
+        {
+            return response()->json([
+                'success'=>false,
+                'message'=> 'You have already rated this ' . (($item->type == 'service') ? 'service' : 'product') . ' thanks for your feedback',
+            ]);
+        }
         foreach ($item->orderItems as $orderItem)
         {
             if($orderItem->status=='completed'&&$orderItem->order->user_id==$user->id)
@@ -69,6 +73,9 @@ class ReviewController extends Controller
                 return response()->json(['success'=>true,]);
             }
         }
-        return response()->json(['success'=>false,]);
+        return response()->json([
+            'success'=>false,
+            'message'=> 'You have to ' . (($item->type == 'service') ? 'avail' : 'buy') . ' this ' . (($item->type == 'service') ? 'service' : 'product').' to rate give your reviews',
+            ]);
     }
 }

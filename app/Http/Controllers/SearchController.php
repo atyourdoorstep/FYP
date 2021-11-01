@@ -26,7 +26,7 @@ class SearchController extends Controller
     public function searchItem(Request $request)
     {
         return [
-            'result'=>Item::with('reviews')->where('name', 'LIKE',  "%".$request->search . "%")->get(),
+            'result'=>Item::with(['reviews.user'])->where('name', 'LIKE',  "%".$request->search . "%")->get(),
         ];
     }
 }
