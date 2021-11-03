@@ -27,13 +27,30 @@
 {{--                            @enderror--}}
 
 {{--                        </form>--}}
+                        @foreach(\App\Models\ServiceRequest::all() as $req)
+                            <strong><label class="d-inline" for="" class="col-md-4 col-form-label text-md-right">{{ __(\App\Models\User::find($req->user_id)->fName) }}</label></strong>
+                            <div>
+                                <input id="email" type="text"
+                                       class="form-control @error('email') is-invalid @enderror"
+                                       name="email" value="{{ old('email') ??__(\App\Models\User::find($req->user_id)->email) ??''}}" required
+                                       disabled autofocus>
+                            </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    <!--description-->
+                    <div class="col-md-12 offset-md-2">
+                            <textarea rows="4" cols="50"
+                                      name="description" placeholder="" style="outline-width: 2px;outline-color: #1b1e21; border-width: 2px;
+border-color: #1d2124;border-radius: 10px">{{ucfirst(__(\Storage::disk('google')->get($req->path))??'')}}</textarea>
+                    </div>
 
-{{--new--}}
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {{--new--}}
 
 @endsection
 <script>

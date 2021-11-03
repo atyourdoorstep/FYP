@@ -41,12 +41,7 @@ Route::get('/getAddressFromLatLong',
     }
 );
 //seller address crud end
-Route::get('/chekDesc/{id}'//forTesting
-    ,
-    function ($id) {
-        return \App\Models\ServiceRequest::find($id)->requestDescription();
-    }
-);
+
 //search start
 Route::get('/searchSeller', [\App\Http\Controllers\SearchController::class, 'searchSeller']);//search seller with name like
 Route::get('/searchCat', [\App\Http\Controllers\SearchController::class, 'searchCat']);//search cat with name like
@@ -127,6 +122,18 @@ Route::post('/requestService',
 )->middleware('JwtAuthUser');//register a new request and return it
 Route::post('/getRequest', [\App\Http\Controllers\ServiceRequestController::class, 'getRequest']);//return request against an id
 Route::post('/getUserRequests', [\App\Http\Controllers\ServiceRequestController::class, 'userRequests']);
+Route::get('/chekDesc/{id}'//forTesting
+    ,
+    function ($id) {
+        return \App\Models\ServiceRequest::find($id)->requestDescription();
+    }
+);
+//feedBack
+Route::post('/createFeddBack',
+    [\App\Http\Controllers\UserFeedBackController::class, 'create']
+)->middleware('JwtAuthUser');//register a new request and return it
+Route::post('/getFeedBack', [\App\Http\Controllers\UserFeedBackController::class, 'getFeedBack']);//return request against an id
+Route::post('/getUserFeedBack', [\App\Http\Controllers\UserFeedBackController::class, 'userFeedBack']);
 //cart
 Route::post('/addToCart', [\App\Http\Controllers\CartController::class, 'addToCart'])->middleware('JwtAuthUser');
 Route::post('/getCart', [\App\Http\Controllers\CartController::class, 'getCart'])->middleware('JwtAuthUser');

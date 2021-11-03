@@ -34,6 +34,13 @@ Route::middleware('admin')->post('/regCategory', [\App\Http\Controllers\Category
 Route::middleware('admin')->post('/cat/{id}/edit', '\App\Http\Controllers\CategoryController@edit')->name('category.edit');//edit form
 Route::middleware('admin')->patch('/Cat/{id}', [\App\Http\Controllers\CategoryController::class,'update'])->name('/Cat.update');//update from controller
 Route::middleware('admin')->get('/catList/{parent?}', [\App\Http\Controllers\AdminController::class,'catIndex'])->name('category.list');;
+Route::middleware('admin')->get('/serviceRequests/', [
+    function(Request $request)
+    {
+        return view('mobiletry');
+    }
+]);
+
 
 
 
