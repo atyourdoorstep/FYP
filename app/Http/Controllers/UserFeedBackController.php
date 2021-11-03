@@ -57,7 +57,6 @@ class UserFeedBackController extends Controller
 
     public function userFeedBack(Request $request)
     {
-//        $user = $request->all()['id'];
         $user = User::find( $request->all()['id']);
         if ($user->feedBack ?? '') {
             return response()->json(
