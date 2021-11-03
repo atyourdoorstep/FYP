@@ -24,9 +24,11 @@ class CartController extends Controller
             return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
         $user=User::find($user->id);
-        if($user->seller->items->where('id','=',$data['item_id'])->count())
+        if($user->role_id==2)
         {
-            return response()->json(['success'=>false,'message'=>'You cannot add your own item to your cart'],400);
+            if ($user->seller->items->where('id', '=', $data['item_id'])->count()) {
+                return response()->json(['success' => false, 'message' => 'You cannot add your own item to your cart'], 400);
+            }
         }
         if($user->cart->cartItems->where('item_id',$data['item_id'])->count())
         {
