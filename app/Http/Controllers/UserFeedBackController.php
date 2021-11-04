@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class UserFeedBackController extends Controller
 {
 
-    protected $parentDir = '1uBRvJVYTEzvezHRucXfJm5Ux9llvGQA2/16ujng3zy4K17pV28uJDLzyKL8Y5t-tIo';
+    protected $parentDir = '1uBRvJVYTEzvezHRucXfJm5Ux9llvGQA2/16ujng3zy4K17pV28uJDLzyKL8Y5t-tIo/';
 
     public function create(Request $request)
     {

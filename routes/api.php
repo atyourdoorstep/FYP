@@ -129,9 +129,7 @@ Route::get('/chekDesc/{id}'//forTesting
     }
 );
 //feedBack
-Route::post('/createFeddBack',
-    [\App\Http\Controllers\UserFeedBackController::class, 'create']
-)->middleware('JwtAuthUser');//register a new request and return it
+Route::post('/createFeedBack', [\App\Http\Controllers\UserFeedBackController::class, 'create'])->middleware('JwtAuthUser');//register a new request and return it
 Route::post('/getFeedBack', [\App\Http\Controllers\UserFeedBackController::class, 'getFeedBack']);//return request against an id
 Route::post('/getUserFeedBack', [\App\Http\Controllers\UserFeedBackController::class, 'userFeedBack']);
 //cart

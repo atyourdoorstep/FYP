@@ -21,9 +21,9 @@
             <div class="table-responsive">
                 <thead class="thead-dark font-weight-bold">
                 <strong>
-                    <th scope="col">
-                        <h6 class="" style="text-align:center">id</h6>
-                    </th>
+{{--                    <th scope="col">--}}
+{{--                        <h6 class="" style="text-align:center">id</h6>--}}
+{{--                    </th>--}}
                     <th scope="col">
                         <h6 class="green-text">Name</h6>
                     </th>
@@ -44,7 +44,7 @@
                     @foreach($data as $category)
 
                         <tr>
-                            <td>{{$category->id}} </td>
+{{--                            <td>{{$category->id}} </td>--}}
                             <div class="" style="">
                                 <td>{{ucfirst($category->name)}} </td>
                             </div>
