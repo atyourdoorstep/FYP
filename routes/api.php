@@ -165,6 +165,10 @@ Route::post('/getDiscount', [\App\Http\Controllers\DiscountCodeController::class
 Route::post('/destroyCode', [\App\Http\Controllers\DiscountCodeController::class, 'destroy'])->middleware('JwtAuthUser');
 
 //discount code end
+//wallet start
+Route::post('/getWallet', [\App\Http\Controllers\WalletController::class, 'getWallet'])->middleware('JwtAuthUser');
+
+//wallet end
 //review start
 Route::post('/canRateItem', [\App\Http\Controllers\ReviewController::class, 'canRate'])->middleware('JwtAuthUser');
 Route::post('/RateItem', [\App\Http\Controllers\ReviewController::class, 'create'])->middleware('JwtAuthUser');
@@ -213,3 +217,35 @@ Route::get('/rc'
     }
 );
 //test-at-your-door-step old hosting
+
+
+//    Route::get('/nigger'
+//    ,
+//    function (Request $request) {
+//        $iId=Arr::pluck(DB::table('order_items')
+//            ->select('item_id')
+//            ->get(), 'item_id');
+//        $sellers=Arr::pluck(DB::table('items')
+//            ->select('seller_id')
+//            ->whereIn('id',$iId)
+//            ->get(), 'seller_id');
+//        $z=\App\Models\Seller::with(['items.orderItems','wallet'])->whereIn('id',$sellers)->get();
+//        foreach ($z as $seller)
+//        {
+//            foreach ($seller->items as $item)
+//            {
+//                if($item->orderItems??'')
+//                {
+//                    foreach ($item->orderItems as $orderItem)
+//                    {
+//                        $total = (($item->price * $orderItem->quantity) - $orderItem->discount);
+//                        $seller->wallet->amount += $total * ((100 - env('APP_CUT')) / 100);
+//                        dump($seller->wallet);
+//                        $seller->wallet->save();
+//                    }
+//                }
+//            }
+//        }
+//        return 'done';
+//    }
+//);

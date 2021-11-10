@@ -121,8 +121,16 @@ class OrderController extends Controller
             {
                 return response()->json(['success'=>false,'message'=>'This order has been canceled'],400);
             }
+
             $oi->status=$data['status'];
             $oi->save();
+            if($data['status']=='completed')
+            {
+                $total = (($oi->item->price * $oi->quantity) - $oi->discount);
+                       $user->seller->wallet->amount+=$total * ((100 - env('APP_CUT')) / 100);
+//                        $seller->wallet->save();
+
+            }
             return [
                 'order_item'=>$oi,
             ];
