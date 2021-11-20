@@ -15,6 +15,14 @@ class CreateItemQuestionsTable extends Migration
     {
         Schema::create('item_questions', function (Blueprint $table) {
             $table->id();
+            $table->longText('message');
+            $table->boolean('is_public')->default(true);
+            $table->unsignedBigInteger('item_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('item_questions_id')->nullable();
+            $table->index('item_id');
+            $table->index('item_questions_id');
+            $table->index('user_id');
             $table->timestamps();
         });
     }
