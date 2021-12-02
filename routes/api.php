@@ -158,6 +158,8 @@ function (Request $request)
 //payment start
 
 Route::Post('/getStripToken', [\App\Http\Controllers\PaymentOrderItemsController::class, 'getStripToken'])->middleware('JwtAuthUser');
+Route::Post('/getUserPaymentHistory', [\App\Http\Controllers\PaymentOrderItemsController::class, 'paymentHistory'])->middleware('JwtAuthUser');
+Route::Post('/getPaymentDetails', [\App\Http\Controllers\PaymentOrderItemsController::class, 'getPaymentDetails'])->middleware('JwtAuthUser');
 //payment end
 //discount code start
 Route::post('/createDiscountCode', [\App\Http\Controllers\DiscountCodeController::class, 'create'])->middleware('JwtAuthUser');
