@@ -8,4 +8,27 @@ use Illuminate\Database\Eloquent\Model;
 class ItemQuestion extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'message',
+        'is_public',
+        'item_id',
+        'user_id',
+        'item_questions_id',
+    ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
+    public function parentQuestion()
+    {
+        return $this->belongsTo(ItemQuestion::class);
+    }
+    public function childQuestions()
+    {
+        return $this->hasMany(ItemQuestion::class);
+    }
 }

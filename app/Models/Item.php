@@ -60,4 +60,8 @@ class Item extends Model
                 '1' => $reviews->where('rating', 1)->count(),
             ];
     }
+    public function itemQuestions()
+    {
+        return $this->hasMany(ItemQuestion::class);
+    }
 }
