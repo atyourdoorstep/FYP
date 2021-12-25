@@ -186,6 +186,11 @@ Route::get('/getRating'
     }
 );
 //review end
+//itemQuestions start
+Route::post('/createItemQuestion', [\App\Http\Controllers\ItemQuestionController::class, 'create'])->middleware('JwtAuthUser');
+
+//itemQuestion end
+
 //api for testing only
 
 Route::get('/readText/', function () {
