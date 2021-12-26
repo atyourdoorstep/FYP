@@ -99,6 +99,7 @@ Route::post('/updatePost', [\App\Http\Controllers\ItemController::class, 'update
 
 
 Route::post('/categoryItems', function (Request $request) {
+
     return \App\Models\Item::with(['reviews.user','category'])->wherein('category_id', Arr::pluck(DB::table('categories')
         ->select('id')
         ->where('category_id', $request->all()['id'])
