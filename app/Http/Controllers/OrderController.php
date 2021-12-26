@@ -169,7 +169,7 @@ class OrderController extends Controller
                 ->select('user_id')
                 ->whereIn('id',$orderIdList)
                 ->get(), 'user_id');
-            DB::enableQueryLog();
+//            DB::enableQueryLog();
             return response()->json(
                 [
                     User::with(

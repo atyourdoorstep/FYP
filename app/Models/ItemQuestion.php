@@ -25,10 +25,10 @@ class ItemQuestion extends Model
     }
     public function parentQuestion()
     {
-        return $this->belongsTo(ItemQuestion::class);
+        return $this->belongsTo(ItemQuestion::class,'item_questions_id','id');
     }
     public function childQuestions()
     {
-        return $this->hasMany(ItemQuestion::class);
+        return $this->hasMany(ItemQuestion::class,'item_questions_id','id');
     }
 }
