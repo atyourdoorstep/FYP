@@ -30,8 +30,8 @@ class SellerAddressController extends Controller
         return response()->json([
             'success'=>true,
             'address'=>SellerAddress::create([
-                'lat'=>$data['lat'],
-                'long'=>$data['long'],
+                'latitude'=>$data['lat'],
+                'longitude'=>$data['long'],
                 'name'=>$data['name'],
                 'seller_id'=> $data['seller_id'],
             ]),
@@ -44,12 +44,18 @@ class SellerAddressController extends Controller
             [
                 'lat' => ['regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
                 'long' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
+                'name' => [''],
                 'seller_id'=>['unique:seller_addresses']
             ]
         );
         if($data->fails())
             return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
         $data=$request->all();
+        $data['latitude']=$data['lat'];
+        $data['longitude']=$data['long'];
+        unset($data['lat']);
+        unset($data['long']);
+//        return $data;
         User::find($user->id)->seller->sellerAddress->update($data);
 //        $sellerAddress=User::find($user->id)->seller->sellerAddress;
 

@@ -15,8 +15,8 @@ class CreateSellerAddressesTable extends Migration
     {
         Schema::create('seller_addresses', function (Blueprint $table) {
             $table->id();
-            $table->double('lat');
-            $table->double('long');
+            $table->double('latitude');
+            $table->double('longitude');
             $table->string('name');
             $table->unsignedBigInteger('seller_id')->unique();
             $table->index('seller_id');

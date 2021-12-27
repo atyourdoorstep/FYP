@@ -37,7 +37,7 @@ Route::post('/getSellersAddress',
 )->middleware('JwtAuthUser');
 Route::get('/getAddressFromLatLong',
     function (Request $request) {
-        return \App\Models\SellerAddress::where('lat', $request->all()['lat'])->where('long', $request->all()['long'])->get();
+        return \App\Models\SellerAddress::where('latitude', $request->all()['latitude'])->where('longitude', $request->all()['long'])->get();
     }
 );
 //seller address crud end
@@ -192,6 +192,13 @@ Route::post('/createItemQuestion', [\App\Http\Controllers\ItemQuestionController
 Route::get('/getItemQuestions', [\App\Http\Controllers\ItemQuestionController::class, 'getItemQuestions']);
 
 //itemQuestion end
+//radius searching start
+Route::post('/searchSellerInArea', [\App\Http\Controllers\SearchController::class, 'searchSellerInArea']);
+Route::post('/itemInRange', [\App\Http\Controllers\SearchController::class, 'itemInRange']);
+
+
+
+//radius searching end
 
 //api for testing only
 

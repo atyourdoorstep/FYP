@@ -10,8 +10,8 @@ class SellerAddress extends Model
     use HasFactory;
     protected $fillable=
         [
-            'lat',
-            'long',
+            'latitude',
+            'longitude',
             'seller_id',
             'name',
         ];
