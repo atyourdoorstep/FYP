@@ -57,7 +57,7 @@ class SellerController extends Controller
 
 //    $a = \App\Models\Item::with('category.category')->where('seller_id', $user->seller->id)->get();
         $catItem = \App\Models\Category::with([
-            'items'=>fn($query)=>$query->whereIn('id',Arr::pluck($sellerItems, 'id'))
+            'items'=>fn($query)=>$query->with('reviews.user')->whereIn('id',Arr::pluck($sellerItems, 'id'))
         ])->whereIn('id',$thCat)->get();
         return response()->json(
             [
