@@ -13,42 +13,69 @@ class InvoiceController extends Controller
 {
     public function createInvoice(Request $request)
     {
-        $user=User::find($request->all()['user']->id);
-        $orderItems=$request->all()['order_items'];
+        $user = User::find($request->all()['user']->id);
+        $orderItems = $request->all()['order_items'];
 //        return OrderItem::all()->whereIn('id',$orderItems)->where('seller_id',$user->seller->id);
-        $data =  Validator::make($request->all(),
+        $data = Validator::make($request->all(),
             [
-                'seller_id' => ['required','numeric'],
-                'user_id' => ['required','numeric'],
+                'seller_id' => ['required', 'numeric'],
+                'user_id' => ['required', 'numeric'],
                 'order_items' => ['required'],
-                'discount' => ['','numeric','min:0'],
-                'remarks' => ['string','nullable'],
+                'discount' => ['', 'numeric', 'min:0'],
+                'remarks' => ['string', 'nullable'],
             ]
         );
-        if($data->fails())
-            return response()->json(['success'=>false,'message'=>$data->messages()->all()],400);
-        $data=$request->all();
-        $orderItems=OrderItem::all()->whereIn('id',$orderItems)->where('seller_id',$user->seller->id);
-        $invoice=Invoice::create(
+        if ($data->fails())
+            return response()->json(['success' => false, 'message' => $data->messages()->all()], 400);
+        $data = $request->all();
+        $orderItems = OrderItem::all()->whereIn('id', $orderItems)->where('seller_id', $user->seller->id);
+        $invoice = Invoice::create(
             [
-                'seller_id'=>$user->seller->id,
-                'user_id'=>$data['user_id'],
-                'remarks'=>$data['remarks']??null,
-                'discount'=>$data['discount']??0,
+                'seller_id' => $user->seller->id,
+                'user_id' => $data['user_id'],
+                'remarks' => $data['remarks'] ?? null,
+                'discount' => $data['discount'] ?? 0,
             ]
         );
-        foreach ($orderItems as $item)
-        {
-            $item->status='confirmed';
+        foreach ($orderItems as $item) {
+            $item->status = 'confirmed';
             $item->update();
             InvoiceItem::create(
                 [
-                    'item_id'=>$item->item_id,
-                    'invoice_id'=>$invoice->id,
-                    'quantity'=>$item['quantity'],
+                    'item_id' => $item->item_id,
+                    'invoice_id' => $invoice->id,
+                    'quantity' => $item['quantity'],
                 ]
             );
         }
-        return Invoice::with('invoiceItems.item')->where('id',$invoice->id)->get();
+        return Invoice::with('invoiceItems.item')->where('id', $invoice->id)->get();
+    }
+
+    public function getInvoices(Request $request)
+    {
+        $user = \App\Models\User::find($request->all()['user']->id);
+        if ($request->all()['sellerCheck'] == true) {
+            if (!$user->seller) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'massage' => 'This use is not registered as a Seller.'
+                    ], 400
+                );
+            }
+            return response()->json(
+                [
+                    'success' => true,
+                    'invoices'=>\App\Models\Invoice::with('invoiceItems.item')->where('seller_id', $user->seller->id)->get()
+                ], 200
+            );
+
+        }
+        return response()->json(
+            [
+                'success' => true,
+                'invoices'=>\App\Models\Invoice::with('invoiceItems.item')->where('user_id', $user->id)->get(),
+            ], 200
+        );
     }
 }
