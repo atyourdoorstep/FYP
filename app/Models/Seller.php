@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class Seller extends Model
 {
@@ -48,5 +50,11 @@ class Seller extends Model
     public function wallet()
     {
         return $this->hasOne(SellerWallet::class);
+    }
+    public static function getSellerRatingAvg($id)
+    {
+//        $a=$this->items;
+//        $a=Arr::pluck($this->items, 'id');
+        return Arr::pluck(Review::whereIn('item_id',Arr::pluck(Seller::find($id)->items, 'id'))->get(),'rating');
     }
 }
