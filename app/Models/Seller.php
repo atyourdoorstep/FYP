@@ -51,10 +51,18 @@ class Seller extends Model
     {
         return $this->hasOne(SellerWallet::class);
     }
-    public static function getSellerRatingAvg($id)
+//    public static function getSellerRatingAvg($id)
+//    {
+////        $a=$this->items;
+////        $a=Arr::pluck($this->items, 'id');
+//        $temp=Arr::pluck(Review::whereIn('item_id',Arr::pluck(Seller::find($id)->items, 'id'))->get(),'rating');
+//        return array_sum($temp)/count($temp);
+//    }
+    public function getSellerRatingAvg()
     {
-//        $a=$this->items;
-//        $a=Arr::pluck($this->items, 'id');
-        return Arr::pluck(Review::whereIn('item_id',Arr::pluck(Seller::find($id)->items, 'id'))->get(),'rating');
+        $temp=Arr::pluck(Review::whereIn('item_id',Arr::pluck($this->items, 'id'))->get(),'rating');
+        if(!count($temp))
+            return 0;
+        return array_sum($temp)/count($temp);
     }
 }

@@ -2,6 +2,8 @@
 
 @section('content')
 
-
+@foreach($data as $x)
+    {{$x->getSellerRatingAvg()}}
+@endforeach
 
 @endsection
