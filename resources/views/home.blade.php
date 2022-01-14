@@ -51,7 +51,7 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
                                  style="background-color: #1b1e21;text-decoration-color: white">
                                 <div class="text-primary">
-                                    <a class="dropdown-item text-primary" href="#">
+                                    <a class="dropdown-item text-primary" href="/sellerList">
                                         List Sellers
                                     </a>
                                 </div>
