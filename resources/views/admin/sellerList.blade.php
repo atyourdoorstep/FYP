@@ -124,7 +124,7 @@
     function changeStatus(tag, $id,$user_id,$adminId) {
         tag.disabled = true;
         tag.innerText = "Changing status";
-        // $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         $.ajax({
             dataType: 'json',
             url: "/api/changeSellerStatus/",
