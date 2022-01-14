@@ -127,7 +127,7 @@
         // $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         $.ajax({
             dataType: 'json',
-            url: "/api/changeSellerStatus/",
+            url: "https://atyourdoorstep-pk.herokuapp.com/api/changeSellerStatus/",
             type: "post",
             data: {
                 {{--"_token": "{{ csrf_token() }}",--}}
