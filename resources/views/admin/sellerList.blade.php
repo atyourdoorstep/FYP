@@ -126,7 +126,7 @@
         tag.innerText = "Changing status";
         // $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         $.ajax({
-
+            dataType: 'json',
             url: "/api/changeSellerStatus/",
             type: "post",
             data: {
