@@ -19,7 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+//apis for admin
+Route::post('/changeSellerStatus', [\App\Http\Controllers\AdminController::class, 'changeSellerStatus']);
 
+//end admin apis
 //seller address crud start
 Route::post('/addSellerAddress', [\App\Http\Controllers\SellerAddressController::class, 'create'])->middleware('JwtAuthUser');
 Route::post('/updateSellerAddress', [\App\Http\Controllers\SellerAddressController::class, 'update'])->middleware('JwtAuthUser');
