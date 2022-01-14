@@ -130,7 +130,7 @@
             url: "/api/changeSellerStatus/",
             type: "post",
             data: {
-                "_token": "{{ csrf_token() }}",
+                {{--"_token": "{{ csrf_token() }}",--}}
                 "seller_id":$id,
                 "user_id":$user_id,
                 "admin_id":$adminId,
