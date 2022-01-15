@@ -137,10 +137,10 @@
             },
             success: function (data) {
                 tag.disabled = false;
-                console.log(data.success);
+                // console.log(data.success);
                 if (data.success==true) {
                     let x=document.getElementById("STATUS"+$id);
-                    console.log(x);
+                    // console.log(x);
                     if(tag.classList =="btn btn-danger")
                     {
                         x.classList="text text-danger";
