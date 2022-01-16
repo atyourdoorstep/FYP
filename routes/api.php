@@ -195,6 +195,19 @@ Route::post('/itemInRange', [\App\Http\Controllers\SearchController::class, 'ite
 
 
 //radius searching end
+//user Favourite start
+Route::post('/createUserFavourite', [\App\Http\Controllers\UserFavouriteController::class, 'create'])->middleware('JwtAuthUser');
+Route::post('/addUserFavourite', [\App\Http\Controllers\UserFavouriteController::class, 'addFavourite'])->middleware('JwtAuthUser');
+
+
+//user Favourite end
+
+
+
+
+
+
+
 
 //api for testing only
 
