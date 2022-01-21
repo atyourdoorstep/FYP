@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\ItemController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Exception;
@@ -59,6 +60,12 @@ class Item extends Model
                 '2' => $reviews->where('rating', 2)->count(),
                 '1' => $reviews->where('rating', 1)->count(),
             ];
+    }
+    public function newRating()
+    {
+        return ItemController::getRating($this);
+        $this->rating = ItemController::getRating($this->id);
+        return $this;
     }
     public function itemQuestions()
     {

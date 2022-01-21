@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\Review;
 use App\Models\Seller;
 use App\Models\SellerFolder;
 use App\Models\User;
@@ -113,5 +114,19 @@ class ItemController extends Controller
             ]
             ,200
         );
+    }
+    public function getRating($item)
+    {
+        $reviews = $item->reviews;
+        $reviews=$reviews??'';
+        return
+            [
+                'total' => $reviews->count(),
+                '5' => $reviews->where('rating', 5)->count(),
+                '4' => $reviews->where('rating', 4)->count(),
+                '3' => $reviews->where('rating', 3)->count(),
+                '2' => $reviews->where('rating', 2)->count(),
+                '1' => $reviews->where('rating', 1)->count(),
+            ];
     }
 }

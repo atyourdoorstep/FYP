@@ -201,7 +201,10 @@ Route::post('/addUserFavourite', [\App\Http\Controllers\UserFavouriteController:
 
 
 //user Favourite end
+//topSold
+Route::get('/topSoldToday', [\App\Http\Controllers\UserFavouriteController::class, 'topSoldToday']);
 
+//
 
 
 
