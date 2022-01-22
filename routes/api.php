@@ -99,6 +99,7 @@ Route::post('/registerSeller', [\App\Http\Controllers\SellerController::class, '
 //seller's items create update
 Route::post('/createPost', [\App\Http\Controllers\ItemController::class, 'create'])->name('item.create')->middleware('JwtAuthUser');//create a post only registered seller can create a post
 Route::post('/updatePost', [\App\Http\Controllers\ItemController::class, 'update'])->name('item.update')->middleware('JwtAuthUser');//create a post only registered seller can create a post
+Route::get('/getItem', [\App\Http\Controllers\ItemController::class, 'getItem'])->name('item.update');
 
 
 Route::post('/categoryItems', function (Request $request) {

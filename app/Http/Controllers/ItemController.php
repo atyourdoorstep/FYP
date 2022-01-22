@@ -129,4 +129,10 @@ class ItemController extends Controller
                 '1' => $reviews->where('rating', 1)->count(),
             ];
     }
+    public function getItem(Request $request)
+    {
+        if($request->item_id??'')
+        return Item::with(['reviews.user','seller'])->where('id', '=',  $request->item_id )->get();
+        return '';
+    }
 }
