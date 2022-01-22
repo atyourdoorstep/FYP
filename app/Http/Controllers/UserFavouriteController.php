@@ -73,8 +73,8 @@ class UserFavouriteController extends Controller
         $countItem=DB::select("select i1.id,(select count(i2.item_id) from order_items i2 where i2.item_id=i1.id) as count from items i1 order by count desc");
         $countItem=Arr::pluck($countItem,'id');
         $countItem=array_slice($countItem,0,8,true);
-        $countItem=Item::withAvg('reviews','rating')->whereIn('id',$countItem)->get();
-//        $countItem=Item::with('reviews')->withAvg('reviews','rating')->whereIn('id',$countItem)->get();
+//        $countItem=Item::withAvg('reviews','rating')->whereIn('id',$countItem)->get();
+        $countItem=Item::with('reviews')->withAvg('reviews','rating')->whereIn('id',$countItem)->get();
         return $countItem;
     }
 }
