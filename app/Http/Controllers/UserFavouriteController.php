@@ -74,7 +74,7 @@ class UserFavouriteController extends Controller
         $countItem=Arr::pluck($countItem,'id');
         $countItem=array_slice($countItem,0,8,true);
 //        $countItem=Item::withAvg('reviews','rating')->whereIn('id',$countItem)->get();
-        $countItem=Item::with('reviews')->withAvg('reviews','rating')->whereIn('id',$countItem)->get();
+        $countItem=Item::with('reviews.user')->withAvg('reviews','rating')->whereIn('id',$countItem)->get();
         return $countItem;
     }
 }
