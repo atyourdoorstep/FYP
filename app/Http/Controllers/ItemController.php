@@ -132,7 +132,7 @@ class ItemController extends Controller
     public function getItem(Request $request)
     {
         if($request->item_id??'')
-        return Item::with(['reviews.user','seller'])->where('id', '=',  $request->item_id )->get();
+            return Item::with(['reviews.user','seller'])->where('id', '=',  $request->item_id??'' )->get();
         return '';
     }
 }
