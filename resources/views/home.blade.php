@@ -66,6 +66,11 @@
                         <ul class="nav nav-pills flex-column mb-auto">
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
                                  style="background-color: #1b1e21;text-decoration-color: white">
+                                <div class="text-primary">
+                                    <a class="dropdown-item text-primary" href="/request">
+                                        Requests List
+                                    </a>
+                                </div>
                             </div>
                         </ul>
                     </li>
@@ -77,7 +82,11 @@
                         <ul class="nav nav-pills flex-column mb-auto">
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
                                  style="background-color: #1b1e21;text-decoration-color: white">
-
+                                <div class="text-primary">
+                                    <a class="dropdown-item text-primary" href="/feedback">
+                                        FeedBack List
+                                    </a>
+                                </div>
                             </div>
                         </ul>
                     </li>

@@ -10,7 +10,26 @@ use Illuminate\Support\Facades\Validator;
 class ServiceRequestController extends Controller
 {
     protected $parentDir = '1uBRvJVYTEzvezHRucXfJm5Ux9llvGQA2/1n90Ddvi_ao3O1DS1Qc5tPiLqfPuiw4Y6/';
-
+    public function requestList()
+    {
+        return view('serviceRequest.index',
+            [
+                'check'=>true,
+                'data'=>ServiceRequest::with('user')->where('isActive','=',1)->paginate(10),
+            ]
+    );
+    }
+    public function requestDetails($id)
+    {
+        $data=ServiceRequest::with('user')->where('id','=',$id)->get()->first();
+        return view('serviceRequest.request',
+            [
+                'check'=>true,
+                'data'=>$data,
+                'description'=>$data->requestDescription(),
+            ]
+        );
+    }
     public function create(Request $request)
     {
 

@@ -11,7 +11,25 @@ class UserFeedBackController extends Controller
 {
 
     protected $parentDir = '1uBRvJVYTEzvezHRucXfJm5Ux9llvGQA2/16ujng3zy4K17pV28uJDLzyKL8Y5t-tIo/';
-
+    public function requestList()
+    {
+        return view('serviceRequest.index',
+            [
+                'data'=>UserFeedBack::with('user')->where('isActive','=',1)->paginate(10),
+            ]
+        );
+    }
+    public function requestDetails($id)
+    {
+        $data=UserFeedBack::with('user')->where('id','=',$id)->get()->first();
+        return view('serviceRequest.request',
+            [
+                'check'=>false,
+                'data'=>$data,
+                'description'=>$data->requestDescription(),
+            ]
+        );
+    }
     public function create(Request $request)
     {
         $user = $request->all()['user'];

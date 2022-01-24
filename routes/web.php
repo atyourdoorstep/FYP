@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Intervention\Image\Facades\Image;
@@ -22,6 +23,10 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/request', [\App\Http\Controllers\ServiceRequestController::class, 'requestList']);
+Route::post('/requestDetails/{id}', [\App\Http\Controllers\ServiceRequestController::class, 'requestDetails']);
+Route::get('/feedback', [\App\Http\Controllers\UserFeedBackController::class, 'requestList']);
+Route::post('/feedBackDetails/{id}', [\App\Http\Controllers\UserFeedBackController::class, 'requestDetails']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/changeSellerStatus', [\App\Http\Controllers\AdminController::class, 'changeSellerStatus']);
