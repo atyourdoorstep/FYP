@@ -69,7 +69,7 @@
                             </div>
                             <div class="" style="">
 {{--                            @php $r=$seller->getSellerRatingAvg() @endphp--}}
-                                <td>{{$seller->getSellerRatingAvg()}}
+                                <td>{{round($seller->getSellerRatingAvg(),2)}}
                                     <span class="fa fa-star"></span>
                                 </td>
                             </div>
