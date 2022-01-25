@@ -2,6 +2,7 @@
 
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
@@ -21,7 +22,17 @@ use Illuminate\Support\Facades\Validator;
 Route::get('/', function () {
     return redirect(\route('home'));
 });
+Route::get('/email', function () {
+    Mail::to('atyourdoorstep.pk@gmail.com')->send(new \App\Mail\AdminResponseMail());
 
+    if(Mail::failures() != 0) {
+        return "<p> Success! Your E-mail has been sent.</p>";
+    }
+
+    else {
+        return "<p> Failed! Your E-mail has not sent.</p>";
+    }
+});
 Auth::routes();
 Route::get('/request', [\App\Http\Controllers\ServiceRequestController::class, 'requestList']);
 Route::post('/requestDetails/{id}', [\App\Http\Controllers\ServiceRequestController::class, 'requestDetails']);

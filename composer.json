@@ -13,7 +13,7 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "google/apiclient": "^2.10",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.4",
         "intervention/image": "^2.6",
         "laravel/framework": "^8.40",
         "laravel/sail": "^1.0.1",
@@ -25,7 +25,8 @@
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3",
         "spatie/laravel-backup": "^6.16",
-        "tymon/jwt-auth": "^1.0"
+        "tymon/jwt-auth": "^1.0",
+        "wildbit/swiftmailer-postmark": "^3.3"
     },
     "autoload": {
         "psr-4": {
