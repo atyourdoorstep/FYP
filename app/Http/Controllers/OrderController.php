@@ -31,6 +31,7 @@ class OrderController extends Controller
             }
         }
         $stripe = \Cartalyst\Stripe\Stripe::make(env('STRIPE_SECRET'));
+        DB::beginTransaction();
         $order=Order::create(
             [
                 'user_id'=>$user->id,
@@ -70,10 +71,11 @@ class OrderController extends Controller
                         'order_id'=>$order->id,
                     ]
                 );
-
+                DB::commit();
             } catch (Exception $exception) {
-                $order->orderItems()->delete();
-                $order->delete();
+                DB::rollBack();
+//                $order->orderItems()->delete();
+//                $order->delete();
                 return response()->json(
                     [
                         'success' => false,
