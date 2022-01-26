@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\FavouriteCategory;
 use App\Models\Item;
 use App\Models\OrderItem;
+use App\Models\User;
 use App\Models\UserFavourite;
+use Google\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -76,5 +79,24 @@ class UserFavouriteController extends Controller
 //        $countItem=Item::withAvg('reviews','rating')->whereIn('id',$countItem)->get();
         $countItem=Item::with('reviews.user')->withAvg('reviews','rating')->whereIn('id',$countItem)->get();
         return $countItem;
+    }
+    public function userFave(Request $request)
+    {
+        $user=User::find($request->all()['user']->id);
+        try {
+            if(!($user->favourite))
+                return [];
+            if(!($user->favourite->favouriteCategory))
+                return [];
+            $cats = Arr::pluck($user->favourite->favouriteCategory, 'category_id');
+            $cats = Arr::pluck(Category::whereIn('category_id', $cats)->get(), 'id');
+            $items = Arr::pluck(Item::whereIn('category_id', $cats)->get(), 'id');
+            $items = array_slice($items, 0, 10, true);
+            $items = Item::with('reviews.user')->withAvg('reviews', 'rating')->whereIn('id', $items)->get();
+            return $items;
+        }catch (Exception $exception)
+        {
+            return ($exception);
+        }
     }
 }

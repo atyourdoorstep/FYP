@@ -17,6 +17,6 @@ class UserFavourite extends Model
     }
     public function favouriteCategory()
     {
-        return $this->hasMany(FavouriteCategory::class);
+        return $this->hasMany(FavouriteCategory::class,'user_favourites_id','id');
     }
 }

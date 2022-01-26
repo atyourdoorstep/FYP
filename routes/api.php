@@ -199,7 +199,7 @@ Route::post('/itemInRange', [\App\Http\Controllers\SearchController::class, 'ite
 //user Favourite start
 Route::post('/createUserFavourite', [\App\Http\Controllers\UserFavouriteController::class, 'create'])->middleware('JwtAuthUser');
 Route::post('/addUserFavourite', [\App\Http\Controllers\UserFavouriteController::class, 'addFavourite'])->middleware('JwtAuthUser');
-
+Route::post('/getUserFavourite', [\App\Http\Controllers\UserFavouriteController::class, 'userFave'])->middleware('JwtAuthUser');
 
 //user Favourite end
 //topSold

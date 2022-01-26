@@ -18,6 +18,6 @@ class FavouriteCategory extends Model
     }
     public function userFavourite()
     {
-        return $this->belongsTo(UserFavourite::class);
+        return $this->belongsTo(UserFavourite::class,'id','user_favourites_id');
     }
 }
