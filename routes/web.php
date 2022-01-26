@@ -23,7 +23,8 @@ Route::get('/', function () {
     return redirect(\route('home'));
 });
 Route::get('/email', function () {
-    Mail::to('atyourdoorstep.pk@gmail.com')->send(new \App\Mail\AdminResponseMail());
+//    return new \App\Mail\AdminResponseMail();
+    Mail::to('mussabayubawan1@gmail.com')->send(new \App\Mail\AdminResponseMail());
 
     if(Mail::failures() != 0) {
         return "<p> Success! Your E-mail has been sent.</p>";

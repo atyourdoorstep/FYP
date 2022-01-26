@@ -6,6 +6,7 @@ use App\Models\Item;
 use App\Models\ItemQuestion;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -78,14 +79,20 @@ class ItemQuestionController extends Controller
             }
             else
             {
+               $ids=Arr::pluck(ItemQuestion::where('item_id','=',$data['item_id'])->where('is_public','=','1')->get(), 'id');
+//               return $ids;
+                array_push($ids,Arr::pluck(ItemQuestion::where('user_id','=',$user->id)->where('item_id','=',$data['item_id'])->get(), 'id'));
+                //$ids=Arr::pluck(ItemQuestion::where('user_id','=',$user->id)->where('item_id','=',$data['item_id']), 'id');
+//                return $ids;
                 return response()->json(
                     [
                         'success'=>true,
-                        'itemQuestions'=>ItemQuestion::with('childQuestions')->where('item_id','=',$data['item_id'])
-                            ->whereNull('item_questions_id')
-                            ->where('is_public','=','1')
-                            ->orWhere('user_id','=',$user->id)->get(),
-//                        'query'=>DB::getQueryLog(),
+                        'itemQuestions'=>ItemQuestion::whereIn('id',$ids),
+//                        'itemQuestions'=>ItemQuestion::with('childQuestions')->where('item_id','=',$data['item_id'])
+//                            ->whereNull('item_questions_id')
+//                            ->where('is_public','=','1')
+//                            ->orWhere('user_id','=',$user->id)->get(),
+
                     ]
                 );
             }

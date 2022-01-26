@@ -30,6 +30,18 @@ class ServiceRequestController extends Controller
             ]
         );
     }
+    public function replyUser($mail,$message)
+    {
+        Mail::to($mail)->send(new \App\Mail\AdminResponseMail());
+
+        if(Mail::failures() != 0) {
+            return "<p> Success! Your E-mail has been sent.</p>";
+        }
+
+        else {
+            return "<p> Failed! Your E-mail has not sent.</p>";
+        }
+    }
     public function create(Request $request)
     {
 
