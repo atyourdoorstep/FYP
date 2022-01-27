@@ -177,8 +177,10 @@ class OrderController extends Controller
             return response()->json(
                 [
                     User::with(
-                ['orders'=>fn($query)=> $query->with(['orderItems'=>fn($query)=> $query->with('item')->whereIn('order_items.id', $orderItemIdList)->whereIn('order_id',$orderIdList)->where('seller_id',$user->seller->id)->get()])->whereIn('id',$orderIdList)
-//                    'orders.orderItems'=>fn($query)=> $query->with('item')->whereIn('order_items.id', $orderItemIdList)->whereIn('order_id',$orderIdList)->get()
+                ['orders'=>fn($query)=> $query->with(['orderItems'=>fn($query)=> $query->with('item')->whereIn('order_items.id', $orderItemIdList)->whereIn('order_id',$orderIdList)->where('seller_id',$user->seller->id)->get(),
+                    'payment'=>fn($query)=> $query->whereIn('order_id',$orderIdList)->get()
+//                    'payment'=>fn($query)=> $query->where('payment_order_items.id',1)->get()
+                ])->whereIn('id',$orderIdList)
                 ])->whereIn('id',$orderUserIdList)->get(),
 //                'query'=>DB::getQueryLog(),
 //                    'oId'=>$orderIdList,
