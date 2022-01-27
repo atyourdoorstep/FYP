@@ -65,7 +65,7 @@ class ItemQuestionController extends Controller
             $user=app('App\Http\Controllers\UserController')->getCurrentUser($request);
 //            return $user->getData()->user;
             $user=$user->getData()->user;
-            DB::enableQueryLog();
+
             if(Item::find($data['item_id'])->seller->user->id==$user->id)
             {
                 return response()->json(
@@ -73,25 +73,23 @@ class ItemQuestionController extends Controller
                         'success'=>true,
                         'itemQuestions'=>ItemQuestion::with('childQuestions')->where('item_id','=',$data['item_id'])
                             ->whereNull('item_questions_id')->get(),
-//                        'query'=>DB::getQueryLog(),
+
                     ]
                 );
             }
             else
             {
                $ids=Arr::pluck(ItemQuestion::where('item_id','=',$data['item_id'])->where('is_public','=','1')->get(), 'id');
-//               return $ids;
-                array_push($ids,Arr::pluck(ItemQuestion::where('user_id','=',$user->id)->where('item_id','=',$data['item_id'])->get(), 'id'));
-                //$ids=Arr::pluck(ItemQuestion::where('user_id','=',$user->id)->where('item_id','=',$data['item_id']), 'id');
+                array_merge($ids,Arr::pluck(ItemQuestion::where('user_id','=',$user->id)->where('item_id','=',$data['item_id'])->get(), 'id'));
 //                return $ids;
+//                DB::enableQueryLog();
+                $res=ItemQuestion::with('childQuestions')->whereIn('id',$ids)->whereNull('item_questions_id')->get();
                 return response()->json(
                     [
                         'success'=>true,
-                        'itemQuestions'=>ItemQuestion::whereIn('id',$ids),
-//                        'itemQuestions'=>ItemQuestion::with('childQuestions')->where('item_id','=',$data['item_id'])
-//                            ->whereNull('item_questions_id')
-//                            ->where('is_public','=','1')
-//                            ->orWhere('user_id','=',$user->id)->get(),
+                        'itemQuestions'=>$res,
+//                        'query'=>DB::getQueryLog(),
+//                        'id'=>$ids,
 
                     ]
                 );
