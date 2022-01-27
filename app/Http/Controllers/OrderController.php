@@ -89,7 +89,8 @@ class OrderController extends Controller
             $pd=PaymentOrderItem::create(
                 ['type'=>'COD',
                     'status'=>'pending',
-                    'order_item_id'=>$order->id,
+                    'order_id'=>$order->id,
+
                 ]
             );
         }
