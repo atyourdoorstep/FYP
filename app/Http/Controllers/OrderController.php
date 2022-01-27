@@ -93,6 +93,7 @@ class OrderController extends Controller
                 ]
             );
         }
+        DB::commit();
         return response()->json( [
             'success'=>true,
             'stripe'=>$stripe,
